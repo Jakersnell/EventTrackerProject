@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+	<persistence-unit name="ReviewItJPA">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<class>com.skilldistillery.reviewit.entities.Product</class>
+		<class>com.skilldistillery.reviewit.entities.Category</class>
+		<class>com.skilldistillery.reviewit.entities.ReviewReaction</class>
+		<class>com.skilldistillery.reviewit.entities.ProductReview</class>
+		<class>com.skilldistillery.reviewit.entities.User</class>
+		<properties>
+			<property name="jakarta.persistence.jdbc.url"
+				value="jdbc:mysql://localhost:3306/reviewitdb?useSSL=false&amp;useLegacyDatetimeCode=false&amp;serverTimezone=US/Mountain" />
+			<property name="jakarta.persistence.jdbc.user"
+				value="reviewitdev" />
+			<property name="jakarta.persistence.jdbc.password"
+				value="reviewitdev" />
+			<property name="jakarta.persistence.jdbc.driver"
+				value="com.mysql.cj.jdbc.Driver" />
+		</properties>
+	</persistence-unit>
+</persistence>
