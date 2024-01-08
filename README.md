@@ -35,6 +35,8 @@ I learned a lot about reducing boilerplate and thinking creatively to do so. I l
  \__,_|\___/ \___|\__,_|_| |_| |_|\___|_| |_|\__\__,_|\__|_|\___/|_| |_|
 </pre>
 <pre>
+BASE-URL: http://107.21.192.111:8080/ReviewItREST
+ 
 admin auth token: 'admin-auth-token'
 non-admin auth token: 'generic-auth-token'
 
