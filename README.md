@@ -37,10 +37,10 @@ I learned a lot about reducing boilerplate and thinking creatively to do so. I l
 # API Reference Index
 ## Auth
 <pre>
-<h2>POST api/auth/login</h2>
-    <h4>returns: AuthToken</h4>
-  <h3>body parameters</h3>
-    <h4>username: string</h4>
-    <h4>password: string</h4>
+**POST api/auth/login**
+   returns: AuthToken
+  **body parameters**
+   username: string
+   password: string
 </pre>
  
