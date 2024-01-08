@@ -48,7 +48,7 @@ example user details:
 </pre>
 
 # API Reference Index
-### ** disclaimer! this is a proof of concept only and should not be used as a production website! **
+### ** disclaimer! this is a proof of concept only and should not be used for a production website! **
 the format will be as follows: 
 &#60;METHOD> &#60;URL> -> &#60;RETURN-TYPE>
 ## Auth
