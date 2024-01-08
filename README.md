@@ -35,11 +35,13 @@ I learned a lot about reducing boilerplate and thinking creatively to do so. I l
 </pre>
 
 # API Reference Index
+the format will be as follows: 
+<METHOD> <URL> -> <RETURN-TYPE>
+<DETAILS>
 ## Auth
-### POST api/auth/login
+### POST api/auth/login -> AuthToken
 <pre>
-  returns: AuthToken
-</trong>body parameters</strong>
+body parameters
   username: string
   password: string
 </pre>
