@@ -26,15 +26,16 @@ Welcome to ReviewItAPI, a REST api for everyday people to make real reviews for 
 I learned a lot about reducing boilerplate and thinking creatively to do so. I love solving problems, and I really dont like boilerplate, so its a win-win! I also learned a lot about the importance of clean consistent patterns and naming, that is an art, and really keeps a project together.
 
      _
+     
   __| | ___   ___ ___
+  
  / _` |/ _ \ / __/ __|
+ 
 | (_| | (_) | (__\__ \
+
  \__,_|\___/ \___|___/
 
- # API Reference Index
- ## Auth
-  * POST api/auth/login
-      body parameters
-        - username: string
-        - password: string
-  *
+# API Reference Index
+## Auth
+### POST api/auth/login
+ 
