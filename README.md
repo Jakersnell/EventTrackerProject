@@ -27,7 +27,7 @@ Welcome to ReviewItAPI, a REST api for everyday people to make real reviews for 
 I learned a lot about reducing boilerplate and thinking creatively to do so. I love solving problems, and I really dont like boilerplate, so its a win-win! I also learned a lot about the importance of clean consistent patterns and naming, that is an art, and really keeps a project together.
 
 <pre>
-      _                                       _        _   _
+     _                                       _        _   _
   __| | ___   ___ _   _ _ __ ___   ___ _ __ | |_ __ _| |_(_) ___  _ __
  / _` |/ _ \ / __| | | | '_ ` _ \ / _ \ '_ \| __/ _` | __| |/ _ \| '_ \
 | (_| | (_) | (__| |_| | | | | | |  __/ | | | || (_| | |_| | (_) | | | |
@@ -37,4 +37,8 @@ I learned a lot about reducing boilerplate and thinking creatively to do so. I l
 # API Reference Index
 ## Auth
 ### POST api/auth/login
+##### returns: AuthToken
+#### body parameters
+##### username: string
+##### password: string
  
