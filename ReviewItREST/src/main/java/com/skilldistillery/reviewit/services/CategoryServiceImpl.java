@@ -54,6 +54,7 @@ public class CategoryServiceImpl implements CategoryService {
 		if (category.getName() == null || category.getName().isBlank()) {
 			throw new BadRequestException();
 		}
+		category.setId(0);
 		return catRepo.saveAndFlush(category);
 	}
 

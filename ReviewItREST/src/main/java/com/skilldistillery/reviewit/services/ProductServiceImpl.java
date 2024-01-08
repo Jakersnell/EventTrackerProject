@@ -53,6 +53,8 @@ public class ProductServiceImpl implements ProductService {
 		if (product.getName() == null || product.getName().isBlank()) {
 			throw new BadRequestException();
 		}
+		
+		product.setId(0);
 
 		return productRepo.save(product);
 	}
@@ -71,9 +73,8 @@ public class ProductServiceImpl implements ProductService {
 
 		managed.setName(product.getName());
 		managed.setDescription(product.getDescription());
-		productRepo.saveAndFlush(managed);
-
-		return managed;
+		
+		return productRepo.saveAndFlush(managed);
 	}
 
 	@Override

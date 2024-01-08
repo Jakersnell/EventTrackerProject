@@ -83,6 +83,7 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 
 		review.setProduct(product);
 		review.setUser(user);
+		review.setId(0);
 
 		return reviewRepo.saveAndFlush(review);
 	}

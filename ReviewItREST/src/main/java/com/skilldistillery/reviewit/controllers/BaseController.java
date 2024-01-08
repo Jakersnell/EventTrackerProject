@@ -21,6 +21,7 @@ public abstract class BaseController {
 			} else {
 				res.setStatus(400);
 			}
+			e.printStackTrace();
 		}
 
 		return item;

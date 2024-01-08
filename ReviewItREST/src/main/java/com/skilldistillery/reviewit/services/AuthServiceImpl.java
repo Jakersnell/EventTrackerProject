@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 import com.skilldistillery.reviewit.entities.AuthToken;
 import com.skilldistillery.reviewit.entities.User;
 import com.skilldistillery.reviewit.exceptions.BadRequestException;
+import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
 import com.skilldistillery.reviewit.exceptions.RestServerException;
 import com.skilldistillery.reviewit.exceptions.TokenInvalidException;
-import com.skilldistillery.reviewit.exceptions.UserDoesNotExistException;
 import com.skilldistillery.reviewit.repositories.AuthTokenRepository;
 import com.skilldistillery.reviewit.repositories.UserRepository;
 
@@ -31,8 +31,11 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public boolean isActiveToken(String tokenString) {
 		AuthToken token = authRepo.findByToken(tokenString).orElse(null);
+		if (token == null) {
+			return false;
+		}
 		boolean isActive;
-		if (token.getExpiresOn().isAfter(LocalDateTime.now())) {
+		if (LocalDateTime.now().isAfter(token.getExpiresOn())) {
 			token.setEnabled(false);
 			isActive = false;
 		} else {
@@ -56,13 +59,13 @@ public class AuthServiceImpl implements AuthService {
 			throw new BadRequestException();
 		}
 		AuthToken token = null;
-		User user = userRepo.findByUsernameAndPassword(username, password).orElseThrow(UserDoesNotExistException::new);
+		User user = userRepo.findByUsernameAndPassword(username, password).orElseThrow(TokenInvalidException::new);
 		if (user.isEnabled()) {
 			token = generateNewToken(username);
 			token.setUser(user);
 			authRepo.save(token);
 		} else {
-			throw new UserDoesNotExistException();
+			throw new TokenInvalidException();
 		}
 		return token;
 	}
@@ -84,7 +87,7 @@ public class AuthServiceImpl implements AuthService {
 			throw new TokenInvalidException();
 		}
 
-		User user = userRepo.findById(userId).orElseThrow(UserDoesNotExistException::new);
+		User user = userRepo.findById(userId).orElseThrow(EntityDoesNotExistException::new);
 
 		AuthToken token = authRepo.findByToken(tokenString).orElseThrow(TokenInvalidException::new);
 

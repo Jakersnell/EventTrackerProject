@@ -55,7 +55,7 @@ public class ProductController extends BaseController {
 
 	}
 
-	@PutMapping({ "{productId}" })
+	@PutMapping({ "products/{productId}" })
 	private Product updateProduct(@PathVariable("productId") int productId, @RequestBody Product product,
 			@RequestParam("auth") String auth, HttpServletResponse res) {
 		
@@ -65,7 +65,7 @@ public class ProductController extends BaseController {
 		
 	}
 
-	@DeleteMapping({ "{productId}" })
+	@DeleteMapping({ "products/{productId}" })
 	private void deleteProduct(@PathVariable("productId") int productId, @RequestParam("auth") String auth,
 			HttpServletResponse res) {
 		
@@ -77,7 +77,7 @@ public class ProductController extends BaseController {
 
 	@GetMapping({ "categories/{categoryId}/products" })
 	private List<Product> getProductsByCategory(@PathVariable("categoryId") int categoryId,
-			@RequestParam("auth") String auth, HttpServletResponse res) {
+			@RequestParam(name="auth", required=false) String auth, HttpServletResponse res) {
 		
 		return tryFailableAction(() -> {
 			return productService.getProductsByCategoryId(categoryId, auth);
