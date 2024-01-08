@@ -26,6 +26,7 @@ Welcome to ReviewItAPI, a REST api for everyday people to make real reviews for 
 # Lessons learned
 I learned a lot about reducing boilerplate and thinking creatively to do so. I love solving problems, and I really dont like boilerplate, so its a win-win! I also learned a lot about the importance of clean consistent patterns and naming, that is an art, and really keeps a project together.
 
+# Docs
 <pre>
      _                                       _        _   _
   __| | ___   ___ _   _ _ __ ___   ___ _ __ | |_ __ _| |_(_) ___  _ __
@@ -33,7 +34,6 @@ I learned a lot about reducing boilerplate and thinking creatively to do so. I l
 | (_| | (_) | (__| |_| | | | | | |  __/ | | | || (_| | |_| | (_) | | | |
  \__,_|\___/ \___|\__,_|_| |_| |_|\___|_| |_|\__\__,_|\__|_|\___/|_| |_|
 </pre>
-
 <pre>
 admin auth token: 'admin-auth-token'
 non-admin auth token: 'generic-auth-token'
