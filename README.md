@@ -54,6 +54,7 @@ for a user that already exists, upon successful authentication.
  
     body parameters:
       username: string &#60;required>
+      email: string &#60;required>
       password: string &#60;required>
 </pre>
 
@@ -123,4 +124,165 @@ with id equal to &#60;categoryId>.
       enabled: boolean &#60;required>
 </pre>
 
-##
+
+
+## Products
+### GET api/products -> List<Product>
+<pre>
+Returns all products.
+Admin auth removes filter of items by isEnabled.
+ 
+    url parameters:
+      auth: string &#60;optional> &#60;additional-admin-privledges>
+</pre>
+
+### GET api/products/{productId} -> Product
+<pre>
+Returns a product of the given id if it exists.
+Admin auth removes filter of items by isEnabled.
+ 
+    url parameters:
+      auth: string &#60;optional> &#60;additional-admin-privledges>
+</pre>
+
+### POST api/products -> Product
+<pre>
+Only admins may use this endpoint.
+Creates and Returns a Product.
+ 
+ 
+    url parameters:
+      auth: string &#60;required> &#60;admin-only>
+</pre>
+
+### PUT api/products/{productId} -> Product
+<pre>
+Only admins may use this endpoint.
+Updates and returns a product if it exists.
+ 
+    url parameters:
+      auth: string &#60;required> &#60;admin-only>
+
+    body parameters:
+      name: string &#60;required>
+      description: string &#60;optional>
+</pre>
+
+
+### DELETE api/products/{productId} -> VOID
+<pre>
+Only admins may use this endpoint.
+Sets the enabled flag to false if product exists.
+ 
+    url parameters:
+      auth: string &#60;required> &#60;admin-only>
+</pre>
+
+### GET api/categories/{productId}/categories -> List<Product>
+<pre>
+Returns the categories associated with a given product.
+ 
+    url parameters:
+      auth: string &#60;optional> &#60;additional-admin-privledges>
+</pre>
+
+## Product Reviews
+### GET api/products/{productId}/reviews -> List<ProductReview>
+<pre>
+Returns a list of all the reviews associated with a given product.
+Admin auth removes filter of items by isEnabled.
+
+    url parameters:
+      auth: string &#60;optional> &#60;additional-admin-privledges>
+</pre>
+
+### GET api/products/{productId}/reviews/{reviewId} -> ProductReview
+<pre>
+Returns a review for a product by their respective ids.
+Admin auth removes filter of items by isEnabled.
+
+    url parameters:
+      auth: string &#60;optional> &#60;additional-admin-privledges>
+</pre>
+
+### POST api/products/{productId}/reviews -> ProductReview
+<pre>
+Creates a review for the given product by productId.
+Any user may use this so long as the auth token is valid.
+
+    url parameters:
+      auth: string &#60;required> &#60;all-users
+</pre>
+
+### DELETE api/products/{productId}/reviews/{reviewId} -> VOID
+<pre>
+Disables a review by its id.
+The user by auth token must be an admin or the owning user.
+
+    url parameters:
+      auth: string &#60;required> &#60;admin-or-owner>
+</pre>
+
+### PUT api/products/{productId}/reviews/{reviewId} -> ProductReview
+<pre>
+Updates a review by its id.
+The user by auth token must be an admin or the owning user.
+Admin users can set the enabled and verified fields through this method.
+
+    url parameters:
+      auth: string &#60;required> &#60;admin-or-owner>
+ 
+    body parameters:
+      content: string &#60;required>
+      rating: int between 1&5 &#60;required>
+</pre>
+
+## Users
+### GET api/users/{userId} -> User
+<pre>
+Returns a user by its id.
+Admin auth removes the isEnabled filter.
+
+    url parameters:
+      auth: string &#60;optional> &#60;additional-admin-privledges>
+</pre>
+
+### PUT api/users/{userId} -> User
+<pre>
+Updates a user at the given id.
+Auth must be user or admin.
+Admin auth provides access to the enabled field.
+
+    url parameters:
+      auth: string &#60;optional> &#60;additional-admin-privledges>
+ 
+    body parameters:
+      username: string &#60;required>
+      email: string &#60;required>
+      password: string &#60;required>
+      enabled: bool &#60;optional> &#60;admin-access-only>
+      verified: bool &#60;optional> &#60;admin-access-only>
+</pre>
+
+### PUT api/users/{userId} -> User
+<pre>
+Updates a user at the given id.
+Auth must be user or admin.
+Admin auth provides access to the enabled and verified fields.
+
+    url parameters:
+      auth: string &#60;optional> &#60;additional-admin-privledges>
+ 
+    body parameters:
+      username: string &#60;required>
+      email: string &#60;required>
+      password: string &#60;required>
+      enabled: bool &#60;optional> &#60;admin-access-only>
+      verified: bool &#60;optional> &#60;admin-access-only>
+</pre>
+
+
+
+
+
+
