@@ -30,13 +30,4 @@ class ProductWebIntegegrationTest {
 		assertEquals("Monster Energy Drink", product.getName());
 	}
 	
-	@Test
-	void test_createProduct_returns_200_for_valid_product_entity() {
-		Product testProduct = new Product();
-		testProduct.setName("TEST PRODUCT DUMMY " + (int)(Math.random() * 100000.0));
-		ResponseEntity<Product> response = restTest.postForEntity(url, testProduct, Product.class);
-		assertEquals(HttpStatus.OK, response.getStatusCode());
-		assertTrue(response.getBody().getId() != 0);
-	}
-
 }

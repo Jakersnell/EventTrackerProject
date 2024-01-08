@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Base64;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,13 @@ public class AuthServiceImpl implements AuthService {
 
 	@Autowired
 	private UserRepository userRepo;
+
+	public String encryptPassword(String password) throws BadRequestException {
+		if (password == null) {
+			throw new BadRequestException();
+		}
+		return BCrypt.hashpw(password, BCrypt.gensalt());
+	}
 
 	@Override
 	public boolean isActiveToken(String tokenString) {
@@ -58,15 +66,17 @@ public class AuthServiceImpl implements AuthService {
 		if (username == null || password == null) {
 			throw new BadRequestException();
 		}
+		
 		AuthToken token = null;
-		User user = userRepo.findByUsernameAndPassword(username, password).orElseThrow(TokenInvalidException::new);
-		if (user.isEnabled()) {
-			token = generateNewToken(username);
-			token.setUser(user);
-			authRepo.save(token);
-		} else {
+		User user = userRepo.findByUsername(username).orElseThrow(TokenInvalidException::new);
+		if (!user.isEnabled() || !BCrypt.checkpw(password, user.getPassword())) {
 			throw new TokenInvalidException();
 		}
+		
+		token = generateNewToken(username);
+		token.setUser(user);
+		authRepo.save(token);
+		
 		return token;
 	}
 

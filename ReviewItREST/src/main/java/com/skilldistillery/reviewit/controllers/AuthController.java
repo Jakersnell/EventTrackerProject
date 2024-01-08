@@ -37,6 +37,7 @@ public class AuthController extends BaseController {
 		return tryFailableAction(() -> {
 
 			user.setRole("user");
+			user.setPassword(authService.encryptPassword(user.getPassword()));
 			userService.createUser(user);
 			return authService.authenticate(user.getUsername(), user.getPassword());
 

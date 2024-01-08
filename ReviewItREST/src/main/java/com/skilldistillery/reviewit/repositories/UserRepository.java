@@ -9,4 +9,5 @@ import com.skilldistillery.reviewit.entities.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
 	boolean existsByUsernameAndPassword(String username, String password);
 	Optional<User> findByUsernameAndPassword(String username, String password);
+	Optional<User> findByUsername(String username);
 }
