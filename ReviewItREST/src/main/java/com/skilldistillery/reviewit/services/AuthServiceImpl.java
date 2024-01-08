@@ -10,11 +10,12 @@ import org.springframework.stereotype.Service;
 
 import com.skilldistillery.reviewit.entities.AuthToken;
 import com.skilldistillery.reviewit.entities.User;
+import com.skilldistillery.reviewit.exceptions.BadRequestException;
+import com.skilldistillery.reviewit.exceptions.RestServerException;
+import com.skilldistillery.reviewit.exceptions.TokenInvalidException;
+import com.skilldistillery.reviewit.exceptions.UserDoesNotExistException;
 import com.skilldistillery.reviewit.repositories.AuthTokenRepository;
 import com.skilldistillery.reviewit.repositories.UserRepository;
-import com.skilldistillery.reviewit.util.RestServerException;
-import com.skilldistillery.reviewit.util.TokenInvalidException;
-import com.skilldistillery.reviewit.util.UserDoesNotExistException;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -30,20 +31,32 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public boolean isActiveToken(String tokenString) {
 		AuthToken token = authRepo.findByToken(tokenString).orElse(null);
-		return token != null && token.isEnabled() && token.getUser().isEnabled();
+		boolean isActive;
+		if (token.getExpiresOn().isAfter(LocalDateTime.now())) {
+			token.setEnabled(false);
+			isActive = false;
+		} else {
+			isActive = token != null && token.isEnabled() && token.getUser().isEnabled();
+		}
+		return isActive;
 	}
 
 	@Override
 	public AuthToken getByToken(String tokenString) {
-		return authRepo.findByToken(tokenString).orElse(null);
+		AuthToken token = authRepo.findByToken(tokenString).orElse(null);
+		if (token != null && !isActiveToken(tokenString)) {
+			token = null;
+		}
+		return token;
 	}
 
 	@Override
 	public AuthToken authenticate(String username, String password) throws RestServerException {
+		if (username == null || password == null) {
+			throw new BadRequestException();
+		}
 		AuthToken token = null;
-		User user = userRepo
-				.findByUsernameAndPassword(username, password)
-				.orElseThrow(UserDoesNotExistException::new);
+		User user = userRepo.findByUsernameAndPassword(username, password).orElseThrow(UserDoesNotExistException::new);
 		if (user.isEnabled()) {
 			token = generateNewToken(username);
 			token.setUser(user);
@@ -54,37 +67,45 @@ public class AuthServiceImpl implements AuthService {
 		return token;
 	}
 
-	/// Generates a secure authentication token given username as a seed.
-	/// The authentication token is then processed and made safe for URL.
 	private AuthToken generateNewToken(String username) {
-		String combinedData = username  + Instant.now().toEpochMilli(); // generate secure seed and create RNG
+		String combinedData = username + Instant.now().toEpochMilli(); // generate secure seed and create RNG
 		SecureRandom random = new SecureRandom(combinedData.getBytes());
 		byte[] bytes = new byte[32];
 		random.nextBytes(bytes);
-		String tokenString = Base64
-				.getUrlEncoder()
-				.withoutPadding() // remove padding as its not
+		String tokenString = Base64.getUrlEncoder().withoutPadding() // remove padding as its not
 				.encodeToString(bytes);
-		LocalDateTime expiration = LocalDateTime
-				.now()
-				.plusHours(HOURS_BEFORE_EXPIRATION);
+		LocalDateTime expiration = LocalDateTime.now().plusHours(HOURS_BEFORE_EXPIRATION);
 		return new AuthToken(tokenString, expiration);
 	}
 
 	@Override
 	public boolean canEditUser(int userId, String tokenString) throws RestServerException {
-		
-		User user = userRepo
-				.findById(userId)
-				.orElseThrow(UserDoesNotExistException::new);
+		if (tokenString == null || !isActiveToken(tokenString)) {
+			throw new TokenInvalidException();
+		}
 
-		AuthToken token = authRepo
-				.findByToken(tokenString)
-				.orElseThrow(TokenInvalidException::new);
-		
+		User user = userRepo.findById(userId).orElseThrow(UserDoesNotExistException::new);
+
+		AuthToken token = authRepo.findByToken(tokenString).orElseThrow(TokenInvalidException::new);
 
 		return (user.isAdmin()) || (user.isEnabled() && token.isEnabled() && token.getUser().equals(user));
 
+	}
+
+	@Override
+	public boolean userIsAdmin(String auth) {
+		boolean isValid = false;
+		AuthToken token = null;
+
+		if (auth != null && isActiveToken(auth)) {
+			token = authRepo.findByToken(auth).orElse(null);
+		}
+
+		if (token != null) {
+			isValid = token.getUser().isAdmin();
+		}
+
+		return isValid;
 	}
 
 }

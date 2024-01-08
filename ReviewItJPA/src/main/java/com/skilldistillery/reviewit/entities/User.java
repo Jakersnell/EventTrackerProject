@@ -33,7 +33,7 @@ public class User {
 	private boolean verified;
 
 	@JsonIgnore
-	private boolean enabled;
+	private boolean enabled = true;
 
 	private String role;
 
@@ -157,6 +157,7 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
+
 
 	@JsonIgnore
 	public boolean isAdmin() {

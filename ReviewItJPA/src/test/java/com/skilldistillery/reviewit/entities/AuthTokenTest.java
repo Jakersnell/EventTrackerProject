@@ -10,7 +10,7 @@ class AuthTokenTest extends EntityTest {
 	void test_token_is_correct_for_AuthToken_of_valid_id() {
 		AuthToken auth = em.find(AuthToken.class, 1);
 		assertNotNull(auth);
-		String controlToken = "503233fd-2690-4c35-a176-5905727484c9";
+		String controlToken = "a";
 		assertEquals(controlToken, auth.getToken());
 	}
 

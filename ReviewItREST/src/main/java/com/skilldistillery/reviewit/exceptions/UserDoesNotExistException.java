@@ -1,4 +1,4 @@
-package com.skilldistillery.reviewit.util;
+package com.skilldistillery.reviewit.exceptions;
 
 public class UserDoesNotExistException extends RestServerException {
 

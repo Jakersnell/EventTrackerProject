@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skilldistillery.reviewit.entities.Product;
@@ -18,61 +19,70 @@ import com.skilldistillery.reviewit.services.ProductService;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping({ "api/products" })
-public class ProductController {
+@RequestMapping({ "api" })
+public class ProductController extends BaseController {
 
 	@Autowired
 	private ProductService productService;
 
-	@GetMapping
-	private List<Product> getAllProducts() {
-		return productService.getAll();
+	@GetMapping({ "products" })
+	private List<Product> getAllProducts(@RequestParam(name = "auth", required = false) String auth,
+			HttpServletResponse res) {
+
+		return tryFailableAction(() -> {
+			return productService.getAll(auth);
+		}, res);
+
 	}
 
-	@GetMapping({ "{productId}" })
-	private Product getProductById(@PathVariable("productId") int productId, HttpServletResponse res) {
-		Product product = productService.getProductById(productId);
-		if (product == null) {
-			res.setStatus(404);
-		}
-		return product;
+	@GetMapping({ "products/{productId}" })
+	private Product getProductById(@PathVariable("productId") int productId,
+			@RequestParam(name = "auth", required = false) String auth, HttpServletResponse res) {
+
+		return tryFailableAction(() -> {
+			return productService.getProductById(productId, auth);
+		}, res);
+
 	}
 
-	@PostMapping
-	private Product createProduct(@RequestBody Product product, HttpServletResponse res) {
-		try {
-			product = productService.createProduct(product);
-		} catch (Exception e) {
-			e.printStackTrace();
-			res.setStatus(400);
-			product = null;
-		}
-		return product;
+	@PostMapping({ "products" })
+	private Product createProduct(@RequestBody Product product, @RequestParam("auth") String auth,
+			HttpServletResponse res) {
+
+		return tryFailableAction(() -> {
+			return productService.createProduct(product, auth);
+		}, res);
+
 	}
 
-	@PutMapping({"{productId}"})
-	private Product updateProduct(@PathVariable("productId")int productId, @RequestBody Product product, HttpServletResponse res) {
-		try {
-			product = productService.updateProduct(productId, product);
-			if (product == null) {
-				res.setStatus(404);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			res.setStatus(400);
-			product = null;
-		}
+	@PutMapping({ "{productId}" })
+	private Product updateProduct(@PathVariable("productId") int productId, @RequestBody Product product,
+			@RequestParam("auth") String auth, HttpServletResponse res) {
 		
-		return product;
+		return tryFailableAction(() -> {
+			return productService.updateProduct(productId, product, auth);
+		}, res);
+		
 	}
-	
-	@DeleteMapping({"{productId}"})
-	private void deleteProduct(@PathVariable("productId")int productId, HttpServletResponse res ) {
-		if (productService.deleteProduct(productId)) {
-			res.setStatus(204);
-		} else {
-			res.setStatus(404);
-		}
+
+	@DeleteMapping({ "{productId}" })
+	private void deleteProduct(@PathVariable("productId") int productId, @RequestParam("auth") String auth,
+			HttpServletResponse res) {
+		
+		tryFailableAction(() -> {
+			productService.disableProduct(productId, auth);
+		}, res);
+		
 	}
-	
+
+	@GetMapping({ "categories/{categoryId}/products" })
+	private List<Product> getProductsByCategory(@PathVariable("categoryId") int categoryId,
+			@RequestParam("auth") String auth, HttpServletResponse res) {
+		
+		return tryFailableAction(() -> {
+			return productService.getProductsByCategoryId(categoryId, auth);
+		}, res);
+		
+	}
+
 }

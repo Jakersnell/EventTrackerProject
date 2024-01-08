@@ -11,9 +11,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -39,6 +43,12 @@ public class Product {
 	@JsonIgnore
 	private List<ProductReview> reviews;
 
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	private List<Category> categories;
+
+	private boolean enabled = true;
+
 	public Product() {
 	}
 
@@ -62,7 +72,7 @@ public class Product {
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", createdOn=" + createdOn
-				+ ", lastUpdated=" + lastUpdated + "]";
+				+ ", lastUpdated=" + lastUpdated + ", enabled=" + enabled + "]";
 	}
 
 	public int getId() {
@@ -111,6 +121,22 @@ public class Product {
 
 	public void setReviews(List<ProductReview> reviews) {
 		this.reviews = reviews;
+	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }

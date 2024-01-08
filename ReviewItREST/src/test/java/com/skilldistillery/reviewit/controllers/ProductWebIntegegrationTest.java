@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import com.skilldistillery.reviewit.entities.Product;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class ProductControllerTest {
+class ProductWebIntegegrationTest {
 
 	private static String url = "/api/products";
 

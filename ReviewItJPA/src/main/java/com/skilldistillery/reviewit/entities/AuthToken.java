@@ -41,7 +41,6 @@ public class AuthToken {
 	private boolean enabled = true;
 
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JsonIgnore
 	@JoinColumn(name = "user_id")
 	private User user;
 

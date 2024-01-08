@@ -10,6 +10,7 @@
 		<class>com.skilldistillery.reviewit.entities.ReviewReaction</class>
 		<class>com.skilldistillery.reviewit.entities.ProductReview</class>
 		<class>com.skilldistillery.reviewit.entities.User</class>
+		<class>com.skilldistillery.reviewit.entities.AuthToken</class>
 		<properties>
 			<property name="jakarta.persistence.jdbc.url"
 				value="jdbc:mysql://localhost:3306/reviewitdb?useSSL=false&amp;useLegacyDatetimeCode=false&amp;serverTimezone=US/Mountain" />

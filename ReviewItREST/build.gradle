@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
 	implementation project(':ReviewItJPA')
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
@@ -28,3 +28,4 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+

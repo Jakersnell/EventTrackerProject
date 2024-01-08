@@ -18,7 +18,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="product_review")
+@Table(name = "product_review")
 public class ProductReview {
 
 	@Id
@@ -48,6 +48,9 @@ public class ProductReview {
 	@JoinColumn(name = "user_id")
 	private User user;
 
+	@JsonIgnore
+	private boolean enabled = true;
+
 	public ProductReview() {
 
 	}
@@ -72,7 +75,8 @@ public class ProductReview {
 	@Override
 	public String toString() {
 		return "ProductReview [id=" + id + ", content=" + content + ", rating=" + rating + ", createdOn=" + createdOn
-				+ ", lastUpdated=" + lastUpdated + "]";
+				+ ", lastUpdated=" + lastUpdated + ", product=" + product + ", user=" + user + ", enabled=" + enabled
+				+ "]";
 	}
 
 	public int getId() {
@@ -129,6 +133,14 @@ public class ProductReview {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }

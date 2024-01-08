@@ -35,6 +35,8 @@ public class Category {
 	@JsonIgnore
 	private List<Product> products;
 
+	private boolean enabled = true;
+
 	public Category() {
 	}
 
@@ -61,7 +63,7 @@ public class Category {
 
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", createdOn=" + createdOn + "]";
+		return "Category [id=" + id + ", name=" + name + ", createdOn=" + createdOn + ", enabled=" + enabled + "]";
 	}
 
 	public int getId() {
@@ -95,5 +97,13 @@ public class Category {
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
-	
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 }
