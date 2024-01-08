@@ -1,9 +1,10 @@
+<pre>
  ____            _               ___ _      _    ____ ___ _
 |  _ \ _____   _(_) _____      _|_ _| |_   / \  |  _ \_ _| |
 | |_) / _ \ \ / / |/ _ \ \ /\ / /| || __| / _ \ | |_) | || |
 |  _ <  __/\ V /| |  __/\ V  V / | || |_ / ___ \|  __/| ||_|
 |_| \_\___| \_/ |_|\___| \_/\_/ |___|\__/_/   \_\_|  |___(_)
-
+</pre>
 
 # About
 Welcome to ReviewItAPI, a REST api for everyday people to make real reviews for real products, intended to be a user driven way for users to track products and get authentic ratings and reviews. The api includes a variety of functionality to provide operations, and ergonomic RESTful endpoints for any sort of front-end, be it mobile, desktop, or web.
