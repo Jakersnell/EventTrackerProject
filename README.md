@@ -36,8 +36,8 @@ I learned a lot about reducing boilerplate and thinking creatively to do so. I l
 
 # API Reference Index
 the format will be as follows: 
-<METHOD> <URL> -> <RETURN-TYPE>
-<DETAILS>
+&#60;METHOD> &#60;URL> -> &#60;RETURN-TYPE>
+&#60;DETAILS>
 ## Auth
 ### POST api/auth/login -> AuthToken
 <pre>
