@@ -44,6 +44,10 @@ public class UserServiceImpl implements UserService {
 		managed.setEmail(user.getEmail());
 		managed.setPassword(user.getPassword());
 		
+		if (!user.isEnabled()) {
+			managed.setEnabled(false);
+		}
+		
 		if (authService.userIsAdmin(auth)) {
 			managed.setEnabled(user.isEnabled());
 			managed.setVerified(user.isVerified());

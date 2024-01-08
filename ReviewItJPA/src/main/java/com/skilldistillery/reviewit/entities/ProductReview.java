@@ -100,6 +100,12 @@ public class ProductReview {
 	}
 
 	public void setRating(int rating) {
+		if (rating < 0) {
+			rating = 0;
+		}
+		if (5 < rating) {
+			rating = 5;
+		}
 		this.rating = rating;
 	}
 

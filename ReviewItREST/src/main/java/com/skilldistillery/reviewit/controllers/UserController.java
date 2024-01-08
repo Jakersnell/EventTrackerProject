@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skilldistillery.reviewit.entities.User;
-import com.skilldistillery.reviewit.services.AuthService;
 import com.skilldistillery.reviewit.services.UserService;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,6 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;
+	
 
 	@GetMapping({ "users/{userId}" })
 	private User getUserById(@PathVariable("userId") int userId,

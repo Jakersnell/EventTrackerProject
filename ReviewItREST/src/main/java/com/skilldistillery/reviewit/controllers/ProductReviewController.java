@@ -14,16 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skilldistillery.reviewit.entities.ProductReview;
-import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
-import com.skilldistillery.reviewit.exceptions.TokenInvalidException;
 import com.skilldistillery.reviewit.services.ProductReviewService;
-import com.skilldistillery.reviewit.util.ThrowingSupplier;
 
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping({ "api" })
-public class ProductReviewController {
+public class ProductReviewController extends BaseController {
 	@Autowired
 	private ProductReviewService reviewService;
 
@@ -76,25 +73,6 @@ public class ProductReviewController {
 		return tryFailableAction(() -> {
 			return reviewService.updateReview(productId, reviewId, review, auth);
 		}, res);
-
-	}
-
-	private <T> T tryFailableAction(ThrowingSupplier<T> action, HttpServletResponse res) {
-
-		T item = null;
-		try {
-			item = action.get();
-		} catch (Exception e) {
-			if (e instanceof EntityDoesNotExistException) {
-				res.setStatus(404);
-			} else if (e instanceof TokenInvalidException) {
-				res.setStatus(401);
-			} else {
-				res.setStatus(400);
-			}
-		}
-
-		return item;
 
 	}
 

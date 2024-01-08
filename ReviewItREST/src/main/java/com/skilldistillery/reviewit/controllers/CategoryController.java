@@ -34,12 +34,12 @@ public class CategoryController extends BaseController {
 
 	}
 
-	@GetMapping({ "categories/{id}" })
-	private Category getById(@PathVariable("id") int id, @RequestParam(name = "auth", required = false) String auth,
+	@GetMapping({ "categories/{categoryId}" })
+	private Category getById(@PathVariable("categoryId") int categoryId, @RequestParam(name = "auth", required = false) String auth,
 			HttpServletResponse res) {
 
 		return tryFailableAction(() -> {
-			return categoryService.getCategoryById(id, auth);
+			return categoryService.getCategoryById(categoryId, auth);
 
 		}, res);
 
@@ -55,22 +55,22 @@ public class CategoryController extends BaseController {
 
 	}
 
-	@DeleteMapping({ "categories/{id}" })
-	private void deleteCategory(@PathVariable("id") int id, @RequestParam("auth") String auth,
+	@DeleteMapping({ "categories/{categoryId}" })
+	private void deleteCategory(@PathVariable("categoryId") int categoryId, @RequestParam("auth") String auth,
 			HttpServletResponse res) {
 		
 		tryFailableAction(() -> {
-			categoryService.disableCategory(id, auth);
+			categoryService.disableCategory(categoryId, auth);
 		}, res);
 
 	}
 
-	@PutMapping({ "categories/{id}" })
-	private Category updateCategory(@PathVariable("id") int id, @RequestParam("auth") String auth,
+	@PutMapping({ "categories/{categoryId}" })
+	private Category updateCategory(@PathVariable("categoryId") int categoryId, @RequestParam("auth") String auth,
 			@RequestBody Category category, HttpServletResponse res) {
 		
 		return tryFailableAction(() -> {
-			return categoryService.updateCategory(id, category, auth);
+			return categoryService.updateCategory(categoryId, category, auth);
 		}, res);
 		
 	}
