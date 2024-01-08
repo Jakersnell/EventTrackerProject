@@ -50,7 +50,8 @@ non-admin user details:
  password: password123
 
 ** note **
- All passwords in the database are encrypted with BCrypt encryption, so the entries in the database will look like gibberish,
+ All passwords in the database are encrypted with BCrypt encryption, 
+ so the entries in the database will look like gibberish,
  but the password for every mock user is 'password123'.
 </pre>
 
