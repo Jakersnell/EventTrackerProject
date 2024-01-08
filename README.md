@@ -34,7 +34,21 @@ I learned a lot about reducing boilerplate and thinking creatively to do so. I l
  \__,_|\___/ \___|\__,_|_| |_| |_|\___|_| |_|\__\__,_|\__|_|\___/|_| |_|
 </pre>
 
+<pre>
+admin auth token: 'admin-auth-token'
+non-admin auth token: 'generic-auth-token'
+
+admin details:
+ username: admin
+ password: password123
+
+example user details:
+ username: joeschmoe11
+ password: password123
+</pre>
+
 # API Reference Index
+### ** disclaimer! this is a proof of concept only and should not be used as a production website!
 the format will be as follows: 
 &#60;METHOD> &#60;URL> -> &#60;RETURN-TYPE
 ## Auth
@@ -211,7 +225,7 @@ Creates a review for the given product by productId.
 Any user may use this so long as the auth token is valid.
 
     url parameters:
-      auth: string &#60;required> &#60;all-users
+      auth: string &#60;required> &#60;all-users>
 </pre>
 
 ### DELETE api/products/{productId}/reviews/{reviewId} -> VOID
