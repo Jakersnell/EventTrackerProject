@@ -4,6 +4,7 @@
 | |_) / _ \ \ / / |/ _ \ \ /\ / /| || __| / _ \ | |_) | || |
 |  _ <  __/\ V /| |  __/\ V  V / | || |_ / ___ \|  __/| ||_|
 |_| \_\___| \_/ |_|\___| \_/\_/ |___|\__/_/   \_\_|  |___(_)
+ Now Encrypted With BCrypt!                        (v1.0.1)
 </pre>
 
 # About
@@ -22,6 +23,7 @@ Welcome to ReviewItAPI, a REST api for everyday people to make real reviews for 
 * Spring Test
 * Eclipse
 * MySqlWorkbench
+* BCrypt Encryption 
 
 # Lessons learned
 I learned a lot about reducing boilerplate and thinking creatively to do so. I love solving problems, and I really dont like boilerplate, so its a win-win! I also learned a lot about the importance of clean consistent patterns and naming, that is an art, and really keeps a project together.
@@ -35,6 +37,8 @@ I learned a lot about reducing boilerplate and thinking creatively to do so. I l
  \__,_|\___/ \___|\__,_|_| |_| |_|\___|_| |_|\__\__,_|\__|_|\___/|_| |_|
 </pre>
 <pre>
+BASE-URL: http://107.21.192.111:8080/ReviewItREST
+ 
 admin auth token: 'admin-auth-token'
 non-admin auth token: 'generic-auth-token'
 
@@ -45,6 +49,11 @@ admin details:
 non-admin user details:
  username: joeschmoe11
  password: password123
+
+** note **
+ All passwords in the database are encrypted with BCrypt encryption, 
+ so the entries in the database will look like gibberish,
+ but the password for every mock user is 'password123'.
 </pre>
 
 # API Reference Index
