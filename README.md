@@ -42,7 +42,7 @@ admin details:
  username: admin
  password: password123
 
-example user details:
+non-admin user details:
  username: joeschmoe11
  password: password123
 </pre>
