@@ -26,7 +26,11 @@ The front end can be used to enact CRUD operations on the product type with the 
 * Spring Test
 * Eclipse
 * MySqlWorkbench
-* BCrypt Encryption 
+* BCrypt Encryption
+* Javascript
+* AJAX
+* HTML
+* CSS
 
 # Lessons learned
 I learned a lot about reducing boilerplate and thinking creatively to do so. I love solving problems, and I really dont like boilerplate, so its a win-win! I also learned a lot about the importance of clean consistent patterns and naming, that is an art, and really keeps a project together.
