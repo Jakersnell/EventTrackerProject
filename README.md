@@ -7,6 +7,8 @@
 Now Encrypted With BCrypt!          (v1.0.1)
 </pre>
 
+[View the website live.](http://107.21.192.111:8080/ReviewItREST)
+
 # About
 Welcome to ReviewItAPI, a REST api and Frontend for everyday people to make real reviews for real products, intended to be a user driven way for users to track products and get authentic ratings and reviews. The api includes a variety of functionality to provide operations, and ergonomic RESTful endpoints for any sort of front-end, be it mobile, desktop, or web.
 
