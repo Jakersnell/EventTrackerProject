@@ -49,7 +49,7 @@ admin details:
 non-admin user details:
  username: joeschmoe11
  password: password123
-
+ 
 ** note **
  All passwords in the database are encrypted with BCrypt encryption, 
  so the entries in the database will look like gibberish,
