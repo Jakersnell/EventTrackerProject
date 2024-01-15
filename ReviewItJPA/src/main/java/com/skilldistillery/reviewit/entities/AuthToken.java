@@ -6,6 +6,8 @@ import java.util.Objects;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,7 +42,8 @@ public class AuthToken {
 	@JsonIgnore
 	private boolean enabled = true;
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonIgnore
 	@JoinColumn(name = "user_id")
 	private User user;
 
@@ -122,6 +125,16 @@ public class AuthToken {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	@JsonProperty
+	public boolean userIsAdmin() {
+		return this.user.isAdmin();
+	}
+
+	@JsonProperty(value = "userId")
+	public int getUserId() {
+		return this.user.getId();
 	}
 
 }

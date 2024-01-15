@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skilldistillery.reviewit.entities.Category;
 import com.skilldistillery.reviewit.entities.Product;
 import com.skilldistillery.reviewit.services.ProductService;
 
@@ -58,31 +59,31 @@ public class ProductController extends BaseController {
 	@PutMapping({ "products/{productId}" })
 	private Product updateProduct(@PathVariable("productId") int productId, @RequestBody Product product,
 			@RequestParam("auth") String auth, HttpServletResponse res) {
-		
+
 		return tryFailableAction(() -> {
 			return productService.updateProduct(productId, product, auth);
 		}, res);
-		
+
 	}
 
 	@DeleteMapping({ "products/{productId}" })
 	private void deleteProduct(@PathVariable("productId") int productId, @RequestParam("auth") String auth,
 			HttpServletResponse res) {
-		
+		System.out.println(auth);
 		tryFailableAction(() -> {
 			productService.disableProduct(productId, auth);
+			res.setStatus(204);
 		}, res);
-		
+
 	}
 
-	@GetMapping({ "categories/{categoryId}/products" })
-	private List<Product> getProductsByCategory(@PathVariable("categoryId") int categoryId,
-			@RequestParam(name="auth", required=false) String auth, HttpServletResponse res) {
-		
+	@GetMapping({ "products/{productId}/categories" })
+	private List<Category> getCategoriesForProduct(@PathVariable("productId") int productId,
+			@RequestParam(name = "auth", required = false) String auth, HttpServletResponse res) {
+
 		return tryFailableAction(() -> {
-			return productService.getProductsByCategoryId(categoryId, auth);
+			return productService.getCategoriesForProduct(productId, auth);
 		}, res);
-		
-	}
 
+	}
 }

@@ -1,3 +1,5 @@
+import { getAuthToken, userIsLoggedIn } from "./login.js";
+
 export function makeAjaxRequest(options) {
   const xhr = new XMLHttpRequest();
   let url = "api/" + options.url + formatUrlParams(options.params);
@@ -5,13 +7,15 @@ export function makeAjaxRequest(options) {
   xhr.onreadystatechange = () => {
     if (xhr.readyState === 4) {
       if (xhr.status === options.expectedStatus) {
-        const parsedJson = JSON.parse(xhr.responseText);
+        const parsedJson = xhr.responseText ? JSON.parse(xhr.responseText) : "";
         setTimeout(() => {
           options.success(parsedJson);
         }, 0);
       } else {
         if (options.error) {
-          options.error(xhr.status);
+          setTimeout(() => {
+            options.error(xhr.status);
+          }, 0);
         } else {
           console.log(
             `
@@ -25,7 +29,9 @@ export function makeAjaxRequest(options) {
   };
 
   if (options.body) {
-    xhr.send(options.body);
+    xhr.setRequestHeader("Content-type", "application/json");
+    const jsonData = JSON.stringify(options.body);
+    xhr.send(jsonData);
   } else {
     xhr.send();
   }
@@ -40,8 +46,8 @@ let formatUrlParams = (params) => {
         .map((param) => `${param}=${params[param]}`)
         .join("&");
   }
-  const auth = sessionStorage.getItem("auth");
-  if (auth) {
+  if (userIsLoggedIn()) {
+    const auth = getAuthToken().token;
     const prefix = params ? "" : "?";
     parsed += `${prefix}auth=${auth}`;
   }

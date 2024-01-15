@@ -1,0 +1,44 @@
+#navbar {
+  background-color: #7b7b7b;
+  padding-inline: 1rem;
+  padding-block: 0.4rem;
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+#contentWrap {
+  margin: 2rem;
+}
+
+.product-listing {
+  border: 0.3rem solid black;
+  border-radius: 2rem;
+  padding: 1rem;
+  transition-duration: 1000;
+  /* box-shadow: 0.2rem 0.2rem 0.2rem black; */
+  transition: border-width 0.1s;
+}
+
+.product-listing:hover {
+  border-width: 0.5rem;
+  transition: border-width 0.1s;
+  background-color: white;
+  cursor: pointer;
+}
+
+.link-btn:hover {
+  cursor: pointer;
+}
+
+.product-category {
+  border: 0.1rem solid black;
+  border-radius: 0.5rem;
+}
+
+#signInDiv {
+  display: flex;
+  flex-direction: column;
+}
+#signInDiv * {
+  vertical-align: middle;
+}
