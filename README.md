@@ -10,6 +10,9 @@
 # About
 Welcome to ReviewItAPI, a REST api and Frontend for everyday people to make real reviews for real products, intended to be a user driven way for users to track products and get authentic ratings and reviews. The api includes a variety of functionality to provide operations, and ergonomic RESTful endpoints for any sort of front-end, be it mobile, desktop, or web.
 
+# Frontend
+The frontend was created using JavaScript, AJAX, HTML, and CSS. By far my favorite piece of the code was how I designed routing between different views with the route method in routing.js, I also really enjoyed the flexibility of the module system the is newer to JavaScript. 
+
 # How to use
 The front end can be used to enact CRUD operations on the product type with the admin login listed below.
 
