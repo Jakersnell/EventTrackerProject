@@ -1,3 +1,4 @@
+import { getAuthToken } from "./login.js";
 import { makeAjaxRequest } from "./requests.js";
 import { route } from "./routing.js";
 import { displayPopupMsg } from "./util.js";
@@ -36,18 +37,16 @@ export function activateProductForm() {
 
 let initForm = () => {
   const form = document.productForm;
-  form.addEventListener("submit", handleFormSubmission);
-};
-
-let handleFormSubmission = (event) => {
-  console.log('in handleFormSubmision');
-  event.preventDefault();
-  const form = document.productForm;
-  const formData = {
-    name: form.name.value,
-    description: form.description.value,
-  };
-  sendFormSubmission(formData);
+  form.addEventListener("submit", (event) => {
+    console.log("in handleFormSubmision");
+    event.preventDefault();
+    const form = document.productForm;
+    const formData = {
+      name: form.name.value,
+      description: form.description.value,
+    };
+    sendFormSubmission(formData);
+  });
 };
 
 let sendFormSubmission = (formData) => {
@@ -72,4 +71,69 @@ let sendFormSubmission = (formData) => {
       }
     },
   });
+};
+
+export function activateProductUpdateForm(productId) {
+  const content = document.getElementById("contentWrap");
+  content.innerHTML = productFormTemplate;
+  setTimeout(() => initUpdateForm(productId), 0);
+}
+
+let initUpdateForm = (productId) => {
+  const form = document.productForm;
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = document.productForm;
+    const formData = {
+      name: form.name.value,
+      description: form.description.value,
+    };
+    sendFormUpdateSubmission(productId, formData);
+  });
+  initFormFields(productId);
+};
+
+let initFormFields = (productId) => {
+  makeAjaxRequest({
+    method: "GET",
+    url: `products/${productId}`,
+    expectedStatus: 200,
+    success: (product) => {
+      const form = document.productForm;
+      form.name.value = product.name;
+      form.description.value = product.description;
+    },
+    error: () => {
+      route("product", { id: productId });
+      displayPopupMsg("Something went wrong...");
+    },
+  });
+};
+
+let sendFormUpdateSubmission = (productId, formData) => {
+  console.log("product id is " + productId);
+  const xhr = new XMLHttpRequest();
+  let url = `api/products/${productId}?auth=${getAuthToken().token}`;
+  xhr.open("PUT", url);
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        const parsedJson = JSON.parse(xhr.responseText);
+        setTimeout(() => {
+          route("product", { id: productId });
+        }, 0);
+      } else {
+        switch (xhr.status) {
+          case 401:
+            route("login");
+            displayPopupMsg("Your session has expired.");
+            break;
+          default:
+            displayPopupMsg("Something went wrong.");
+        }
+      }
+    }
+  };
+  xhr.setRequestHeader("Content-type", "application/json");
+  xhr.send(JSON.stringify(formData));
 };

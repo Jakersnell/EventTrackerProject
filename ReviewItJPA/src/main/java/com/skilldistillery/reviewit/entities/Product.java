@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -138,6 +139,14 @@ public class Product {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	@JsonProperty(value = "averageRating")
+	public Double getAverageRating() {
+		if (reviews == null || reviews.isEmpty()) {
+			return null;
+		}
+		return reviews.stream().mapToInt(ProductReview::getRating).sum() / (double) reviews.size();
 	}
 
 }

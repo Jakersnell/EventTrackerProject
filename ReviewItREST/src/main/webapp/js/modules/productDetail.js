@@ -1,6 +1,6 @@
-import { userIsAdmin } from "./login.js";
 import { makeAjaxRequest } from "./requests.js";
 import { route } from "./routing.js";
+import { userIsAdmin } from "./login.js";
 import { displayPopupMsg } from "./util.js";
 
 const productTemplate = `
@@ -80,11 +80,10 @@ let initAdminFunctions = (product) => {
       adminDeleteBtn.addEventListener("click", deleteBtnEventHandler);
 
       document.getElementById("adminEditBtn").addEventListener("click", () => {
-        route("edit-product", { id: product.id, routeTo: "home" });
+        route("edit-product", { id: product.id });
       });
 
       document.getElementById("adminDisplay").innerHTML = `
-        <h4>Enabled status: ${product.enabled}</h4>
     `;
     } else {
       adminControls.remove();
@@ -98,6 +97,15 @@ let displayProductDetail = (product) => {
   <h2>${product.name}</h2>
   <blockquote>${product.description}</blockquote>
   `;
+  if (product.averageRating !== null) {
+    productDiv.innerHTML += `
+      <h3>Average rating: ${product.averageRating}</h3>
+    `;
+  } else {
+    productDiv.innerHTML += `
+    <h3>This product has no ratings.</h3>
+    `;
+  }
 };
 
 let loadProductCategories = (id) => {
@@ -107,7 +115,7 @@ let loadProductCategories = (id) => {
     expectedStatus: 200,
     success: (categories) => {
       displayProductCategories(categories);
-      // setTimeout(loadProductReviews(id), 0);
+      setTimeout(loadProductReviews(id), 0);
     },
   });
 };
@@ -132,21 +140,39 @@ let loadProductReviews = (id) => {
   });
 };
 
-let displayProductReviews = (reviews) => {};
+let displayProductReviews = (reviews) => {
+  const div = document.getElementById("reviews");
+  for (let review of reviews) {
+    setTimeout(() => {
+      div.appendChild(formatReview(review));
+    }, 0);
+  }
+};
 
-export function deleteProduct(id, routeTo) {
+let formatReview = (review) => {
+  const div = document.createElement("div");
+  div.innerHTML = `
+  <h3>Rating: ${review.rating}</h3>
+  <blockquote>
+    ${review.content}
+  </blockquote>
+  `;
+  return div;
+};
+
+export function deleteProduct(productId, routeTo) {
   makeAjaxRequest({
     method: "DELETE",
-    url: `products/${id}`,
+    url: `products/${productId}`,
     expectedStatus: 204,
     success: () => {
       displayPopupMsg("Product successfully deleted!");
-      route(routeTo);
+      route('product', {id: productId});
     },
     error: (status) => {
       switch (status) {
         case 404:
-          displayPopupMsg(`The product with id ${id} does not exist.`);
+          displayPopupMsg(`The product with id ${productId} does not exist.`);
           break;
         case 401:
           route("login");
@@ -192,6 +218,3 @@ let enableProduct = (product) => {
     });
   }, 0);
 };
-
-
-

@@ -1,5 +1,5 @@
 import { activateHomeView } from "./home.js";
-import { activateProductForm } from "./listProduct.js";
+import { activateProductForm, activateProductUpdateForm } from "./listProduct.js";
 import {
   activateLoginForm,
   userIsAdmin,
@@ -25,10 +25,13 @@ export function route(viewName = "home", params = null) {
         route("home");
         break;
       case "delete-product":
-        deleteProduct(params.id, params.routeTo);
+        deleteProduct(params.id);
         break;
       case "create-product":
         activateProductForm();
+        break;
+      case "edit-product":
+        activateProductUpdateForm(params.id);
         break;
     }
     setTimeout(refresh, 0);
