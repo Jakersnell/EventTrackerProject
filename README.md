@@ -8,7 +8,10 @@
 </pre>
 
 # About
-Welcome to ReviewItAPI, a REST api for everyday people to make real reviews for real products, intended to be a user driven way for users to track products and get authentic ratings and reviews. The api includes a variety of functionality to provide operations, and ergonomic RESTful endpoints for any sort of front-end, be it mobile, desktop, or web.
+Welcome to ReviewItAPI, a REST api and Frontend for everyday people to make real reviews for real products, intended to be a user driven way for users to track products and get authentic ratings and reviews. The api includes a variety of functionality to provide operations, and ergonomic RESTful endpoints for any sort of front-end, be it mobile, desktop, or web.
+
+# How to use
+The front end can be used to enact CRUD operations on the product type with the admin login listed below.
 
 # Technology Used
 * Java 17
