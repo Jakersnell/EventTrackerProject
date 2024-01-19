@@ -1,0 +1,19 @@
+
+#page-container {
+  position: relative;
+  min-height: 100vh;
+  min-width: 90vw;
+}
+
+#content-wrap {
+  min-height:90vh;
+  padding-bottom: 3rem;
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;
+}
+

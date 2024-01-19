@@ -1,0 +1,26 @@
+#productContent {
+  margin-top: 2rem;
+  padding-inline: 1.7rem;
+}
+
+@media (min-width: 576px) {
+  #productContent {
+    margin-top: 4rem;
+    padding-inline: 0;
+  }
+}
+
+.product-img-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-img-container img {
+  /* max-height: 40vh !important; */
+  margin: auto;
+  padding: auto;
+  justify-self: center;
+  max-width: 16rem !important;
+}
+
+

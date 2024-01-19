@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-xl-1"></div>
+  <div class="col-sm-12 col-md-4 col-lg-4 col-xl-3 p-sm-0 p-md-5 p-lg-5 p-xl-5 ">
+    <!-- ----------------------begin filtering controls------------------------ -->
+    @defer {
+    <app-products-controls-sidebar></app-products-controls-sidebar>
+    } @loading (minimum 500ms) {
+    <div class="d-flex justify-content-center">
+      <div class="spinner-grow" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    }
+    <!-- ----------------------end filtering controls------------------------ -->
+  </div>
+  <div class="col-sm-12 col-md-8 col-lg-8 col-xl-6 p-5">
+
+    <!-------------------------begin-products----------------------->
+    @defer {
+    @for (product of products; track $index) {
+    <a class="product-link" [routerLink]="'/products/' + product.id">
+      <div class="product row">
+        <div class="col-4">
+          <div class="product-img">
+            <img class="product-img" [src]="product.imageUrl" [alt]="product.name + ' product image.'" fill>
+          </div>
+        </div>
+        <div class="col-8">
+          <h2>{{product.name}}</h2>
+          <blockquote class="ellipsis-text">{{product.description}}</blockquote>
+          <stars [rating]="product.averageRating"></stars>
+        </div>
+      </div>
+    </a>
+    @if (product !== products[products.length-1]) {
+    <br>
+    }
+    }
+    } @loading (minimum 500ms) {
+    <div class="d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+        <span class="sr-only"></span>
+      </div>
+    </div>
+    }
+    <!-------------------------end products------------------------->
+
+    <div class="col-md-1 col-lg-1 col-xl-2"></div>
+  </div>
+  <div class="row">
+    <div class="col-4">
+    </div>
+    <div class="col-4 d-flex justify-content-center">
+      <app-pagination-control></app-pagination-control>
+    </div>
+    <div class="col-4">
+    </div>
+  </div>
+</div>

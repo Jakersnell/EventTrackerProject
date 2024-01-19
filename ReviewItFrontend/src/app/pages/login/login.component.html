@@ -1,0 +1,29 @@
+<div id="loginSpacer"></div>
+<div class="row">
+  <div class="col-sm-1 col-md-3 col-lg-3 col-xl-4"></div>
+  <div class="col-sm-10 col-md-6 col-lg-6 col-xl-4 px-5">
+    <div id="errorDisplay"></div>
+    <form class="mt-4">
+      <div class="row" data-mdb-input-init>
+        <input type="text" name="username" class="form-control" [(ngModel)]="username" placeholder="username"
+          required />
+      </div>
+      <br>
+      <div class="row">
+        <input [type]="showPassword? 'text' : 'password'" name="password" class="form-control" placeholder="password"
+          [(ngModel)]="password" required />
+      </div>
+      <br>
+      <div class="form-inline">
+        <input class="form-check-input align-text-top" type="checkbox" name="showPasswordToggler"
+          id="showPasswordToggler" [(ngModel)]="showPassword">
+        <label class="col-form-label mx-2 p-0" for="showPasswordToggler">show password</label>
+      </div>
+      <br>
+      <div class="row">
+        <button (click)="submitLogin()" name="submit" class="btn btn-primary form-control">login</button>
+      </div>
+    </form>
+  </div>
+  <div class="col-sm-1 col-md-3 col-lg-3 col-xl-4"></div>
+</div>

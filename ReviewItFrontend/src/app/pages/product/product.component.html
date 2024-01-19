@@ -1,0 +1,188 @@
+<div id="productContent">
+  <div class="row d-lg-none">
+    <div class="col-sm-12">
+      <div class="product-detail-title text-center">
+        <h1>{{product.name}}</h1>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <!-- ---------------------------------------begin-product--------------------------------------- -->
+    <div class="col-0 col-lg-1"></div>
+    <div class="col-12 col-lg-4">
+      <div class="row">
+        <div class="col-1 col-lg-0"></div>
+        <div class="col-10 col-lg-12">
+          <div class="container product-img-container pb-5 pt-2">
+            <hr class="d-lg-none">
+            <img class="product-img" [src]="product.imageUrl" [alt]="product.name + ' product image.'" fill>
+          </div>
+          <div class="product-detail">
+            <h1 class="d-none d-lg-block">{{product.name}}</h1>
+            <div class="row text-center text-lg-start">
+              <span>
+                <stars [rating]="product.averageRating"></stars>
+                <div class="d-inline">&nbsp;(193 reviews)</div>
+              </span>
+            </div>
+            <div class="row">
+              <div class="product-detail-description mt-3 px-3">
+                <blockquote>{{product.description}}</blockquote>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-1 col-lg-0"></div>
+      </div>
+    </div>
+    <!-- ---------------------------------------end-product--------------------------------------- -->
+    <div class="col-12 col-lg-6 ">
+      <!-- ---------------------------------------begin-top-reviews--------------------------------------- -->
+      <div class="reviews py-3 px-5">
+        <div class="row text-center">
+          <h1>Top Reviews</h1>
+        </div>
+        <br>
+        <div class="row">
+          <div class="review">
+            <div class="row review-header">
+              <div class="review-username">
+                <h6 class="align-self-end">&#64;username</h6>
+              </div>
+              <div class="review-title d-flex justify-content-between">
+                <h4>Nintendo Ate My Dog!!!</h4>
+                <stars [rating]="3.5"></stars>
+              </div>
+            </div>
+            <div class="review-body">
+              <blockquote class="review-ellipsis-text">Good news, everyone! I've invented a device that lets you
+                generate random text for all your placeholder needs. In the year 3000, Lorem Ipsum is still the standard
+                dummy text of the printing and typesetting industry. Leela, a mutant who escaped the sewers, uses Lorem
+                Ipsum for her communication device. Bite my shiny metal Lorem Ipsum!
+              </blockquote>
+            </div>
+          </div>
+          <br>
+
+          <div class="review">
+            <div class="row review-header">
+              <div class="review-username">
+                <h6 class="align-self-end">&#64;username</h6>
+              </div>
+              <div class="review-title d-flex justify-content-between">
+                <h4>Nintendo Ate My Dog!!!</h4>
+                <stars [rating]="3.5"></stars>
+              </div>
+            </div>
+            <div class="review-body">
+              <blockquote class="review-ellipsis-text">Good news, everyone! I've invented a device that lets you
+                generate random text for all your placeholder needs. In the year 3000, Lorem Ipsum is still the standard
+                dummy text of the printing and typesetting industry. Leela, a mutant who escaped the sewers, uses Lorem
+                Ipsum for her communication device. Bite my shiny metal Lorem Ipsum!
+              </blockquote>
+            </div>
+          </div>
+          <br>
+
+          <div class="review">
+            <div class="row review-header">
+              <div class="review-username">
+                <h6 class="align-self-end">&#64;username</h6>
+              </div>
+              <div class="review-title d-flex justify-content-between">
+                <h4>Nintendo Ate My Dog!!!</h4>
+                <stars [rating]="3.5"></stars>
+              </div>
+            </div>
+            <div class="review-body">
+              <blockquote class="review-ellipsis-text">Good news, everyone! I've invented a device that lets you
+                generate random text for all your placeholder needs. In the year 3000, Lorem Ipsum is still the standard
+                dummy text of the printing and typesetting industry. Leela, a mutant who escaped the sewers, uses Lorem
+                Ipsum for her communication device. Bite my shiny metal Lorem Ipsum!
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ---------------------------------------end-top-reviews--------------------------------------- -->
+    </div>
+    <div class="col-0 col-lg-1"></div>
+  </div>
+  <!-- ---------------------------------------begin-further-reviews--------------------------------------- -->
+  <div class="row">
+    <div class="col-0 col-lg-1"></div>
+    <div class="col-12 col-lg-10">
+      <hr>
+      <div class="more-reviews">
+        <div class="row">
+          <h1>More Reviews</h1>
+        </div>
+        <br>
+        <div class="row">
+          <div class="review">
+            <div class="row review-header">
+              <div class="review-username">
+                <h6 class="align-self-end">&#64;username</h6>
+              </div>
+              <div class="review-title">
+                <h4>Love Nintendo.</h4>
+                <stars [rating]="0.5"></stars>
+              </div>
+            </div>
+            <div class="review-body">
+              <blockquote class="review-ellipsis-text">Good news, everyone! I've invented a device that lets you
+                generate random text for all your placeholder needs. In the year 3000, Lorem Ipsum is still the standard
+                dummy text of the printing and typesetting industry. Leela, a mutant who escaped the sewers, uses Lorem
+                Ipsum for her communication device. Bite my shiny metal Lorem Ipsum!
+              </blockquote>
+            </div>
+          </div>
+          <br>
+          <hr>
+
+          <div class="review">
+            <div class="row review-header">
+              <div class="review-username">
+                <h6 class="align-self-end">&#64;username</h6>
+              </div>
+              <div class="review-title">
+                <h4>Switch it Up!</h4>
+                <stars [rating]="3.5"></stars>
+              </div>
+            </div>
+            <div class="review-body">
+              <blockquote class="review-ellipsis-text">Good news, everyone! I've invented a device that lets you
+                generate random text for all your placeholder needs. In the year 3000, Lorem Ipsum is still the standard
+                dummy text of the printing and typesetting industry. Leela, a mutant who escaped the sewers, uses Lorem
+                Ipsum for her communication device. Bite my shiny metal Lorem Ipsum!
+              </blockquote>
+            </div>
+          </div>
+          <br>
+          <hr>
+          <div class="review">
+            <div class="row review-header">
+              <div class="review-username">
+                <h6 class="align-self-end">&#64;username</h6>
+              </div>
+              <div class="review-title">
+                <h4>Best Cat food ever!</h4>
+                <stars [rating]="3.5"></stars>
+              </div>
+            </div>
+            <div class="review-body">
+              <blockquote class="review-ellipsis-text">Good news, everyone! I've invented a device that lets you
+                generate random text for all your placeholder needs. In the year 3000, Lorem Ipsum is still the standard
+                dummy text of the printing and typesetting industry. Leela, a mutant who escaped the sewers, uses Lorem
+                Ipsum for her communication device. Bite my shiny metal Lorem Ipsum!
+              </blockquote>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-0 col-lg-1"></div>
+  </div>
+  <!-- ---------------------------------------begin-further-reviews--------------------------------------- -->
+</div>

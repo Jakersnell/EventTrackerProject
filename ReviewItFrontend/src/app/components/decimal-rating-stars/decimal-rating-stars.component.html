@@ -1,0 +1,9 @@
+<ng-template #t let-fill="fill">
+  <i class="bi-star-fill" [style.font-size]="size">
+    @if (fill > 0) {
+    <i class="bi-star-fill filled" [style.width.%]="fill"></i>
+    }
+  </i>
+</ng-template>
+
+<ngb-rating [(rate)]="rating" [starTemplate]="t" [readonly]="true" [max]="5" [ariaValueText]="ariaValueText" />

@@ -1,0 +1,54 @@
+<div id="signupSpacer"></div>
+<div class="row">
+  <div class="col-sm-1 col-md-3 col-lg-4"></div>
+  <div class="col-sm-10 col-md-6 col-lg-4 px-5">
+    <div id="errorDisplay"></div>
+    <form class="mt-4">
+      <div class="row">
+        <label for="firstName">first name</label>
+        <input type="text" autocomplete="firstName" name="firstName" class="form-control" placeholder="Jane" required />
+      </div>
+      <br>
+      <div class="row">
+        <label for="lastName">last name</label>
+        <input type="text" autocomplete="lastName" name="lastName" class="form-control" id="lastName" placeholder="Doe"
+          required />
+      </div>
+      <br>
+      <div class="row">
+        <label for="username">username</label>
+        <input type="text" autocomplete="username" name="username" class="form-control" id="username"
+          placeholder="JaneDoe11" required />
+      </div>
+      <br>
+      <div class="row">
+        <label for="email">email</label>
+        <input type="text" autocomplete="email" name="email" class="form-control" id="email"
+          placeholder="jane.doe@example.com" required />
+      </div>
+      <br>
+      <div class="row">
+        <label for="passwordOne">password</label>
+        <input [type]="showPassword? 'text' : 'password'" name="passwordOne" id="passwordOne" class="form-control"
+          [(ngModel)]="passwordOne" required />
+      </div>
+      <br>
+      <div class="row">
+        <label for="passwordTwo">confirm password</label>
+        <input [type]="showPassword? 'text' : 'password'" id="passwordTwo" name="passwordTwo" class="form-control"
+          [(ngModel)]="passwordTwo" required />
+      </div>
+      <br>
+      <div class="form-inline">
+        <input class="form-check-input align-text-top" type="checkbox" name="showPasswordToggler"
+          id="showPasswordToggler" [(ngModel)]="showPassword">
+        <label class="col-form-label mx-2 p-0" for="showPasswordToggler">show password</label>
+      </div>
+      <br>
+      <div class="row">
+        <button type="submit" name="submit" class="btn btn-primary form-control">sign up</button>
+      </div>
+    </form>
+  </div>
+  <div class="col-sm-1 col-md-3 col-lg-4"></div>
+</div>

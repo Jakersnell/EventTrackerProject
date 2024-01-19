@@ -1,0 +1,23 @@
+#signupSpacer {
+  height: 0vh;
+}
+
+
+@media (min-height: 800px) {
+  #signupSpacer {
+    height: 2vh;
+  }
+}
+
+
+@media (min-height: 950px) {
+  #signupSpacer {
+    height: 5vh;
+  }
+}
+
+@media (min-height: 1050px) {
+  #signupSpacer {
+    height: 10vh;
+  }
+}

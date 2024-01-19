@@ -1,0 +1,16 @@
+.category {
+  padding-left: 1rem;
+}
+
+.category-selector {
+  background-color: inherit;
+  border: none;
+  font-size: large;
+  font-weight: bolder;
+}
+
+.category-selector:hover {
+  font-size: 1.3rem;
+  transition: 0.2s;
+  opacity: 90%;
+}
