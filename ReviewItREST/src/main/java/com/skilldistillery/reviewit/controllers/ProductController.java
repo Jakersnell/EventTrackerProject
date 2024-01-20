@@ -1,8 +1,11 @@
 package com.skilldistillery.reviewit.controllers;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +22,7 @@ import com.skilldistillery.reviewit.services.ProductService;
 
 import jakarta.servlet.http.HttpServletResponse;
 
+@CrossOrigin({ "*", "http://localhost/" })
 @RestController
 @RequestMapping({ "api" })
 public class ProductController extends BaseController {
@@ -27,13 +31,26 @@ public class ProductController extends BaseController {
 	private ProductService productService;
 
 	@GetMapping({ "products" })
-	private List<Product> getAllProducts(@RequestParam(name = "auth", required = false) String auth,
-			HttpServletResponse res) {
+	private List<Product> getAll(@RequestParam(name = "auth", required = false) String auth, HttpServletResponse res) {
 
 		return tryFailableAction(() -> {
 			return productService.getAll(auth);
 		}, res);
 
+	}
+
+//	@RequestParam("pageSize") int pageSize,
+//	@RequestParam("pageNum") int pageNum,
+//	@RequestParam(name="continued", required=false) Boolean continued,
+	@GetMapping({ "products/testpaging" })
+	private List<Object> getPageOfProducts(@RequestParam(name = "pageSize") int pageSize,
+			@RequestParam(name = "pageNum") int pageNum,
+			@RequestParam(name = "continued", required = false) Boolean continued,
+			@RequestParam(name = "categories", required = false) List<Integer> categories,
+			@RequestParam(name = "sortBy", required = false, defaultValue = "POP") String sortBy,
+			@RequestParam(name = "orderBy", required = false, defaultValue = "DESC") String orderBy) {
+		List<Object> params = Arrays.asList(pageSize, pageNum, continued, categories, sortBy, orderBy);
+		return params;
 	}
 
 	@GetMapping({ "products/{productId}" })
@@ -86,4 +103,5 @@ public class ProductController extends BaseController {
 		}, res);
 
 	}
+
 }

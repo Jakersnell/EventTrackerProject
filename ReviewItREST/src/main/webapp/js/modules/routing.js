@@ -1,109 +1,102 @@
-import { activateHomeView } from "./home.js";
-import { activateProductForm, activateProductUpdateForm } from "./listProduct.js";
-import {
-  activateLoginForm,
-  userIsAdmin,
-  userIsLoggedIn,
-} from "./login.js";
-import { activateProductDetailView, deleteProduct } from "./productDetail.js";
-import { clearElementById } from "./util.js";
+import { clearAuthToken, getAuthToken } from "./auth.js";
 
-export function route(viewName = "home", params = null) {
-  setTimeout(() => {
-    switch (viewName) {
-      case "home":
-        activateHomeView();
+const loadingBarHTML = `
+<div class="middle-spacer"></div>
+<div class="d-flex justify-content-center">
+  <div class="spinner-border" role="status">
+    <span class="sr-only"></span>
+  </div>
+</div>
+`;
+
+const urlPatterns = {
+  404: { html: "/html/404.html", action: null },
+  "/": { html: "/html/home.html", action: null },
+  "/login": { html: "/html/login.html", action: null },
+  "/signup": { html: "html/signup.html", action: null },
+};
+
+let filterRouting = (href) => {
+  let routeTo = href;
+  switch (href) {
+    case "/login":
+      if (getAuthToken()) {
+        routeTo = "/home";
+      }
+      break;
+    case "/logout":
+      routeTo = "/home";
+      if (!getAuthToken()) {
+      } else {
+        clearAuthToken();
+      }
+      break;
+    case "/signup":
+      if (getAuthToken()) {
+        routeTo = "/home";
         break;
-      case "product":
-        activateProductDetailView(params.id);
-        break;
-      case "login":
-        activateLoginForm();
-        break;
-      case "logout":
-        sessionStorage.setItem("auth", null);
-        route("home");
-        break;
-      case "delete-product":
-        deleteProduct(params.id);
-        break;
-      case "create-product":
-        activateProductForm();
-        break;
-      case "edit-product":
-        activateProductUpdateForm(params.id);
-        break;
-    }
-    setTimeout(refresh, 0);
-  }, 0);
+      }
+  }
+  return routeTo;
+};
+
+export function init() {
+  const path = new URLSearchParams(window.location.search).get("path") || "";
+  window.history.replaceState({}, "", window.location.origin + path);
+  routeTo(path);
 }
 
-let refresh = () => {
-  placeSigninButton();
-  placeMakeFormButton();
-  distributeRouteListener("home-route", "home");
-};
+export function route(event) {
+  event.preventDefault();
+  routeTo(event.target.href);
+}
 
-let distributeRouteListener = (className, routeName) => {
-  const items = document.getElementsByClassName(className);
-  for (let item of items) {
-    setTimeout(() => {
-      if (item) {
-        item.addEventListener("click", () => {
-          console.log(`Clicking: ${className}`);
-          route(routeName);
-        });
-      }
-    }, 0);
+export function routeTo(href) {
+  window.history.pushState({}, "", filterRouting(href));
+  const page = urlPatterns[window.location.pathname] || urlPatterns[404];
+  routeApplication(page.html);
+  refresh();
+  if (page.action) {
+    setTimeout(page.action, 0);
   }
+}
+
+const routeApplication = async (path) => {
+  console.log(path);
+  document.getElementById("router-output").innerHTML = loadingBarHTML;
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", path);
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState === 4) {
+      if (xhr.status == 200) {
+        document.getElementById("router-output").innerHTML = xhr.responseText;
+      } else {
+        console.log(
+          `Encountered error while attempting html GET request on ${path}, status ${xhr.status}.`
+        );
+      }
+    }
+  };
+  xhr.send();
 };
 
-let placeSigninButton = () => {
-  setTimeout(() => {
-    clearElementById("signInDiv");
-    const signInDiv = document.getElementById("signInDiv");
-
-    const div = document.createElement("div");
-    const h2 = document.createElement("h2");
-    div.appendChild(h2);
-    let routeName;
-    let text;
-    let eventListener;
-    if (userIsLoggedIn()) {
-      routeName = "logout-route";
-      text = "Logout";
-      eventListener = () => {
-        route("logout");
-      };
-    } else {
-      routeName = "login-route";
-      text = "Login";
-      eventListener = () => {
-        route("login");
-      };
-    }
-    h2.textContent = text;
-    div.classList.add(routeName);
-    div.addEventListener("click", eventListener);
-
-    signInDiv.appendChild(div);
-  }, 0);
+let refresh = () => {
+  loginRefresh();
 };
 
-let placeMakeFormButton = () => {
+let loginRefresh = () => {
   setTimeout(() => {
-    clearElementById("navbtn2");
-    if (userIsAdmin()) {
-      const div = document.createElement("div");
-      div.classList.add("link-btn");
-      div.addEventListener("click", () => {
-        route("create-product");
-      });
-      const h2 = document.createElement("h2");
-      h2.textContent = "List Product";
-      div.appendChild(h2);
+    const isLoggedIn = getAuthToken() !== null;
 
-      document.getElementById("navbtn2").appendChild(div);
-    }
+    const loggedInConstrained = document.getElementsByClassName("if-logged-in");
+    Array.from(loggedInConstrained).forEach((element) => {
+      element.style.display = isLoggedIn ? "block" : "none";
+    });
+
+    const loggedOutConstrained =
+      document.getElementsByClassName("if-not-logged-in");
+    Array.from(loggedOutConstrained).forEach((element) => {
+      element.style.display = isLoggedIn ? "none" : "block";
+    });
   }, 0);
 };

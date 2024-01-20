@@ -1,8 +1,10 @@
-import { getAuthToken as moduleGetAuth } from "./modules/login.js";
-import { route } from "./modules/routing.js";
+import { toggleShowPassword, handleLoginFormSubmit } from "./modules/auth.js";
+import { init, route } from "./modules/routing.js";
 
-window.addEventListener("load", (_) => {
-  route("home");
-  const homeBtns = document.getElementsByClassName("home-btn");
+window.addEventListener("load", () => {
+  window.onpopstate = route;
+  window.route = route;
+  window.toggleShowPassword = toggleShowPassword;
+  window.handleLoginFormSubmit = handleLoginFormSubmit;
+  init();
 });
-

@@ -1,6 +1,7 @@
 package com.skilldistillery.reviewit.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import com.skilldistillery.reviewit.services.UserService;
 
 import jakarta.servlet.http.HttpServletResponse;
 
+@CrossOrigin({ "*", "http://localhost/" })
 @RestController
 @RequestMapping("api/auth")
 public class AuthController extends BaseController {

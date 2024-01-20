@@ -2,6 +2,8 @@ package com.skilldistillery.reviewit.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.skilldistillery.reviewit.entities.Category;
 import com.skilldistillery.reviewit.entities.Product;
 import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
@@ -22,4 +24,7 @@ public interface ProductService {
 	List<Product> getProductsByCategoryId(int categoryId, String auth) throws RestServerException;
 
 	List<Category> getCategoriesForProduct(int productId, String auth) throws RestServerException;
+	
+	Page<Product> getPageOfProducts(Integer pageSize, Integer pageNum, String sortBy, String auth) throws RestServerException;
+	
 }

@@ -3,6 +3,7 @@ package com.skilldistillery.reviewit.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.skilldistillery.reviewit.entities.Category;
@@ -114,5 +115,12 @@ public class ProductServiceImpl implements ProductService {
 			categories = categories.stream().filter(Category::isEnabled).toList();
 		}
 		return categories;
+	}
+
+	@Override
+	public Page<Product> getPageOfProducts(Integer pageSize, Integer pageNum, String sortBy, String auth)
+			throws RestServerException {
+		
+		return null;
 	}
 }

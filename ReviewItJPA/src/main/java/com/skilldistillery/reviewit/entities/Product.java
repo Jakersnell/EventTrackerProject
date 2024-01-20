@@ -44,12 +44,23 @@ public class Product {
 	@JsonIgnore
 	private List<ProductReview> reviews;
 
+	@Column(name = "us_msrp")
+	private String usMsrp;
+
+	@Column(name = "brand_name")
+	private String brandName;
+
+	@Column(name = "image_url")
+	private String imageUrl;
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JsonIgnore
 	@JoinTable(name = "product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private List<Category> categories;
 
 	private boolean enabled = true;
+
+	private boolean discontinued;
 
 	public Product() {
 	}
@@ -141,10 +152,42 @@ public class Product {
 		this.enabled = enabled;
 	}
 
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public String getUsMsrp() {
+		return usMsrp;
+	}
+
+	public void setUsMsrp(String usMsrp) {
+		this.usMsrp = usMsrp;
+	}
+
+	public String getBrandName() {
+		return brandName;
+	}
+
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
+	}
+
+	public boolean isDiscontinued() {
+		return discontinued;
+	}
+
+	public void setDiscontinued(boolean discontinued) {
+		this.discontinued = discontinued;
+	}
+
 	@JsonProperty(value = "averageRating")
-	public Double getAverageRating() {
+	public double getAverageRating() {
 		if (reviews == null || reviews.isEmpty()) {
-			return null;
+			return 0.0;
 		}
 		return reviews.stream().mapToInt(ProductReview::getRating).sum() / (double) reviews.size();
 	}
