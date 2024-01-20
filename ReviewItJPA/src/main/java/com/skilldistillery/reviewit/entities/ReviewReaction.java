@@ -1,5 +1,6 @@
 package com.skilldistillery.reviewit.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -9,7 +10,9 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "review_reaction")
-public class ReviewReaction {
+public class ReviewReaction implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@EmbeddedId
 	private ReviewReactionId id;
 

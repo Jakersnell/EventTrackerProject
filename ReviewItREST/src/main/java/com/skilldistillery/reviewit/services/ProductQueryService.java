@@ -9,7 +9,7 @@ import com.skilldistillery.reviewit.entities.Product;
 
 public interface ProductQueryService {
 	Page<Product> getPageOfProducts(
-			int page, 
+			int pageNum, 
 			int pageSize, 
 			String orderBy, 
 			String sortBy, 

@@ -1,5 +1,6 @@
 package com.skilldistillery.reviewit.entities;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -22,7 +23,9 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class Product {
+public class Product implements Serializable {
+	private static final long serialVersionUID = 3379929330307196224L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;

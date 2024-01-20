@@ -1,5 +1,6 @@
 package com.skilldistillery.reviewit.entities;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -19,7 +20,9 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "product_review")
-public class ProductReview {
+public class ProductReview implements Serializable {
+
+	private static final long serialVersionUID = 6576974014129373041L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

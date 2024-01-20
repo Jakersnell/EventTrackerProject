@@ -7,6 +7,8 @@ import com.skilldistillery.reviewit.exceptions.RestServerException;
 import com.skilldistillery.reviewit.exceptions.TokenInvalidException;
 
 public interface CategoryService {
+	
+	
 	List<Category> getAll(String auth) throws TokenInvalidException;
 
 	Category getCategoryById(int categoryId, String auth) throws RestServerException;

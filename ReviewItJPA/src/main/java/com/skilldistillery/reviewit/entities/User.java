@@ -1,5 +1,6 @@
 package com.skilldistillery.reviewit.entities;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -17,7 +18,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class User {
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 7109800878727325314L;
 
 	// direct fields
 	@Id
@@ -158,7 +161,6 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
-
 
 	@JsonIgnore
 	public boolean isAdmin() {
