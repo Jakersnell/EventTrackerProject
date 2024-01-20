@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.skilldistillery.reviewit.dtos.PageDTO;
 import com.skilldistillery.reviewit.entities.Category;
 import com.skilldistillery.reviewit.entities.Product;
 import com.skilldistillery.reviewit.repositories.ProductRepository;
@@ -21,15 +22,14 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 	private ProductRepository productRepo;
 	
 	@Override
-	public Page<Product> getPageOfProducts(int pageNum, int pageSize, String groupBy, String orderBy, Boolean discontinued,
+	public PageDTO<Product> getPageOfProducts(int pageNum, int pageSize, String groupBy, String orderBy, Boolean discontinued,
 			Double minRating, Set<Category> categories) {
 		
-
 		Sort sort = getSort(groupBy, orderBy);
 		Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
-
-		return productRepo.getPage(discontinued, minRating, categories, pageable);
-
+		Page<Product> page = productRepo.getPage(discontinued, minRating, categories, pageable);
+		return new PageDTO<>(page);
+		
 	}
 
 	private Sort getSort(String groupBy, String orderBy) {

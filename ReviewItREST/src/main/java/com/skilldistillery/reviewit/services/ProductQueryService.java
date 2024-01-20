@@ -2,13 +2,12 @@ package com.skilldistillery.reviewit.services;
 
 import java.util.Set;
 
-import org.springframework.data.domain.Page;
-
+import com.skilldistillery.reviewit.dtos.PageDTO;
 import com.skilldistillery.reviewit.entities.Category;
 import com.skilldistillery.reviewit.entities.Product;
 
 public interface ProductQueryService {
-	Page<Product> getPageOfProducts(
+	PageDTO<Product> getPageOfProducts(
 			int pageNum, 
 			int pageSize, 
 			String orderBy, 
