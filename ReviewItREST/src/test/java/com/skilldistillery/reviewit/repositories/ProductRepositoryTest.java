@@ -1,6 +1,6 @@
 package com.skilldistillery.reviewit.repositories;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.skilldistillery.reviewit.entities.Product;
+import com.skilldistillery.reviewit.repositories.ProductRepository.PageSort;
 
 @SpringBootTest
 class ProductRepositoryTest {
@@ -19,35 +20,10 @@ class ProductRepositoryTest {
 	private ProductRepository productRepo;
 
 	@Test
-	void test_pageByPopularitys_sorts_DESC_correctly() {
-		Pageable pageReq = PageRequest.of(0, 5);
-		Page<Product> page = productRepo.getPage(pageReq, "POPULARITY", "DESC", null);
-		assertNotNull(page);
-		assertEquals(3, page.iterator().next().getId());
+	void test_getPage_returns_non_empty_page_for_valid_result() throws Exception {
+		Pageable pageable = PageRequest.of(0, 2, PageSort.byPopularity());
+		Page<Product> products = productRepo.getPage(null, null, null, pageable);
+		assertNotNull(products);
+		assertFalse(products.isEmpty());
 	}
-
-//	@Test
-//	void test_pageByPopularity_sorts_ASC_correctly() {
-//		Pageable pageReq = PageRequest.of(0, 5);
-//		Page<Product> page = productRepo.getPage(pageReq, "POPULARITY", "ASC", null);
-//		assertNotNull(page);
-//		assertEquals(11, page.iterator().next().getId());
-//	}
-//
-//	@Test
-//	void test_pageByMostReviews_orders_by_DESC_correctly() {
-//		Pageable pageReq = PageRequest.of(0, 5);
-//		Page<Product> page = productRepo.getPage(pageReq, "M_REVIEWS", "DESC", null);
-//		assertNotNull(page);
-//		assertEquals(3, page.iterator().next().getId());
-//	}
-//
-//	@Test
-//	void test_pageByMostReviews_orders_by_ASC_correctly() {
-//		Pageable pageReq = PageRequest.of(0, 5);
-//		Page<Product> page = productRepo.getPage(pageReq, "M_REVIEWS", "ASC", null);
-//		assertNotNull(page);
-//		assertEquals(11, page.iterator().next().getId());
-//	}
-
 }

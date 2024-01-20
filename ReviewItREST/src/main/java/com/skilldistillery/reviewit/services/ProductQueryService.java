@@ -1,5 +1,19 @@
 package com.skilldistillery.reviewit.services;
 
+import java.util.Set;
+
+import org.springframework.data.domain.Page;
+
+import com.skilldistillery.reviewit.entities.Category;
+import com.skilldistillery.reviewit.entities.Product;
+
 public interface ProductQueryService {
-//	Page<Product> getPageOfProducts();
+	Page<Product> getPageOfProducts(
+			int page, 
+			int pageSize, 
+			String orderBy, 
+			String sortBy, 
+			Boolean discontinued,
+			Double minRating, 
+			Set<Category> categories);
 }

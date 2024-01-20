@@ -1,16 +1,32 @@
 package com.skilldistillery.reviewit.repositories;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.skilldistillery.reviewit.entities.Category;
 import com.skilldistillery.reviewit.entities.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
+
+	public static final class PageSort {
+
+		public static Sort byPopularity() {
+			return JpaSort.unsafe("0.7 * AVG(pr.rating) + 0.3 * COUNT(pr.id)");
+		}
+
+		public static Sort byMostReviews() {
+			return JpaSort.unsafe("COUNT(pr.id)");
+		}
+
+	}
 
 	List<Product> findByCategoriesId(int catId);
 
@@ -19,38 +35,34 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 	@Query("""
 			SELECT
-				DISTINCT p
+			    p
 			FROM
-				Product p
-				LEFT JOIN p.reviews pr ON pr.enabled = true
-				LEFT JOIN p.categories c
+			    Product p
+			    LEFT JOIN p.reviews pr
 			WHERE
-				p.enabled = true
-				AND (
-					:discontinued IS NULL
-					OR p.discontinued = :discontinued
-				)
+			    (
+			        :discontinued IS NULL
+			        OR p.discontinued = :discontinued
+			    )
+			    AND (
+			        :categories IS NULL
+			        OR EXISTS (
+			            SELECT
+			                c
+			            FROM
+			                Category c
+			            WHERE
+			                c MEMBER OF p.categories
+			                AND c IN (:categories)
+			        )
+			    )
 			GROUP BY
-				p.id
-			ORDER BY
-				CASE
-					WHEN :sortBy = 'POPULARITY'
-					AND :orderBy = 'DESC' THEN 0.7 * AVG(pr.rating) + 0.3 * COUNT(pr.id)
-				END DESC,
-				CASE
-					WHEN :sortBy = 'POPULARITY'
-					AND :orderBy = 'ASC' THEN 0.7 * AVG(pr.rating) + 0.3 * COUNT(pr.id)
-				END ASC,
-				CASE
-					WHEN :sortBy = 'M_REVIEWS'
-					AND :orderBy = 'DESC' THEN COUNT(pr.id)
-				END DESC,
-				CASE
-					WHEN :sortBy = 'M_REVIEWS'
-					AND :orderBy = 'ASC' THEN COUNT(pr.id)
-				END ASC
-						""")
-	Page<Product> getPage(Pageable pageable, @Param("sortBy") String sortBy, @Param("orderBy") String orderBy,
-			@Param("discontinued") Boolean discontinued);
+			    p
+			HAVING
+			    :minRating IS NULL
+			    OR AVG(pr.rating) >= :minRating
+			""") // make the db pull its weight lol
+	Page<Product> getPage(@Param("discontinued") Boolean discontinued, @Param("minRating") Double minRating,
+			@Param("categories") Set<Category> categories, Pageable pageable);
 
 }
