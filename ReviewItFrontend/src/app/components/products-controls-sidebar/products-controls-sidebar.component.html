@@ -9,33 +9,32 @@
           <form name="displayFilters">
             <div class="selector">
               <label for="formControlRange"><small>Display Per Page</small></label><br>
-              <select name="displayAmount" class="custom-select form-control">
-                <option value="18" selected>18</option>
-                <option value="32">32</option>
-                <option value="64">64</option>
+              <select name="displayAmount" class="custom-select form-control" [(ngModel)]="params.pageSize"
+                (ngModelChange)="emitEvent()">
+                <option [ngValue]="9">9</option>
+                <option [ngValue]="18">18</option>
+                <option [ngValue]="32">32</option>
+                <option [ngValue]="64">64</option>
               </select>
             </div>
             <br>
             <div class="selector">
               <label for="formControlRange"><small>Sort By</small></label><br>
-              <select name="sortBy" class="custom-select form-control">
-                <option value="popularity" selected>Popularity</option>
-                <option value="ratingsAsc">Ratings Asc</option>
-                <option value="ratingsDesc">Ratings Desc</option>
-                <option value="reviewsAsc">Most Reviews</option>
+              <select name="orderBy" class="custom-select form-control" [(ngModel)]="sortOrder"
+                (ngModelChange)="updateOrdering()">
+                <option [ngValue]="ordering.default">None</option>
+                <option [ngValue]="ordering.MOST_POPULAR">Most Popular</option>
+                <option [ngValue]="ordering.LEAST_POPULAR">Least Popular</option>
+                <option [ngValue]="ordering.MOST_RATINGS">Most Ratings</option>
+                <option [ngValue]="ordering.LEAST_RATINGS">Least Ratings</option>
+                <option [ngValue]="ordering.MOST_REVIEWS">Most Reviews</option>
+                <option [ngValue]="ordering.LEAST_REVIEWS">Least Reviews</option>
               </select>
             </div>
             <br>
-            <div class="selector">
-              <label for="formControlRange"><small>Min Rating</small></label><br>
-              <select name="minRating" class="custom-select form-control">
-                <option selected>None</option>
-                <option value="5">5</option>
-                <option value="4">4</option>
-                <option value="3">3</option>
-                <option value="2">2</option>
-                <option value="1">1</option>
-              </select>
+            <div>
+              <label for="customRange3" class="form-label">Min Rating:&nbsp;{{params.minRating}} Stars</label>
+              <input type="range" class="form-range" min="0" max="5" step="0.5" name="customRange3" [(ngModel)]="params.minRating" (ngModelChange)="emitEvent()">
             </div>
           </form>
         </div>

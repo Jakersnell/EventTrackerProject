@@ -3,8 +3,8 @@
   <div class="col-sm-12 col-md-4 col-lg-4 col-xl-3 p-sm-0 p-md-5 p-lg-5 p-xl-5 ">
     <!-- ----------------------begin filtering controls------------------------ -->
     @defer {
-    <app-products-controls-sidebar></app-products-controls-sidebar>
-    } @loading (minimum 500ms) {
+    <app-products-controls-sidebar (controlSubmitEvent)="updateFiltering($event)"></app-products-controls-sidebar>
+    } @loading {
     <div class="d-flex justify-content-center">
       <div class="spinner-grow" role="status">
         <span class="sr-only">Loading...</span>
@@ -17,7 +17,7 @@
 
     <!-------------------------begin-products----------------------->
     @defer {
-    @for (product of products; track $index) {
+    @for (product of _page.content; track $index) {
     <a class="product-link" [routerLink]="'/products/' + product.id">
       <div class="product row">
         <div class="col-4">
@@ -36,7 +36,7 @@
     <br>
     }
     }
-    } @loading (minimum 500ms) {
+    } @loading {
     <div class="d-flex justify-content-center">
       <div class="spinner-border" role="status">
         <span class="sr-only"></span>

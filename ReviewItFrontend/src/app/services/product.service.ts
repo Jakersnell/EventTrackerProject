@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, catchError, of, throwError } from 'rxjs';
+import { ProductSearchParams } from '../models/product-search-params';
+import { Page } from '../models/page';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private static URL: string = 'http://localhost:8085/' + 'api/products';
+  private static BASE_URL: string = 'http://localhost:8085';
+  private static URL: string = ProductService.BASE_URL + '/api/products';
   private productBuffer: Product[] = [];
 
   clearBuffer(): void {
@@ -65,7 +69,7 @@ export class ProductService {
   //   );
   // }
 
-  public getAll(data: any = {}): Observable<Product[]> {
+  public getAll(params: any = {}): Observable<Product[]> {
     const url = ProductService.URL;
     return this.http.get<Product[]>(url);
   }
@@ -84,5 +88,27 @@ export class ProductService {
 
   public productExists(id: number): boolean {
     return true;
+  }
+
+  public makePageRequest(
+    params: ProductSearchParams
+  ): Observable<Page<Product>> {
+    const endpoint = `${environment.API_URL}/api/products-staging?${params.toUrlParams()}`;
+    return this.http
+      .get<Page<Product>>(endpoint)
+      .pipe(
+        catchError((err: any) => {
+          console.log(err);
+          return throwError(
+            () =>
+              new Error(
+                `
+                ProductService.makePageRequest(params: ProductSearchParams):
+                Error while attempting GET with params to the endpoint ${endpoint}.
+                Error: ${err}.`
+              )
+          );
+        })
+      );
   }
 }

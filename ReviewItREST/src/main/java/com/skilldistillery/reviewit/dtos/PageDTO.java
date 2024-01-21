@@ -26,13 +26,14 @@ public class PageDTO<T> {
 	public PageDTO() {
 	}
 
-	public PageDTO(Page<T> page) {
+	public PageDTO(@SuppressWarnings("rawtypes") Page page, List<T> content, String searchQuery) {
 		pageNum = page.getPageable().getPageNumber();
 		pageSize = page.getPageable().getPageSize();
 		numElements = page.getNumberOfElements();
 		totalNumPages = page.getTotalPages();
 		totalNumElements = page.getTotalElements();
-		content = page.getContent();
+		this.content = content;
+		this.searchQuery = searchQuery;
 	}
 
 	public int getPageNum() {
