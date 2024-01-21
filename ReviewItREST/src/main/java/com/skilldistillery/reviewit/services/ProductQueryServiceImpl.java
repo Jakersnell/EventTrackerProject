@@ -20,16 +20,17 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 
 	@Autowired
 	private ProductRepository productRepo;
-	
+
 	@Override
-	public PageDTO<Product> getPageOfProducts(int pageNum, int pageSize, String groupBy, String orderBy, Boolean discontinued,
-			Double minRating, Set<Category> categories) {
-		
+	public Page<Product> getPageOfProducts(int pageNum, int pageSize, String searchQuery, String groupBy,
+			String orderBy, Boolean discontinued, Double minRating, Set<Category> categories) {
+
 		Sort sort = getSort(groupBy, orderBy);
 		Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
-		Page<Product> page = productRepo.getPage(discontinued, minRating, categories, pageable);
-		return new PageDTO<>(page);
-		
+		Page<Product> products = productRepo.getPage(searchQuery, discontinued, minRating, categories, pageable);
+
+		return products;
+
 	}
 
 	private Sort getSort(String groupBy, String orderBy) {

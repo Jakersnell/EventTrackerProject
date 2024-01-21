@@ -9,7 +9,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,10 +35,12 @@ public class Product implements Serializable {
 	private String description;
 
 	@Column(name = "created_on")
+	@JsonIgnore
 	@CreationTimestamp
 	private LocalDateTime createdOn;
 
 	@Column(name = "last_updated")
+	@JsonIgnore
 	@UpdateTimestamp
 	private LocalDateTime lastUpdated;
 
@@ -56,8 +57,8 @@ public class Product implements Serializable {
 	@Column(name = "image_url")
 	private String imageUrl;
 
-	@ManyToMany(fetch = FetchType.EAGER)
 	@JsonIgnore
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private List<Category> categories;
 
@@ -187,12 +188,14 @@ public class Product implements Serializable {
 		this.discontinued = discontinued;
 	}
 
-	@JsonProperty(value = "averageRating")
 	public double getAverageRating() {
+		double avg;
 		if (reviews == null || reviews.isEmpty()) {
-			return 0.0;
+			avg = 0.0;
+		} else {
+			avg = reviews.stream().mapToInt(ProductReview::getRating).sum() / (double) reviews.size();
 		}
-		return reviews.stream().mapToInt(ProductReview::getRating).sum() / (double) reviews.size();
+		return avg;
 	}
 
 }

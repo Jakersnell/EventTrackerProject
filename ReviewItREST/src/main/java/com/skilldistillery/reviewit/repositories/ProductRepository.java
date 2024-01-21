@@ -40,6 +40,11 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 			    Product p
 			    LEFT JOIN p.reviews pr
 			WHERE
+				(
+					:searchQuery IS NULL
+					OR p.name LIKE %:searchQuery%
+				)
+				AND
 			    (
 			        :discontinued IS NULL
 			        OR p.discontinued = :discontinued
@@ -62,7 +67,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 			    :minRating IS NULL
 			    OR AVG(pr.rating) >= :minRating
 			""") // make the db pull its weight lol
-	Page<Product> getPage(@Param("discontinued") Boolean discontinued, @Param("minRating") Double minRating,
-			@Param("categories") Set<Category> categories, Pageable pageable);
+	Page<Product> getPage(@Param("searchQuery") String searchQuery, @Param("discontinued") Boolean discontinued,
+			@Param("minRating") Double minRating, @Param("categories") Set<Category> categories, Pageable pageable);
 
 }
