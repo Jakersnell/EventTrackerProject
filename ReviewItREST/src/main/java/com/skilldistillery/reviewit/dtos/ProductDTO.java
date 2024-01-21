@@ -38,6 +38,7 @@ public class ProductDTO {
 	public ProductDTO(Product product) {
 		id = product.getId();
 		name = product.getName();
+		description = product.getDescription();
 		usMsrp = product.getUsMsrp();
 		imageUrl = product.getImageUrl();
 		brandName = product.getBrandName();

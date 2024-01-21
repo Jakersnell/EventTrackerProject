@@ -22,7 +22,7 @@ class ProductRepositoryTest {
 	@Test
 	void testName() throws Exception {
 		Pageable pageable = PageRequest.of(0, 10, PageSort.byPopularity().descending());
-		Page<Product> products = productRepo.getPage("a", null, null, null, pageable);
+		Page<Product> products = productRepo.getPage(null, "a", null, null, null, pageable);
 		assertNotNull(products);
 		assertFalse(products.isEmpty());
 		ObjectMapper mapr = new ObjectMapper();

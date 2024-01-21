@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @CrossOrigin({ "*", "http://localhost/" })
-@RequestMapping("api/products-staging")
+@RequestMapping("api/products")
 public class PublicProductController extends BaseController {
 
 	@Autowired
@@ -37,11 +38,26 @@ public class PublicProductController extends BaseController {
 			@RequestParam(name = "minRating", required = false) Double minRating,
 			@RequestParam(name = "categories", required = false) Set<Category> categories, HttpServletResponse res) {
 		return tryFailableAction(() -> {
+			
 			Page<Product> page = pqs.getPageOfProducts(pageNum - 1, pageSize, searchQuery, groupBy, orderBy,
-					discontinued, minRating, categories);
+					discontinued, minRating, categories, true);
 			List<ProductDTO> content = page.stream().map((product) -> new ProductDTO(product)).toList();
 			PageDTO<ProductDTO> dto = new PageDTO<>(page, content, searchQuery);
 			return dto;
+		}, res);
+
+	}
+
+	@GetMapping({ "{productId}" })
+	private Product getProductById(@PathVariable("productId") int productId, HttpServletResponse res) {
+		return tryFailableAction(() -> pqs.getProductById(productId, true), res);
+	}
+	
+	@GetMapping({ "{productId}/categories" })
+	private List<Category> getCategoriesForProduct(@PathVariable("productId") int productId, HttpServletResponse res) {
+
+		return tryFailableAction(() -> {
+			return pqs.getCategoriesForProduct(productId, true);
 		}, res);
 
 	}

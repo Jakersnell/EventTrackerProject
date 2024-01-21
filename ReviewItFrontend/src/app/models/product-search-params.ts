@@ -43,7 +43,7 @@ export class ProductSearchParams {
     for (let key in this) {
       urlParams += ``;
     }
-    return Object.keys(this)
+    return Object.keys(this) // needs to be different to account for categories
       .map((key) => {
         let val: any = (this as any)[key];
         return val === null ? '' : `${key}=${val.toString()}`;

@@ -27,7 +27,7 @@ public class PageDTO<T> {
 	}
 
 	public PageDTO(@SuppressWarnings("rawtypes") Page page, List<T> content, String searchQuery) {
-		pageNum = page.getPageable().getPageNumber();
+		pageNum = page.getPageable().getPageNumber() + 1;
 		pageSize = page.getPageable().getPageSize();
 		numElements = page.getNumberOfElements();
 		totalNumPages = page.getTotalPages();
