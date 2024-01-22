@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output, TemplateRef, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  TemplateRef,
+  inject,
+} from '@angular/core';
 import {
   ModalDismissReasons,
   NgbDatepickerModule,
@@ -18,11 +25,11 @@ import { ProductReview } from '../../models/product-review';
 })
 export class MakeReviewFormComponent {
   @Input() productId: number = 0;
-  @Output() refreshEvent = new EventEmitter<ProductReview>();
+  @Output() public refreshEvent = new EventEmitter<ProductReview>();
   private modalService = inject(NgbModal);
   private prs = inject(ProductReviewService);
   title = '';
-  content = '';
+  reviewContent = '';
   rating = 5;
   closeResult = '';
 
@@ -32,9 +39,15 @@ export class MakeReviewFormComponent {
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;
+          this.title = '';
+          this.reviewContent = '';
+          this.rating = 5;
         },
         (reason) => {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+          this.title = '';
+          this.reviewContent = '';
+          this.rating = 5;
         }
       );
   }
@@ -50,11 +63,29 @@ export class MakeReviewFormComponent {
     }
   }
 
-  private submitForm(): void {
+  private formIsValid(): boolean {
+    return (
+      this.title.replace(/\s/g, '') !== '' &&
+      this.reviewContent.replace(/\s/g, '') !== ''
+    );
+  }
+
+  submitForm(): void {
     const review = {
-      title: this.title,
-      content: this.content,
+      'title': this.title,
+      'content': this.reviewContent,
       rating: this.rating,
     };
+    this.prs.createReview(this.productId, review).subscribe({
+      next: (value: ProductReview) => {
+        this.modalService.dismissAll('Submit');
+        this.refreshEvent.emit(value);
+        console.log('emitting value');
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
+
 }

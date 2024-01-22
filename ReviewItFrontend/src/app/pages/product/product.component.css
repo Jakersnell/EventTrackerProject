@@ -23,9 +23,18 @@
   max-width: 16rem !important;
 }
 
-.modal-wrapper  {
+.modal-wrapper {
   width: fit-content;
 }
 
-
-
+.cta-button {
+  margin-inline: 1rem;
+  font-weight: bold;
+  font-size: xx-large;
+  box-shadow: 0 0.1rem 0.5rem 0.2rem rgb(236, 236, 236);
+  transition: 0.1s;
+}
+.cta-button:hover {
+  font-size: 2.2rem;
+  transition: 0.15s;
+}

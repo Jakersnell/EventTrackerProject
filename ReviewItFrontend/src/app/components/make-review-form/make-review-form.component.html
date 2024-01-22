@@ -4,10 +4,11 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
+    <div #errorDisplay id="errorDisplay"></div>
     <form>
       <div class="input-group mb-3">
         <span class="input-group-text" id="reviewTitleInputSpan">Title</span>
-        <input type="text" id="reviewTitleInputSpan" class="form-control" aria-label="Review title input." aria-describedby="Review title input.">
+        <input type="text" id="reviewTitleInputSpan" class="form-control" aria-label="Review title input." aria-describedby="Review title input." name="titleInput" [(ngModel)]="title">
       </div>
       <div class="input-group">
         <span class="input-group-text">Rating</span>
@@ -22,13 +23,14 @@
       <br>
       <div class="input-group">
         <span class="input-group-text">Content</span>
-        <textarea class="form-control" aria-label="Review content text"></textarea>
+        <textarea class="form-control" aria-label="Review content text" name="contentTextArea" [(ngModel)]="reviewContent"></textarea>
       </div>
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Submit')">Submit</button>
+    <button type="button" class="btn btn-outline-dark" (click)="submitForm()">Submit</button>
   </div>
 </ng-template>
 <button class="btn cta-button" (click)="open(content)">Review This Product!</button>
+
 

@@ -32,7 +32,7 @@ export class ProductReviewService {
     productId: number,
     review: any
   ): Observable<ProductReview> {
-    const auth = this.authService.getAuthToken()?.token;
+    const auth = JSON.parse(sessionStorage.getItem('auth') || '').token;
     const endpoint = `${environment.API_URL}/products/${productId}/reviews?auth=${auth}`;
     return this.http.post<ProductReview>(endpoint, review).pipe(
       catchError((err: any) => {

@@ -1,5 +1,11 @@
-<div *ngIf="product.id !== 0" class="row d-flex justify-content-center">
-  <make-review-form [productId]="product.id" class="modal-wrapper"></make-review-form>
+<div *ngIf="product.id !== 0" class="row d-flex justify-content-center mb-3">
+  @if(isLoggedIn) {
+  <make-review-form [productId]="product.id" class="modal-wrapper" (refreshEvent)="refresh($event)"></make-review-form>
+  }
+  @else {
+  <button type="button" class="btn cta-button" (click)="redirectToLogin()">Log In To
+    Review This Product!</button>
+  }
 </div>
 
 <div id=" productContent">
@@ -42,17 +48,19 @@
     <!-- ---------------------------------------end-product--------------------------------------- -->
     <div class="col-12 col-lg-6 ">
       <!-- ---------------------------------------begin-top-reviews--------------------------------------- -->
-      <div *ngIf="topReviews.length!=0">
-        <div class="reviews py-3 px-5">
-          <div class="row text-center">
-            <h1>Top Reviews</h1>
-          </div>
-          <br>
-          <div class="row">
-            <reviews-list [reviews]="topReviews"></reviews-list>
-          </div>
+      @if (topReviews.length!=0) {
+      <div class="reviews py-3 px-5">
+        <div class="row text-center">
+          <h1>Top Reviews</h1>
+        </div>
+        <br>
+        <div class="row">
+          <reviews-list [reviews]="topReviews"></reviews-list>
         </div>
       </div>
+      } @else {
+      <h3>This product has no reviews!</h3>
+      }
       <!-- ---------------------------------------end-top-reviews--------------------------------------- -->
     </div>
     <div class="col-0 col-lg-1"></div>
@@ -68,7 +76,7 @@
         </div>
         <br>
         <div class="row">
-          <reviews-list [reviews]="topReviews"></reviews-list>
+          <reviews-list [reviews]="reviews"></reviews-list>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { ProductReviewService } from './../../services/product-review.service';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
@@ -10,6 +10,7 @@ import { DecimalRatingStarsComponent } from '../../components/decimal-rating-sta
 import { ProductReview } from '../../models/product-review';
 import { ReviewsListComponent } from '../../components/reviews-list/reviews-list.component';
 import { MakeReviewFormComponent } from '../../components/make-review-form/make-review-form.component';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-product',
@@ -21,7 +22,7 @@ import { MakeReviewFormComponent } from '../../components/make-review-form/make-
     NgbScrollSpy,
     CommonModule,
     ReviewsListComponent,
-    MakeReviewFormComponent
+    MakeReviewFormComponent,
   ],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css',
@@ -30,21 +31,33 @@ export class ProductComponent implements OnInit {
   product: Product = new Product();
   reviews: ProductReview[] = [];
   topReviews: ProductReview[] = [];
+  isLoggedIn: boolean;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private titleService: Title,
     private productService: ProductService,
-    private prs: ProductReviewService
-  ) {}
+    private prs: ProductReviewService,
+    private authService: AuthService
+  ) {
+    this.isLoggedIn = authService.userIsLoggedIn;
+    authService.userIsLoggedInEvent.subscribe((status: boolean) => {
+      this.isLoggedIn = status;
+    });
+    this.product.id = parseInt(this.route.snapshot.paramMap.get('id') || '0');
+  }
 
   ngOnInit(): void {
     this.reloadProduct();
   }
+  refresh(event: ProductReview) {
+    console.log('refresh event triggered');
+    this.reloadProduct();
+  }
 
   reloadProduct(): void {
-    const productId = parseInt(this.route.snapshot.paramMap.get('id') || '0');
-    this.productService.getProductById(productId).subscribe({
+    this.productService.getProductById(this.product.id).subscribe({
       next: (product: Product) => {
         this.product = product;
         this.reloadReviews();
@@ -64,6 +77,7 @@ export class ProductComponent implements OnInit {
           const review = reviews.pop() || new ProductReview();
           this.topReviews.push(review);
         }
+        this.reviews = reviews;
       },
     });
   }
@@ -81,4 +95,7 @@ export class ProductComponent implements OnInit {
     return count;
   }
 
+  redirectToLogin(): void {
+    this.router.navigateByUrl('login');
+  }
 }
