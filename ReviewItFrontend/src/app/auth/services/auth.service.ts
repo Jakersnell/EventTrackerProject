@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, defer, of, tap, throwError } from 'rxjs';
+import { Observable, catchError, of, tap, throwError } from 'rxjs';
 import { AuthToken } from '../models/auth-token';
 
 @Injectable({
@@ -36,8 +36,35 @@ export class AuthService {
                 `
               AuthService.authorizeUser(username: string, password: string): Observable<AuthToken>;
               Error while attempting POST to endpoint '${endpoint}'.
-              With URL parameters:
+              With body:
                 ${JSON.stringify(params)}
+              `
+              )
+          );
+        })
+      )
+      .pipe(
+        tap((token: AuthToken) => {
+          this.setAuthToken(token);
+        })
+      );
+  }
+
+  public createUser(userData: any): Observable<AuthToken> {
+    const endpoint = `${this.urlRoot}/signup`;
+    return this.http
+      .post<AuthToken>(endpoint, userData)
+      .pipe(
+        catchError((err: any) => {
+          console.log(err);
+          return throwError(
+            () =>
+              new Error(
+                `
+              AuthService.createUser(userData: any): Observable<AuthToken>;
+              Error while attempting POST to endpoint ${endpoint}.
+              With body:
+                ${JSON.stringify(userData)}
               `
               )
           );

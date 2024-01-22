@@ -29,11 +29,18 @@ public class AuthServiceImpl implements AuthService {
 	@Autowired
 	private UserRepository userRepo;
 
-	public String encryptPassword(String password) throws BadRequestException {
+	public User encryptPassword(String password, User user) throws BadRequestException {
+		if (user == null) {
+			throw new BadRequestException();
+		}
 		if (password == null) {
 			throw new BadRequestException();
 		}
-		return BCrypt.hashpw(password, BCrypt.gensalt());
+		String salt = BCrypt.gensalt();
+		String hashed = BCrypt.hashpw(password, salt);
+		user.setPassword(hashed);
+		user.setSalt(salt);
+		return user;
 	}
 
 	@Override
@@ -66,17 +73,17 @@ public class AuthServiceImpl implements AuthService {
 		if (username == null || password == null) {
 			throw new BadRequestException();
 		}
-		
+
 		AuthToken token = null;
 		User user = userRepo.findByUsername(username).orElseThrow(TokenInvalidException::new);
 		if (!user.isEnabled() || !BCrypt.checkpw(password, user.getPassword())) {
 			throw new TokenInvalidException();
 		}
-		
+
 		token = generateNewToken(username);
 		token.setUser(user);
 		authRepo.save(token);
-		
+
 		return token;
 	}
 

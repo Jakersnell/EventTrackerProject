@@ -36,11 +36,12 @@ public class AuthController extends BaseController {
 	}
 
 	@PostMapping("/signup")
-	public AuthToken signup(@RequestBody User user, HttpServletResponse res) {
+	public AuthToken signup(@RequestBody UserDTO userDto, HttpServletResponse res) {
 		return tryFailableAction(() -> {
-
+			User user = userDto.intoUser();
+			System.out.println(user);
 			user.setRole("user");
-			user.setPassword(authService.encryptPassword(user.getPassword()));
+			authService.encryptPassword(user.getPassword(), user);
 			userService.createUser(user);
 			return authService.authenticate(user.getUsername(), user.getPassword());
 

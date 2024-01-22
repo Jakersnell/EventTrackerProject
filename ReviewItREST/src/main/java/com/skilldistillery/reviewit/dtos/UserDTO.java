@@ -1,5 +1,7 @@
 package com.skilldistillery.reviewit.dtos;
 
+import com.skilldistillery.reviewit.entities.User;
+
 public class UserDTO {
 	private String username;
 
@@ -8,6 +10,8 @@ public class UserDTO {
 	private String password2;
 
 	private String email;
+
+	private String role;
 
 	public UserDTO() {
 		super();
@@ -19,6 +23,23 @@ public class UserDTO {
 		this.password = password;
 		this.password2 = password2;
 		this.email = email;
+	}
+
+	public UserDTO(User user) {
+		this.username = user.getUsername();
+		this.email = user.getEmail();
+		this.role = user.getRole();
+	}
+
+	public User intoUser() {
+		User user = new User();
+
+		user.setUsername(username);
+		user.setPassword(password);
+		user.setEmail(email);
+		user.setRole(role);
+
+		return user;
 	}
 
 	public String getUsername() {

@@ -2,41 +2,48 @@
 <div class="row">
   <div class="col-sm-1 col-md-3 col-lg-4"></div>
   <div class="col-sm-10 col-md-6 col-lg-4 px-5">
-    <div id="errorDisplay"></div>
+    <div #formError class="error"></div>
     <form class="mt-4">
       <div class="row">
+        <div #firstNameError class="error"></div>
         <label for="firstName">first name</label>
-        <input type="text" autocomplete="firstName" name="firstName" class="form-control" placeholder="Jane" required />
+        <input type="text" autocomplete="firstName" name="firstName" class="form-control" placeholder="Jane"
+          [(ngModel)]="firstName" (change)="validateFirstName()" required />
       </div>
       <br>
       <div class="row">
+        <div #lastNameError class="error"></div>
         <label for="lastName">last name</label>
         <input type="text" autocomplete="lastName" name="lastName" class="form-control" id="lastName" placeholder="Doe"
-          required />
+          [(ngModel)]="lastName" (change)="validateLastName()" required />
       </div>
       <br>
       <div class="row">
+        <div #usernameError class="error"></div>
         <label for="username">username</label>
         <input type="text" autocomplete="username" name="username" class="form-control" id="username"
-          placeholder="JaneDoe11" required />
+          [(ngModel)]="username" (change)="validateUsername()" placeholder="JaneDoe11" required />
       </div>
       <br>
       <div class="row">
+        <div #emailError class="error"></div>
         <label for="email">email</label>
-        <input type="text" autocomplete="email" name="email" class="form-control" id="email"
-          placeholder="jane.doe@example.com" required />
+        <input type="text" autocomplete="email" name="email" class="form-control" id="email" [(ngModel)]="email"
+          (change)="validateEmail()" placeholder="jane.doe@example.com" required />
       </div>
       <br>
       <div class="row">
+        <div #passwordOneError class="error"></div>
         <label for="passwordOne">password</label>
         <input [type]="showPassword? 'text' : 'password'" name="passwordOne" id="passwordOne" class="form-control"
-          [(ngModel)]="passwordOne" required />
+          [(ngModel)]="passwordOne" (change)="validatePassword1()" [(ngModel)]="passwordOne" required />
       </div>
       <br>
       <div class="row">
+        <div #passwordTwoError class="error"></div>
         <label for="passwordTwo">confirm password</label>
         <input [type]="showPassword? 'text' : 'password'" id="passwordTwo" name="passwordTwo" class="form-control"
-          [(ngModel)]="passwordTwo" required />
+          [(ngModel)]="passwordTwo" (change)="validatePassword2()" [(ngModel)]="passwordTwo" required />
       </div>
       <br>
       <div class="form-inline">
@@ -46,7 +53,7 @@
       </div>
       <br>
       <div class="row">
-        <button type="submit" name="submit" class="btn btn-primary form-control">sign up</button>
+        <button type="submit" name="submit" class="btn btn-primary form-control" (click)="submitForm()">sign up</button>
       </div>
     </form>
   </div>
