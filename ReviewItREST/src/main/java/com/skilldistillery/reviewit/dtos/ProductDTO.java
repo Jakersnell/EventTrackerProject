@@ -19,20 +19,9 @@ public class ProductDTO {
 
 	private double averageRating;
 
-	public ProductDTO() {
-	}
+	private int numberOfReviews;
 
-	public ProductDTO(int id, String name, String description, String usMsrp, String brandName, String imageUrl,
-			boolean discontinued, double averageRating) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.usMsrp = usMsrp;
-		this.brandName = brandName;
-		this.imageUrl = imageUrl;
-		this.discontinued = discontinued;
-		this.averageRating = averageRating;
+	public ProductDTO() {
 	}
 
 	public ProductDTO(Product product) {
@@ -44,6 +33,7 @@ public class ProductDTO {
 		brandName = product.getBrandName();
 		discontinued = product.isDiscontinued();
 		averageRating = product.getAverageRating();
+		numberOfReviews = product.getReviews().size();
 	}
 
 	public Product intoEntity() {
@@ -122,11 +112,19 @@ public class ProductDTO {
 		this.averageRating = averageRating;
 	}
 
+	public int getNumberOfReviews() {
+		return numberOfReviews;
+	}
+
+	public void setNumberOfReviews(int numberOfReviews) {
+		this.numberOfReviews = numberOfReviews;
+	}
+
 	@Override
 	public String toString() {
 		return "ProductDTO [id=" + id + ", name=" + name + ", description=" + description + ", usMsrp=" + usMsrp
 				+ ", brandName=" + brandName + ", imageUrl=" + imageUrl + ", discontinued=" + discontinued
-				+ ", averageRating=" + averageRating + "]";
+				+ ", averageRating=" + averageRating + ", numberOfReviews=" + numberOfReviews + "]";
 	}
 
 }

@@ -1,3 +1,10 @@
 #loginSpacer {
   height: 15vh;
 }
+
+#errorDisplay {
+  display: flex;
+  flex-direction: column;
+  color: red;
+  text-align: center;
+}

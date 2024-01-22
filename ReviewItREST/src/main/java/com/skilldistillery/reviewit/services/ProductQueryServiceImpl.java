@@ -77,7 +77,7 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 		case "POPULARITY":
 			sort = PageSort.byPopularity();
 			break;
-		case "MOST_REVIEWS":
+		case "NUM_REVIEWS":
 			sort = PageSort.byMostReviews();
 			break;
 		case "NONE":
@@ -101,5 +101,6 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 		}
 		return sort;
 	}
+
 
 }

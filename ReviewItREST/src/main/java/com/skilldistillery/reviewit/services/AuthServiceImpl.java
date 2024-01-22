@@ -85,7 +85,7 @@ public class AuthServiceImpl implements AuthService {
 		SecureRandom random = new SecureRandom(combinedData.getBytes());
 		byte[] bytes = new byte[32];
 		random.nextBytes(bytes);
-		String tokenString = Base64.getUrlEncoder().withoutPadding() // remove padding as its not
+		String tokenString = Base64.getUrlEncoder().withoutPadding() // remove padding as its not url safe
 				.encodeToString(bytes);
 		LocalDateTime expiration = LocalDateTime.now().plusHours(HOURS_BEFORE_EXPIRATION);
 		return new AuthToken(tokenString, expiration);

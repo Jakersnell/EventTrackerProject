@@ -22,7 +22,7 @@
             <div class="row text-center text-lg-start">
               <span>
                 <stars [rating]="product.averageRating"></stars>
-                <div class="d-inline">&nbsp;(193 reviews)</div>
+                <div class="d-inline">&nbsp;({{product.numberOfReviews}} reviews)</div>
               </span>
             </div>
             <div class="row">
@@ -38,69 +38,14 @@
     <!-- ---------------------------------------end-product--------------------------------------- -->
     <div class="col-12 col-lg-6 ">
       <!-- ---------------------------------------begin-top-reviews--------------------------------------- -->
-      <div class="reviews py-3 px-5">
-        <div class="row text-center">
-          <h1>Top Reviews</h1>
-        </div>
-        <br>
-        <div class="row">
-          <div class="review">
-            <div class="row review-header">
-              <div class="review-username">
-                <h6 class="align-self-end">&#64;username</h6>
-              </div>
-              <div class="review-title d-flex justify-content-between">
-                <h4>Nintendo Ate My Dog!!!</h4>
-                <stars [rating]="3.5"></stars>
-              </div>
-            </div>
-            <div class="review-body">
-              <blockquote class="review-ellipsis-text">Good news, everyone! I've invented a device that lets you
-                generate random text for all your placeholder needs. In the year 3000, Lorem Ipsum is still the standard
-                dummy text of the printing and typesetting industry. Leela, a mutant who escaped the sewers, uses Lorem
-                Ipsum for her communication device. Bite my shiny metal Lorem Ipsum!
-              </blockquote>
-            </div>
+      <div *ngIf="topReviews.length!=0">
+        <div class="reviews py-3 px-5">
+          <div class="row text-center">
+            <h1>Top Reviews</h1>
           </div>
           <br>
-
-          <div class="review">
-            <div class="row review-header">
-              <div class="review-username">
-                <h6 class="align-self-end">&#64;username</h6>
-              </div>
-              <div class="review-title d-flex justify-content-between">
-                <h4>Nintendo Ate My Dog!!!</h4>
-                <stars [rating]="3.5"></stars>
-              </div>
-            </div>
-            <div class="review-body">
-              <blockquote class="review-ellipsis-text">Good news, everyone! I've invented a device that lets you
-                generate random text for all your placeholder needs. In the year 3000, Lorem Ipsum is still the standard
-                dummy text of the printing and typesetting industry. Leela, a mutant who escaped the sewers, uses Lorem
-                Ipsum for her communication device. Bite my shiny metal Lorem Ipsum!
-              </blockquote>
-            </div>
-          </div>
-          <br>
-
-          <div class="review">
-            <div class="row review-header">
-              <div class="review-username">
-                <h6 class="align-self-end">&#64;username</h6>
-              </div>
-              <div class="review-title d-flex justify-content-between">
-                <h4>Nintendo Ate My Dog!!!</h4>
-                <stars [rating]="3.5"></stars>
-              </div>
-            </div>
-            <div class="review-body">
-              <blockquote class="review-ellipsis-text">Good news, everyone! I've invented a device that lets you
-                generate random text for all your placeholder needs. In the year 3000, Lorem Ipsum is still the standard
-                dummy text of the printing and typesetting industry. Leela, a mutant who escaped the sewers, uses Lorem
-                Ipsum for her communication device. Bite my shiny metal Lorem Ipsum!
-              </blockquote>
-            </div>
+          <div class="row">
+            <reviews-list [reviews]="topReviews"></reviews-list>
           </div>
         </div>
       </div>
@@ -113,73 +58,14 @@
     <div class="col-0 col-lg-1"></div>
     <div class="col-12 col-lg-10">
       <hr>
-      <div class="more-reviews">
+      <div *ngIf="topReviews.length!=0" class="more-reviews">
         <div class="row">
           <h1>More Reviews</h1>
         </div>
         <br>
         <div class="row">
-          <div class="review">
-            <div class="row review-header">
-              <div class="review-username">
-                <h6 class="align-self-end">&#64;username</h6>
-              </div>
-              <div class="review-title">
-                <h4>Love Nintendo.</h4>
-                <stars [rating]="0.5"></stars>
-              </div>
-            </div>
-            <div class="review-body">
-              <blockquote class="review-ellipsis-text">Good news, everyone! I've invented a device that lets you
-                generate random text for all your placeholder needs. In the year 3000, Lorem Ipsum is still the standard
-                dummy text of the printing and typesetting industry. Leela, a mutant who escaped the sewers, uses Lorem
-                Ipsum for her communication device. Bite my shiny metal Lorem Ipsum!
-              </blockquote>
-            </div>
-          </div>
-          <br>
-          <hr>
-
-          <div class="review">
-            <div class="row review-header">
-              <div class="review-username">
-                <h6 class="align-self-end">&#64;username</h6>
-              </div>
-              <div class="review-title">
-                <h4>Switch it Up!</h4>
-                <stars [rating]="3.5"></stars>
-              </div>
-            </div>
-            <div class="review-body">
-              <blockquote class="review-ellipsis-text">Good news, everyone! I've invented a device that lets you
-                generate random text for all your placeholder needs. In the year 3000, Lorem Ipsum is still the standard
-                dummy text of the printing and typesetting industry. Leela, a mutant who escaped the sewers, uses Lorem
-                Ipsum for her communication device. Bite my shiny metal Lorem Ipsum!
-              </blockquote>
-            </div>
-          </div>
-          <br>
-          <hr>
-          <div class="review">
-            <div class="row review-header">
-              <div class="review-username">
-                <h6 class="align-self-end">&#64;username</h6>
-              </div>
-              <div class="review-title">
-                <h4>Best Cat food ever!</h4>
-                <stars [rating]="3.5"></stars>
-              </div>
-            </div>
-            <div class="review-body">
-              <blockquote class="review-ellipsis-text">Good news, everyone! I've invented a device that lets you
-                generate random text for all your placeholder needs. In the year 3000, Lorem Ipsum is still the standard
-                dummy text of the printing and typesetting industry. Leela, a mutant who escaped the sewers, uses Lorem
-                Ipsum for her communication device. Bite my shiny metal Lorem Ipsum!
-              </blockquote>
-            </div>
-          </div>
+          <reviews-list [reviews]="topReviews"></reviews-list>
         </div>
-
       </div>
     </div>
     <div class="col-0 col-lg-1"></div>

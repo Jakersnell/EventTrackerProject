@@ -19,7 +19,7 @@ import com.skilldistillery.reviewit.services.CategoryQueryService;
 import jakarta.servlet.http.HttpServletResponse;
 
 @CrossOrigin({ "*", "http://localhost/" })
-@RequestMapping({ "api/categories-staging" })
+@RequestMapping({ "api/categories" })
 @RestController
 public class PublicCategoryController extends BaseController {
 

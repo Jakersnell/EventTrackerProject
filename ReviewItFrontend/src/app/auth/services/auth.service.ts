@@ -1,12 +1,85 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Observable, catchError, defer, of, tap, throwError } from 'rxjs';
+import { AuthToken } from '../models/auth-token';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
+  public userIsLoggedIn;
+  public userIsLoggedInEvent = new EventEmitter<boolean>();
+  urlRoot = `${environment.API_URL}/auth`;
 
+  constructor(private http: HttpClient) {
+    this.userIsLoggedIn = this.getAuthToken() !== null;
+  }
 
+  public authorizeUser(
+    username: string,
+    password: string
+  ): Observable<AuthToken> {
+    const endpoint = `${this.urlRoot}/login`;
+    const params = {
+      username: username,
+      password: password,
+    };
+    return this.http
+      .post<AuthToken>(endpoint, params)
+      .pipe(
+        catchError((err: any) => {
+          console.log(err);
+          return throwError(
+            () =>
+              new Error(
+                `
+              AuthService.authorizeUser(username: string, password: string): Observable<AuthToken>;
+              Error while attempting POST to endpoint '${endpoint}'.
+              With URL parameters:
+                ${JSON.stringify(params)}
+              `
+              )
+          );
+        })
+      )
+      .pipe(
+        tap((token: AuthToken) => {
+          this.setAuthToken(token);
+        })
+      );
+  }
 
+  emitAuthChange(status: boolean): void {
+    this.userIsLoggedIn = status;
+    this.userIsLoggedInEvent.emit(status);
+  }
 
-  constructor() { }
+  /// this exists as it does for future expansion
+  public deauthorizeUser(): Observable<string> {
+    return defer(() => {
+      this.clearAuthToken();
+      return of('Successfully logged out.');
+    });
+  }
+
+  private clearAuthToken(): void {
+    sessionStorage.removeItem('auth');
+    this.emitAuthChange(false);
+  }
+
+  private setAuthToken(auth: AuthToken): void {
+    const stringified = JSON.stringify(auth);
+    sessionStorage.setItem('auth', stringified);
+    this.emitAuthChange(true);
+  }
+
+  public getAuthToken(): AuthToken | null {
+    const auth = sessionStorage.getItem('auth');
+    let token = null;
+    if (auth != null) {
+      token = JSON.parse(auth);
+    }
+    return null;
+  }
 }

@@ -1,0 +1,16 @@
+<div *ngFor="let review of reviews" class="review">
+  <div class="row review-header">
+    <div class="review-username">
+      <h6 class="align-self-end">&#64;{{review.username}}</h6>
+    </div>
+    <div class="review-title d-flex justify-content-between">
+      <h4>{{review.title}}</h4>
+      <stars [rating]="review.rating"></stars>
+    </div>
+  </div>
+  <div class="review-body">
+    <blockquote class="review-ellipsis-text">{{review.content}}
+    </blockquote>
+  </div>
+  <br *ngIf="!reviewIsLast(review, reviews)">
+</div>

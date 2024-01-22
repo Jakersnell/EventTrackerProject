@@ -8,9 +8,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,6 +29,9 @@ public class ProductReview implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
+	@Column(nullable=false)
+	private String title;
 
 	@Column(nullable = false)
 	private String content;
@@ -46,7 +51,7 @@ public class ProductReview implements Serializable {
 	@JoinColumn(name = "product_id")
 	private Product product;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonIgnore
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -150,6 +155,20 @@ public class ProductReview implements Serializable {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+	
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	@JsonProperty(value="username")
+	public String getAuthorUsername() {
+		return this.user.getUsername();
 	}
 
 }

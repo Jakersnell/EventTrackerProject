@@ -1,8 +1,6 @@
-.category {
-  padding-left: 1rem;
-}
-
 .category-selector {
+  width: 80%;
+  word-wrap: break-word;
   background-color: inherit;
   border: none;
   font-size: large;
@@ -13,4 +11,12 @@
   font-size: 1.3rem;
   transition: 0.2s;
   opacity: 90%;
+}
+
+.selected-category {
+  color: purple;
+}
+
+#categories * {
+  text-align: start;
 }

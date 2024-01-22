@@ -17,7 +17,7 @@
 
     <!-------------------------begin-products----------------------->
     @defer {
-    @for (product of _page.content; track $index) {
+    @for (product of page.content; track $index) {
     <a class="product-link" [routerLink]="'/products/' + product.id">
       <div class="product row">
         <div class="col-4">
@@ -51,7 +51,8 @@
     <div class="col-4">
     </div>
     <div class="col-4 d-flex justify-content-center">
-      <app-pagination-control></app-pagination-control>
+      <ngb-pagination [collectionSize]="page.totalNumElements" [pageSize]="params.pageSize" [(page)]="params.pageNum" (pageChange)="reload()" />
+
     </div>
     <div class="col-4">
     </div>

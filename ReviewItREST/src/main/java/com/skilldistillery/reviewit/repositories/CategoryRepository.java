@@ -16,16 +16,17 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
 	@Query("""
 			SELECT
+			DISTINCT
 			    c
 			FROM
 			    Category c
+			    LEFT JOIN c.products p
 			WHERE
-				(
-					:excludedCategories IS NULL
-					OR c NOT IN :excludedCategories
-				)
-				AND
 			    (
+			        :excludedCategories IS NULL
+			        OR c NOT IN :excludedCategories
+			    )
+			    AND (
 			        :searchQuery IS NULL
 			        OR c.name LIKE %:searchQuery%
 			    )
@@ -33,6 +34,11 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 			        :enabled IS NULL
 			        OR c.enabled = :enabled
 			    )
+			GROUP BY
+				c
+			ORDER BY
+				COUNT(p) DESC 
+			
 			""")
 	Page<Category> getPage(@Param("searchQuery") String searchQuery, @Param("enabled") Boolean enabled,
 			@Param("excludedCategories") Set<Category> excludedCategories, Pageable pageable);

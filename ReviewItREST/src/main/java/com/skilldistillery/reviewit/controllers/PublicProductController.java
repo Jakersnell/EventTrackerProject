@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skilldistillery.reviewit.dtos.CategoryDTO;
 import com.skilldistillery.reviewit.dtos.PageDTO;
 import com.skilldistillery.reviewit.dtos.ProductDTO;
 import com.skilldistillery.reviewit.entities.Category;
@@ -38,9 +39,9 @@ public class PublicProductController extends BaseController {
 			@RequestParam(name = "minRating", required = false) Double minRating,
 			@RequestParam(name = "categories", required = false) Set<Category> categories, HttpServletResponse res) {
 		return tryFailableAction(() -> {
-			
-			Page<Product> page = pqs.getPageOfProducts(pageNum - 1, pageSize, searchQuery, groupBy, orderBy,
-					discontinued, minRating, categories, true);
+
+			Page<Product> page = pqs.getPageOfProducts(pageNum, pageSize, searchQuery, groupBy, orderBy, discontinued,
+					minRating, categories, true);
 			List<ProductDTO> content = page.stream().map((product) -> new ProductDTO(product)).toList();
 			PageDTO<ProductDTO> dto = new PageDTO<>(page, content, searchQuery);
 			return dto;
@@ -49,15 +50,18 @@ public class PublicProductController extends BaseController {
 	}
 
 	@GetMapping({ "{productId}" })
-	private Product getProductById(@PathVariable("productId") int productId, HttpServletResponse res) {
-		return tryFailableAction(() -> pqs.getProductById(productId, true), res);
-	}
-	
-	@GetMapping({ "{productId}/categories" })
-	private List<Category> getCategoriesForProduct(@PathVariable("productId") int productId, HttpServletResponse res) {
-
+	private ProductDTO getProductById(@PathVariable("productId") int productId, HttpServletResponse res) {
 		return tryFailableAction(() -> {
-			return pqs.getCategoriesForProduct(productId, true);
+			Product product = pqs.getProductById(productId, true);
+			return new ProductDTO(product);
+		}, res);
+	}
+
+	@GetMapping({ "{productId}/categories" })
+	private List<CategoryDTO> getCategoriesForProduct(@PathVariable("productId") int productId, HttpServletResponse res) {
+		return tryFailableAction(() -> {
+			List<Category> categories = pqs.getCategoriesForProduct(productId, true);
+			return categories.stream().map(CategoryDTO::new).toList();
 		}, res);
 
 	}

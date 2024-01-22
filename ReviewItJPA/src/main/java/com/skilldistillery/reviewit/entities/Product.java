@@ -44,7 +44,7 @@ public class Product implements Serializable {
 	@UpdateTimestamp
 	private LocalDateTime lastUpdated;
 
-	@OneToMany(mappedBy = "product")
+	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<ProductReview> reviews;
 

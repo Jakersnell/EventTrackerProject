@@ -1,10 +1,11 @@
+import { CategoryService } from './../../services/category.service';
 import {
   Component,
   EventEmitter,
   HostListener,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
@@ -19,11 +20,15 @@ import {
   SortOrder,
 } from '../../models/product-search-params';
 import { Category } from '../../models/category';
+import { CategoryRequestDTO } from '../../models/category-request-dto';
+import { Page } from '../../models/page';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-products-controls-sidebar',
   standalone: true,
   imports: [
+    CommonModule,
     NgbAccordionModule,
     NgbAccordionItem,
     NgbAccordionButton,
@@ -48,23 +53,52 @@ export class ProductsControlsSidebarComponent implements OnInit {
   @ViewChild('accordion') accordion!: NgbAccordionDirective;
   @ViewChild('first') first!: NgbAccordionItem;
 
-  params: ProductSearchParams = new ProductSearchParams();
+  params: ProductSearchParams = new ProductSearchParams(0, 6);
+  categoryParams: CategoryRequestDTO = new CategoryRequestDTO(0, 6);
   sortOrder: string = this.ordering.default;
+  categoryPage: Page<Category> = new Page<Category>();
 
-  unselectedCategories: Category[] = [];
+  constructor(private categoryService: CategoryService) {}
 
   ngOnInit(): void {
-    this.updateOrdering();
+    this.reloadAll();
   }
 
-  isMobile(): boolean {
-    /// matches the bootstrap breakpoints
-    /// https://getbootstrap.com/docs/5.0/layout/breakpoints/
-    return !window.matchMedia('(min-width: 768px)').matches;
+  setProductCategories(): void {
+    this.params.categories = [...this.categoryParams.excludedCategories];
+  }
+
+  unselectCategory(category: Category): void {
+    const filteredElements = this.categoryParams.excludedCategories.filter(
+      (item: Category) =>
+        item.id !== category.id && item !== null && item !== undefined
+    );
+    this.categoryParams.excludedCategories = filteredElements;
+    this.reloadAll();
+  }
+
+  selectCategory(category: Category): void {
+    this.categoryParams.excludedCategories.push(category);
+    this.reloadAll();
+  }
+
+  reloadAll(): void {
+    this.reloadCategories();
+    this.updateOrdering();
+    this.emitEvent();
   }
 
   emitEvent(): void {
+    this.setProductCategories();
     this.controlSubmitEvent.emit(this.params);
+  }
+
+  reloadCategories(): void {
+    this.categoryService.getCategories(this.categoryParams).subscribe({
+      next: (page: Page<Category>) => {
+        this.categoryPage = Object.assign({}, page);
+      },
+    });
   }
 
   updateOrdering(): void {
@@ -102,6 +136,27 @@ export class ProductsControlsSidebarComponent implements OnInit {
     this.params.groupBy = grouping;
     this.params.orderBy = ordering;
     this.emitEvent();
+  }
+
+  selectedIsEmpty(): boolean {
+    return this.categoryParams.excludedCategories.length === 0;
+  }
+
+  categoryIsClean(category: Category) {
+    return category !== null && category !== undefined;
+  }
+
+  categoryIsLast(category: Category): boolean {
+    return (
+      this.categoryPage.content[this.categoryPage.content.length - 1] ===
+      category
+    );
+  }
+
+  isMobile(): boolean {
+    /// matches the bootstrap breakpoints
+    /// https://getbootstrap.com/docs/5.0/layout/breakpoints/
+    return !window.matchMedia('(min-width: 768px)').matches;
   }
 
   @HostListener('window:resize', ['$event'])

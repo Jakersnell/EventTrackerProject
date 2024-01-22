@@ -9,19 +9,19 @@ export class ProductSearchParams {
   public orderBy: string | null;
   public discontinued: boolean | null;
   public minRating: number | null;
-  public categories: Category[] | null;
+  public categories: Category[];
 
   constructor(
-    pageNum: number = 1,
+    pageNum: number = 0,
     pageSize: number = 9,
     searchQuery: string | null = null,
     groupBy: string | null = null,
     orderBy: string | null = null,
     discontinued: boolean | null = null,
     minRating: number | null = 0, // for some reason this is disabling products with no reviews!
-    categories: Category[] | null = null
+    categories: Category[] = []
   ) {
-    this.pageNum = pageNum;
+    this.pageNum = pageNum + 1;
     this.pageSize = pageSize;
     this.searchQuery = searchQuery;
     this.groupBy = groupBy;
@@ -38,18 +38,30 @@ export class ProductSearchParams {
     this.categories.push(category);
   }
 
-  public toUrlParams(): string {
-    let urlParams = this.pageNum.toString();
-    for (let key in this) {
-      urlParams += ``;
+  public toUrlParams(): any {
+    let params: any = {};
+    params.pageNum = this.pageNum - 1;
+    params.pageSize = this.pageSize;
+    if (this.searchQuery != null && this.searchQuery.replace(/\s/g, '') != '') {
+      params.searchQuery = this.searchQuery;
     }
-    return Object.keys(this) // needs to be different to account for categories
-      .map((key) => {
-        let val: any = (this as any)[key];
-        return val === null ? '' : `${key}=${val.toString()}`;
-      })
-      .filter((item) => item !== '')
-      .join('&');
+    if (this.groupBy != null && this.groupBy.replace(/\s/g, '') != '') {
+      params.groupBy = this.groupBy;
+    }
+    if (this.orderBy != null && this.orderBy.replace(/\s/g, '') != '') {
+      params.orderBy = this.orderBy;
+    }
+    if (this.discontinued != null) {
+      params.discontinued = this.discontinued;
+    }
+    if (this.minRating != null && 0 < this.minRating) {
+      params.minRating = this.minRating;
+    }
+    if (this.categories != null && this.categories.length != 0) {
+      const ids = this.categories.map((cat: Category) => cat.id);
+      params.categories = ids.toString();
+    }
+    return params;
   }
 }
 

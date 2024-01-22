@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skilldistillery.reviewit.dtos.UserDTO;
 import com.skilldistillery.reviewit.entities.AuthToken;
 import com.skilldistillery.reviewit.entities.User;
 import com.skilldistillery.reviewit.services.AuthService;
@@ -26,7 +27,7 @@ public class AuthController extends BaseController {
 	private UserService userService;
 
 	@PostMapping("/login")
-	public AuthToken login(@RequestBody User user, HttpServletResponse res) {
+	public AuthToken login(@RequestBody UserDTO user, HttpServletResponse res) {
 		return tryFailableAction(() -> {
 
 			return authService.authenticate(user.getUsername(), user.getPassword());
