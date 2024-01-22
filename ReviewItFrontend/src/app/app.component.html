@@ -17,7 +17,7 @@
         </li>
         @if (userIsLoggedIn) {
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="'login'" (click)="isMenuCollapsed = true">Sign Out</a>
+            <a class="nav-link" (click)="signOut()" (click)="isMenuCollapsed = true">Sign Out</a>
           </li>
       } @else {
         <li class="nav-item">
