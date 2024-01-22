@@ -255,12 +255,12 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `reviewitdb`;
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`) VALUES (1, 'joeschmoe11', 'jsmoe69@gmail.com', 'password123', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user');
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`) VALUES (2, 'b0bbySchmurda39', 'bigbobby@aol.com', 'password123', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user');
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`) VALUES (3, 'bigMacMcGee120', 'mackin@x.com', 'password123', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user');
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`) VALUES (4, 'moePoppa1234', 'mo@gmail.com', 'password123', 1, 0, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user');
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`) VALUES (5, 'admin', 'admin@reviewit.com', 'password123', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'admin');
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`) VALUES (6, 'bigboytommy334', 'biggi@example.com', 'password123', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user');
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`) VALUES (1, 'joeschmoe11', 'jsmoe69@gmail.com', '$2a$10$YIVc0suGYF7SlCurrPbkjOvrULm35jlDAZ0bb8UlBReumopVMxtEq', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user');
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`) VALUES (2, 'b0bbySchmurda39', 'bigbobby@aol.com', '$2a$10$YIVc0suGYF7SlCurrPbkjOvrULm35jlDAZ0bb8UlBReumopVMxtEq', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user');
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`) VALUES (3, 'bigMacMcGee120', 'mackin@x.com', '$2a$10$YIVc0suGYF7SlCurrPbkjOvrULm35jlDAZ0bb8UlBReumopVMxtEq', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user');
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`) VALUES (4, 'moePoppa1234', 'mo@gmail.com', '$2a$10$YIVc0suGYF7SlCurrPbkjOvrULm35jlDAZ0bb8UlBReumopVMxtEq', 1, 0, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user');
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`) VALUES (5, 'admin', 'admin@reviewit.com', '$2a$10$YIVc0suGYF7SlCurrPbkjOvrULm35jlDAZ0bb8UlBReumopVMxtEq', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'admin');
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`) VALUES (6, 'bigboytommy334', 'biggi@example.com', '$2a$10$YIVc0suGYF7SlCurrPbkjOvrULm35jlDAZ0bb8UlBReumopVMxtEq', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user');
 
 COMMIT;
 
