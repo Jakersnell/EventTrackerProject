@@ -1,0 +1,34 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Make A Review</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="reviewTitleInputSpan">Title</span>
+        <input type="text" id="reviewTitleInputSpan" class="form-control" aria-label="Review title input." aria-describedby="Review title input.">
+      </div>
+      <div class="input-group">
+        <span class="input-group-text">Rating</span>
+        <div class="form-control">
+          <ngb-rating [(rate)]="rating" [max]="5">
+            <ng-template let-fill="fill" let-index="index" >
+              <i class="bi-star{{ fill === 100 ? '-fill' : '' }}" [class.filled]="fill === 100"></i>
+            </ng-template>
+          </ngb-rating>
+        </div>
+      </div>
+      <br>
+      <div class="input-group">
+        <span class="input-group-text">Content</span>
+        <textarea class="form-control" aria-label="Review content text"></textarea>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Submit')">Submit</button>
+  </div>
+</ng-template>
+<button class="btn cta-button" (click)="open(content)">Review This Product!</button>
+

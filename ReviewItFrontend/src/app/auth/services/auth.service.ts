@@ -13,7 +13,7 @@ export class AuthService {
   urlRoot = `${environment.API_URL}/auth`;
 
   constructor(private http: HttpClient) {
-    this.userIsLoggedIn = this.getAuthToken() !== null;
+    this.userIsLoggedIn = sessionStorage.getItem('auth') !== null;
   }
 
   public authorizeUser(
@@ -57,10 +57,8 @@ export class AuthService {
 
   /// this exists as it does for future expansion
   public deauthorizeUser(): Observable<string> {
-    return defer(() => {
-      this.clearAuthToken();
-      return of('Successfully logged out.');
-    });
+    this.clearAuthToken();
+    return of('Successfully logged out.');
   }
 
   private clearAuthToken(): void {
@@ -77,7 +75,7 @@ export class AuthService {
   public getAuthToken(): AuthToken | null {
     const auth = sessionStorage.getItem('auth');
     let token = null;
-    if (auth != null) {
+    if (auth !== null) {
       token = JSON.parse(auth);
     }
     return null;

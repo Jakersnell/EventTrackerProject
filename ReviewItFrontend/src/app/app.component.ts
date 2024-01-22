@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
   }
 
   signOut(): void {
-    this.authService.deauthorizeUser();
+    setTimeout(()=>this.authService.deauthorizeUser());
   }
 
   toggleMenuCollapsed(): void {

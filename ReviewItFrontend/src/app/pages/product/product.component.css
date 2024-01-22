@@ -23,4 +23,9 @@
   max-width: 16rem !important;
 }
 
+.modal-wrapper  {
+  width: fit-content;
+}
+
+
 

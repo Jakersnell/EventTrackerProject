@@ -9,6 +9,7 @@ import { NgbRatingModule, NgbScrollSpy } from '@ng-bootstrap/ng-bootstrap';
 import { DecimalRatingStarsComponent } from '../../components/decimal-rating-stars/decimal-rating-stars.component';
 import { ProductReview } from '../../models/product-review';
 import { ReviewsListComponent } from '../../components/reviews-list/reviews-list.component';
+import { MakeReviewFormComponent } from '../../components/make-review-form/make-review-form.component';
 
 @Component({
   selector: 'app-product',
@@ -19,7 +20,8 @@ import { ReviewsListComponent } from '../../components/reviews-list/reviews-list
     NgbRatingModule,
     NgbScrollSpy,
     CommonModule,
-    ReviewsListComponent
+    ReviewsListComponent,
+    MakeReviewFormComponent
   ],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css',

@@ -1,4 +1,8 @@
-<div id="productContent">
+<div *ngIf="product.id !== 0" class="row d-flex justify-content-center">
+  <make-review-form [productId]="product.id" class="modal-wrapper"></make-review-form>
+</div>
+
+<div id=" productContent">
   <div class="row d-lg-none">
     <div class="col-sm-12">
       <div class="product-detail-title text-center">
