@@ -46,7 +46,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 			    )
 			    AND (
 			        :searchQuery IS NULL
-			        OR p.name LIKE % :searchQuery %
+			        OR p.name LIKE %:searchQuery%
 			    )
 			    AND (
 			        :discontinued IS NULL
