@@ -1,10 +1,13 @@
 package com.skilldistillery.reviewit.dtos;
 
+import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
+
 import com.skilldistillery.reviewit.entities.Category;
 
-public class CategoryDTO {
+public class CategoryDTO implements IntoEntity<Category> {
 	private int id;
-
+	
+	@NotBlank
 	private String name;
 
 	public CategoryDTO() {
@@ -15,6 +18,7 @@ public class CategoryDTO {
 		this.name = category.getName();
 	}
 	
+	@Override
 	public Category intoEntity() {
 		Category category = new Category();
 		category.setId(id);

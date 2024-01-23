@@ -24,6 +24,8 @@ import com.skilldistillery.reviewit.services.AuthenticationService;
 import com.skilldistillery.reviewit.services.ProductReviewQueryService;
 import com.skilldistillery.reviewit.services.ProductReviewService;
 
+import jakarta.validation.Valid;
+
 @CrossOrigin({ "*", "http://localhost/" })
 @RestController
 @RequestMapping({ "api/products" })
@@ -37,23 +39,26 @@ public class ProductReviewController {
 	@Autowired
 	private AuthenticationService authService;
 
-	/// GET /api/products/{productId}/reviews Returns: [ProductReview{**}] Errors: 404
+	/// GET /api/products/{productId}/reviews Returns: [ProductReview{**}] Errors:
+	/// 404
 	@GetMapping({ "{productId}/reviews" })
 	private ResponseEntity<List<ProductReview>> getAllForProduct(@PathVariable("productId") int productId)
 			throws EntityDoesNotExistException {
 		return ResponseEntity.ok(pqrs.getAllForProduct(productId));
 	}
 
-	/// GET /api/products/{productId}/reviews/{reviewId} Returns ProductReview Errors 404
+	/// GET /api/products/{productId}/reviews/{reviewId} Returns ProductReview
+	/// Errors 404
 	@GetMapping({ "{productId}/reviews/{reviewId}" })
 	private ResponseEntity<ProductReview> getReviewForProductById(@PathVariable("productId") int productId,
 			@PathVariable("reviewId") int reviewId) throws EntityDoesNotExistException {
 		return ResponseEntity.ok(pqrs.getReview(productId, reviewId));
 	}
 
-	// POST /api/products/{productId}/reviews; Body: ProductReview; Returns: ProductReview Errors 404, 400
+	// POST /api/products/{productId}/reviews; Body: ProductReview; Returns:
+	// ProductReview Errors 404, 400
 	@PostMapping({ "{productId}/reviews" })
-	private ResponseEntity<ProductReview> createReview(@RequestBody ProductReviewDTO reviewDto,
+	private ResponseEntity<ProductReview> createReview(@Valid @RequestBody ProductReviewDTO reviewDto,
 			@PathVariable("productId") int productId, Principal principal)
 			throws EntityDoesNotExistException, AuthException {
 		UserDTO user = authService.getUserByUsername(principal.getName());
@@ -70,7 +75,7 @@ public class ProductReviewController {
 
 	@PutMapping({ "{productId}/reviews/{reviewId}" })
 	private ResponseEntity<ProductReview> updateReview(@PathVariable("productId") int productId,
-			@PathVariable("reviewId") int reviewId, @RequestBody ProductReviewDTO reviewDTO, Principal principal)
+			@PathVariable("reviewId") int reviewId, @Valid @RequestBody ProductReviewDTO reviewDTO, Principal principal)
 			throws AuthException, EntityDoesNotExistException {
 		return ResponseEntity.ok(prs.updateReview(reviewDTO, productId, reviewId, principal.getName()));
 	}

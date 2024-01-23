@@ -2,14 +2,28 @@ package com.skilldistillery.reviewit.dtos;
 
 import com.skilldistillery.reviewit.entities.ProductReview;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class ProductReviewDTO implements IntoEntity<ProductReview> {
 	private int id;
+	
+	@Max(120)
+	@NotBlank
 	private String title;
+	
+	@NotBlank
 	private String content;
+	
 	private String authorUsername;
-	private int rating;
-	private int productId;
-	private int authorId;
+	
+	@NotNull
+	private Integer rating;
+	
+	private Integer productId;
+	
+	private Integer authorId;
 
 	public ProductReviewDTO() {
 	}

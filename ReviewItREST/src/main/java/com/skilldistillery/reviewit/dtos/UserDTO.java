@@ -1,18 +1,24 @@
 package com.skilldistillery.reviewit.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.skilldistillery.reviewit.dtos.validation.ValidPassword;
 import com.skilldistillery.reviewit.entities.User;
+
+import jakarta.validation.constraints.NotBlank;
 
 public class UserDTO {
 
 	private int id;
 
+	@NotBlank
 	private String username;
 
 	private String email;
 
 	private String role;
 
+	@NotBlank
+	@ValidPassword
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private String password;
 

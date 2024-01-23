@@ -1,18 +1,26 @@
 package com.skilldistillery.reviewit.dtos;
 
+import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
+
 import com.skilldistillery.reviewit.entities.Product;
+
+import jakarta.validation.constraints.Max;
 
 public class ProductDTO {
 	private int id;
 
+	@NotBlank
+	@Max(120)
 	private String name;
-
+	
+	@NotBlank
 	private String description;
-
+	
 	private String usMsrp;
 
 	private String brandName;
 
+	@NotBlank
 	private String imageUrl;
 
 	private boolean discontinued;
