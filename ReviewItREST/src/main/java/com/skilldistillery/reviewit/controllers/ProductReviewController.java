@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.skilldistillery.reviewit.dtos.ProductReviewDTO;
 import com.skilldistillery.reviewit.dtos.UserDTO;
-import com.skilldistillery.reviewit.entities.ProductReview;
 import com.skilldistillery.reviewit.exceptions.AuthException;
 import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
 import com.skilldistillery.reviewit.services.AuthenticationService;
@@ -43,7 +42,7 @@ public class ProductReviewController {
 	/// GET /api/products/{productId}/reviews Returns: [ProductReview{**}] Errors:
 	/// 404
 	@GetMapping({ "{productId}/reviews" })
-	private ResponseEntity<List<ProductReview>> getAllForProduct(@PathVariable("productId") int productId)
+	private ResponseEntity<List<ProductReviewDTO>> getAllForProduct(@PathVariable("productId") int productId)
 			throws EntityDoesNotExistException {
 		
 		return ResponseEntity.ok(pqrs.getAllForProduct(productId));
@@ -52,7 +51,7 @@ public class ProductReviewController {
 	/// GET /api/products/{productId}/reviews/{reviewId} Returns ProductReview
 	/// Errors 404
 	@GetMapping({ "{productId}/reviews/{reviewId}" })
-	private ResponseEntity<ProductReview> getReviewForProductById(@PathVariable("productId") int productId,
+	private ResponseEntity<ProductReviewDTO> getReviewForProductById(@PathVariable("productId") int productId,
 			@PathVariable("reviewId") int reviewId) throws EntityDoesNotExistException {
 		
 		return ResponseEntity.ok(pqrs.getReview(productId, reviewId));

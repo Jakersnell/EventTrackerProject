@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skilldistillery.reviewit.dtos.ProductReviewDTO;
-import com.skilldistillery.reviewit.entities.ProductReview;
 import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
 import com.skilldistillery.reviewit.services.ProductReviewQueryService;
 import com.skilldistillery.reviewit.services.ProductReviewService;
@@ -32,7 +31,7 @@ public class AdminProductReviewController {
 	private ProductReviewQueryService pqrs;
 
 	@GetMapping
-	public ResponseEntity<List<ProductReview>> getAllForProduct(@PathVariable("productId") int productId)
+	public ResponseEntity<List<ProductReviewDTO>> getAllForProduct(@PathVariable("productId") int productId)
 			throws EntityDoesNotExistException {
 		return ResponseEntity.ok(pqrs.getAllForProduct(productId));
 	}
