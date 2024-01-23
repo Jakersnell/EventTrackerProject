@@ -42,10 +42,11 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void setStatus(int productId, boolean status) throws EntityDoesNotExistException {
+	public ProductDTO setStatus(int productId, boolean status) throws EntityDoesNotExistException {
 		Product product = productRepo.findById(productId).orElseThrow(EntityDoesNotExistException::new);
 		product.setEnabled(status);
-		productRepo.saveAndFlush(product);
+		product = productRepo.saveAndFlush(product);
+		return new ProductDTO(product);
 	}
 
 }

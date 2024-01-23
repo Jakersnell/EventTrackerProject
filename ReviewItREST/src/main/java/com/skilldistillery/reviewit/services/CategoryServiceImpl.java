@@ -32,9 +32,9 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public CategoryDTO setStatus(int categoryId) throws EntityDoesNotExistException {
+	public CategoryDTO setStatus(int categoryId, boolean status) throws EntityDoesNotExistException {
 		Category cat = catRepo.findById(categoryId).orElseThrow(EntityDoesNotExistException::new);
-		cat.setEnabled(false);
+		cat.setEnabled(status);
 		cat = catRepo.saveAndFlush(cat);
 		return new CategoryDTO(cat);
 	}

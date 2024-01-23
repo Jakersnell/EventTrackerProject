@@ -7,7 +7,7 @@ import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
 public interface CategoryService {
 	CategoryDTO createCategory(CategoryDTO category) throws DuplicateEntityException;
 
-	CategoryDTO setStatus(int id) throws EntityDoesNotExistException;
+	CategoryDTO setStatus(int id, boolean status) throws EntityDoesNotExistException;
 
 	CategoryDTO updateCategory(CategoryDTO category) throws EntityDoesNotExistException;
 }
