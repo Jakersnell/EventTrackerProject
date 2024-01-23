@@ -10,7 +10,7 @@ import { CategoryRequestDTO } from '../models/category-request-dto';
   providedIn: 'root',
 })
 export class CategoryService {
-  private url = `${environment.API_URL}/categories`;
+  private url = `${environment.API_URL}/api/categories`;
   constructor(private http: HttpClient) {}
 
   public getCategories(params: CategoryRequestDTO): Observable<Page<Category>> {
@@ -21,7 +21,7 @@ export class CategoryService {
         console.log(err);
         return throwError(
           () => new Error(`
-          CategoryService.etCategories(params: CategoryRequestDTO): Observable<Page<Category>>;
+          CategoryService.getCategories(params: CategoryRequestDTO): Observable<Page<Category>>;
           Error while attempting GET to ${endpoint}.
           With params: ${JSON.stringify(urlParams)}.
           ${err}

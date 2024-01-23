@@ -26,7 +26,8 @@ export class CategoryRequestDTO {
       params.searchQuery = this.searchQuery;
     }
     if (this.excludedCategories.length != 0) {
-      params.excludedCategories = this.excludedCategories.toString();
+      let ids = this.excludedCategories.map((cat: Category)=>cat.id);
+      params.excludedCategories = ids.toString();
     }
     return params;
   }

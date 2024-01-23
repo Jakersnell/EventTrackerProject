@@ -11,8 +11,8 @@ import { environment } from '../../environments/environment';
 })
 export class ProductService {
   private BASE_URL = environment.API_URL;
-  private PUB_URL: string = this.BASE_URL + '/products';
-  private ADMIN_URL: string = this.BASE_URL + '/admin/products';
+  private PUB_URL: string = this.BASE_URL + '/api/products';
+  private ADMIN_URL: string = this.BASE_URL + '/api/admin/products';
   private productBuffer: Product[] = [];
 
   clearBuffer(): void {
@@ -44,7 +44,7 @@ export class ProductService {
   public makePageRequest(
     params: ProductSearchParams
   ): Observable<Page<Product>> {
-    const endpoint = `${environment.API_URL}/products`;
+    const endpoint = `${environment.API_URL}/api/products`;
     const urlParams = params.toUrlParams();
     return this.http.get<Page<Product>>(endpoint, { params: urlParams }).pipe(
       catchError((err: any) => {

@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skilldistillery.reviewit.dtos.UserDTO;
-import com.skilldistillery.reviewit.entities.AuthToken;
-import com.skilldistillery.reviewit.entities.User;
-import com.skilldistillery.reviewit.services.AuthService;
-import com.skilldistillery.reviewit.services.UserService;
+import com.skilldistillery.reviewit.services.AuthenticationService;
 
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -21,31 +18,14 @@ import jakarta.servlet.http.HttpServletResponse;
 public class AuthController extends BaseController {
 
 	@Autowired
-	private AuthService authService;
-
-	@Autowired
-	private UserService userService;
-
-	@PostMapping("/login")
-	public AuthToken login(@RequestBody UserDTO user, HttpServletResponse res) {
-		return tryFailableAction(() -> {
-
-			return authService.authenticate(user.getUsername(), user.getPassword());
-
-		}, res);
-	}
+	private AuthenticationService authService;
 
 	@PostMapping("/signup")
-	public AuthToken signup(@RequestBody UserDTO userDto, HttpServletResponse res) {
-		return tryFailableAction(() -> {
-			User user = userDto.intoUser();
-			System.out.println(user);
-			user.setRole("user");
-			authService.encryptPassword(user.getPassword(), user);
-			userService.createUser(user);
-			return authService.authenticate(user.getUsername(), user.getPassword());
-
-		}, res);
+	public UserDTO signup(@RequestBody UserDTO userDto, HttpServletResponse res) {
+		userDto = authService.register(userDto);
+		userDto.setPassword(null);
+		userDto.setPassword2(null);
+		return userDto;
 	}
 
 }

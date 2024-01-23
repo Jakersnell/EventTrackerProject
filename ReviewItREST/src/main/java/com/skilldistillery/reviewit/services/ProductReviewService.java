@@ -1,18 +1,14 @@
 package com.skilldistillery.reviewit.services;
 
-import java.util.List;
-
+import com.skilldistillery.reviewit.dtos.ProductReviewDTO;
 import com.skilldistillery.reviewit.entities.ProductReview;
-import com.skilldistillery.reviewit.exceptions.RestServerException;
+import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
 
 public interface ProductReviewService {
-	ProductReview getReviewByProductIdAndId(int productId, int reviewId, String auth) throws RestServerException;
+	ProductReview createReview(ProductReviewDTO reviewData, int productId, int userId)
+			throws EntityDoesNotExistException;
 
-	List<ProductReview> getAllForProduct(int productId, String auth) throws RestServerException;
+	ProductReview updateReview(ProductReviewDTO data, int productId) throws EntityDoesNotExistException;
 
-	ProductReview createReview(int productId, ProductReview review, String auth) throws RestServerException;
-
-	ProductReview updateReview(int productId, int reviewId, ProductReview review, String auth) throws RestServerException;
-
-	void setReviewStatus(int productId, int reviewId, String auth, boolean enabled) throws RestServerException;
+	void setStatus(int productId, boolean status) throws EntityDoesNotExistException;
 }

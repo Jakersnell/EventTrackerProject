@@ -1,21 +1,13 @@
 package com.skilldistillery.reviewit.services;
 
-import java.util.List;
-
+import com.skilldistillery.reviewit.dtos.CategoryDTO;
 import com.skilldistillery.reviewit.entities.Category;
-import com.skilldistillery.reviewit.exceptions.RestServerException;
-import com.skilldistillery.reviewit.exceptions.TokenInvalidException;
+import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
 
 public interface CategoryService {
-	
-	
-	List<Category> getAll(String auth) throws TokenInvalidException;
+	Category createCategory(CategoryDTO category);
 
-	Category getCategoryById(int categoryId, String auth) throws RestServerException;
+	void disableCategory(int id) throws EntityDoesNotExistException;
 
-	Category createCategory(Category category, String auth) throws RestServerException;
-
-	void disableCategory(int id, String auth) throws RestServerException;
-
-	Category updateCategory(int id, Category category, String auth) throws RestServerException;
+	Category updateCategory(CategoryDTO category) throws EntityDoesNotExistException;
 }

@@ -29,8 +29,8 @@ public class ProductReview implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private String title;
 
 	@Column(nullable = false)
@@ -82,9 +82,9 @@ public class ProductReview implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ProductReview [id=" + id + ", content=" + content + ", rating=" + rating + ", createdOn=" + createdOn
-				+ ", lastUpdated=" + lastUpdated + ", product=" + product + ", user=" + user + ", enabled=" + enabled
-				+ "]";
+		return "ProductReview [id=" + id + ", title=" + title + ", content=" + content + ", rating=" + rating
+				+ ", createdOn=" + createdOn + ", lastUpdated=" + lastUpdated + ", product=" + product + ", user="
+				+ user + ", enabled=" + enabled + "]";
 	}
 
 	public int getId() {
@@ -156,8 +156,7 @@ public class ProductReview implements Serializable {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
-	
+
 	public String getTitle() {
 		return title;
 	}
@@ -166,7 +165,7 @@ public class ProductReview implements Serializable {
 		this.title = title;
 	}
 
-	@JsonProperty(value="username")
+	@JsonProperty(value = "username")
 	public String getAuthorUsername() {
 		return this.user.getUsername();
 	}

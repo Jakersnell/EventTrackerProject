@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
   }
 
   reload(): void {
-    const params = deepCopy<ProductSearchParams>(this.params);
+    const params = this.params;
     this.productService.makePageRequest(params).subscribe({
       next: (page) => {
         this.refreshContent(page);
@@ -65,20 +65,4 @@ export class HomeComponent implements OnInit {
     // DO NOT INCLUDE SEARCH QUERY OR PAGE NUM
     this.reload();
   }
-}
-
-function deepCopy<T>(instance: T): T {
-  if (instance === null || typeof instance !== 'object') {
-    return instance;
-  }
-
-  const copy = new (instance.constructor as { new (): T })();
-
-  for (const key in instance) {
-    if (instance.hasOwnProperty(key)) {
-      copy[key] = deepCopy(instance[key]);
-    }
-  }
-
-  return copy;
 }

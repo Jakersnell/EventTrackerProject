@@ -14,6 +14,13 @@ public class CategoryDTO {
 		this.id = category.getId();
 		this.name = category.getName();
 	}
+	
+	public Category intoEntity() {
+		Category category = new Category();
+		category.setId(id);
+		category.setName(name);
+		return category;
+	}
 
 	public int getId() {
 		return id;

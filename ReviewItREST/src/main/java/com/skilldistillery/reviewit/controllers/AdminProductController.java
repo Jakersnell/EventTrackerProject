@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skilldistillery.reviewit.entities.Product;
@@ -25,31 +24,26 @@ public class AdminProductController extends BaseController {
 	private ProductService productService;
 
 	@PostMapping
-	private Product createProduct(@RequestBody Product product, @RequestParam("auth") String auth,
-			HttpServletResponse res) {
-
+	private Product createProduct(@RequestBody Product product, HttpServletResponse res) {
 		return tryFailableAction(() -> {
-			return productService.createProduct(product, auth);
+			return productService.createProduct(product);
 		}, res);
-
 	}
 
 	@PutMapping({ "{productId}" })
 	private Product updateProduct(@PathVariable("productId") int productId, @RequestBody Product product,
-			@RequestParam("auth") String auth, HttpServletResponse res) {
+			HttpServletResponse res) {
 
 		return tryFailableAction(() -> {
-			return productService.updateProduct(productId, product, auth);
+			return productService.updateProduct(productId, product);
 		}, res);
 
 	}
 
 	@DeleteMapping({ "{productId}" })
-	private void deleteProduct(@PathVariable("productId") int productId, @RequestParam("auth") String auth,
-			HttpServletResponse res) {
-		System.out.println(auth);
+	private void deleteProduct(@PathVariable("productId") int productId, HttpServletResponse res) {
 		tryFailableAction(() -> {
-			productService.disableProduct(productId, auth);
+			productService.disableProduct(productId);
 			res.setStatus(204);
 		}, res);
 

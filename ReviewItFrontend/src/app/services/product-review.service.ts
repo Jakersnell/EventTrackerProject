@@ -12,7 +12,7 @@ export class ProductReviewService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   public getReviewsForProduct(productId: number): Observable<ProductReview[]> {
-    const endpoint = `${environment.API_URL}/products/${productId}/reviews`;
+    const endpoint = `${environment.API_URL}/api/products/${productId}/reviews`;
     return this.http.get<ProductReview[]>(endpoint).pipe(
       catchError((err: any) => {
         console.log(err);
@@ -33,7 +33,7 @@ export class ProductReviewService {
     review: any
   ): Observable<ProductReview> {
     const auth = JSON.parse(sessionStorage.getItem('auth') || '').token;
-    const endpoint = `${environment.API_URL}/products/${productId}/reviews?auth=${auth}`;
+    const endpoint = `${environment.API_URL}/api/products/${productId}/reviews?auth=${auth}`;
     return this.http.post<ProductReview>(endpoint, review).pipe(
       catchError((err: any) => {
         console.log(err);

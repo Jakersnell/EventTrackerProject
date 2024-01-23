@@ -40,17 +40,15 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 			    Product p
 			    LEFT JOIN p.reviews pr
 			WHERE
-				(
-					:enabled IS NULL
-					OR p.enabled = :enabled
-				)
-				AND
-				(
-					:searchQuery IS NULL
-					OR p.name LIKE %:searchQuery%
-				)
-				AND
 			    (
+			        :enabled IS NULL
+			        OR p.enabled = :enabled
+			    )
+			    AND (
+			        :searchQuery IS NULL
+			        OR p.name LIKE % :searchQuery %
+			    )
+			    AND (
 			        :discontinued IS NULL
 			        OR p.discontinued = :discontinued
 			    )

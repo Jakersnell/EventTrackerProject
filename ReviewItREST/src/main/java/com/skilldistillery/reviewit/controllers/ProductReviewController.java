@@ -19,33 +19,24 @@ import com.skilldistillery.reviewit.services.ProductReviewService;
 
 import jakarta.servlet.http.HttpServletResponse;
 
-
 @CrossOrigin({ "*", "http://localhost/" })
 @RestController
 @RequestMapping({ "api" })
-public class ProductReviewController extends BaseController {
+public class ProductReviewController {
 	@Autowired
 	private ProductReviewService reviewService;
 
 	@GetMapping({ "products/{productId}/reviews/{reviewId}" })
 	private ProductReview getReviewForProductById(@PathVariable("productId") int productId,
-			@PathVariable("reviewId") int reviewId, @RequestParam(name = "auth", required = false) String auth,
-			HttpServletResponse res) {
-	
-		return tryFailableAction(() -> {
-			return reviewService.getReviewByProductIdAndId(productId, reviewId, auth);
-		}, res);
-		
+			@PathVariable("reviewId") int reviewId, HttpServletResponse res) {
+
+		return reviewService.getReviewByProductIdAndId(productId, reviewId);
+
 	}
 
 	@GetMapping({ "products/{productId}/reviews" })
-	private List<ProductReview> getAllForProduct(@PathVariable("productId") int productId,
-			@RequestParam(name = "auth", required = false) String auth, HttpServletResponse res) {
-
-		return tryFailableAction(() -> {
-			return reviewService.getAllForProduct(productId, auth);
-		}, res);
-
+	private List<ProductReview> getAllForProduct(@PathVariable("productId") int productId, HttpServletResponse res) {
+		return reviewService.getAllForProduct(productId);
 	}
 
 	@PostMapping({ "products/{productId}/reviews" })

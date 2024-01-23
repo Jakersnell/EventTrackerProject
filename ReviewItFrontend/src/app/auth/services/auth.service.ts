@@ -10,7 +10,7 @@ import { AuthToken } from '../models/auth-token';
 export class AuthService {
   public userIsLoggedIn;
   public userIsLoggedInEvent = new EventEmitter<boolean>();
-  urlRoot = `${environment.API_URL}/auth`;
+  urlRoot = `${environment.API_URL}/api/auth`;
 
   constructor(private http: HttpClient) {
     this.userIsLoggedIn = sessionStorage.getItem('auth') !== null;

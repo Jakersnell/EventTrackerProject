@@ -20,25 +20,22 @@ import { AuthService } from './auth/services/auth.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'ReviewIt!';
   brandName = this.title;
   searchQuery = '';
   isMenuCollapsed = true;
-  userIsLoggedIn;
+  userIsLoggedIn = false;
 
   constructor(private authService: AuthService) {
     this.userIsLoggedIn = authService.userIsLoggedIn;
-  }
-
-  ngOnInit(): void {
     this.authService.userIsLoggedInEvent.subscribe({
       next: (status: boolean) => (this.userIsLoggedIn = status),
     });
   }
 
   signOut(): void {
-    setTimeout(()=>this.authService.deauthorizeUser());
+    this.authService.deauthorizeUser();
   }
 
   toggleMenuCollapsed(): void {

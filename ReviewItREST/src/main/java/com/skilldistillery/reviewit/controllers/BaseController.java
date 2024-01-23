@@ -8,6 +8,7 @@ import com.skilldistillery.reviewit.util.ThrowingSupplier;
 import jakarta.servlet.http.HttpServletResponse;
 
 public abstract class BaseController {
+
 	protected <T> T tryFailableAction(ThrowingSupplier<T> action, HttpServletResponse res) {
 
 		T item = null;
@@ -27,9 +28,9 @@ public abstract class BaseController {
 		return item;
 
 	}
-	
+
 	protected void tryFailableAction(ThrowingRunnable action, HttpServletResponse res) {
-		tryFailableAction(()->{
+		tryFailableAction(() -> {
 			action.run();
 			return true;
 		}, res);

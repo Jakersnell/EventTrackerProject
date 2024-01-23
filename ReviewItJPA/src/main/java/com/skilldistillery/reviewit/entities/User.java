@@ -34,9 +34,6 @@ public class User implements Serializable {
 	@JsonIgnore
 	private String password;
 
-	@JsonIgnore
-	private String salt;
-
 	private boolean verified;
 
 	@JsonIgnore
@@ -163,14 +160,6 @@ public class User implements Serializable {
 
 	public void setRole(String role) {
 		this.role = role;
-	}
-
-	public String getSalt() {
-		return salt;
-	}
-
-	public void setSalt(String salt) {
-		this.salt = salt;
 	}
 
 	@JsonIgnore
