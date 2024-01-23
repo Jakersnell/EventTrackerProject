@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.skilldistillery.reviewit.exceptions.BadRequestException;
+import com.skilldistillery.reviewit.exceptions.DuplicateEntityException;
 import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
 import com.skilldistillery.reviewit.exceptions.UserDoesNotExistException;
 
@@ -37,4 +38,8 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.badRequest().body(errors);
 	}
 
+	@ExceptionHandler(DuplicateEntityException.class)
+	public ResponseEntity<Map<String, String>> handleDuplicateException(DuplicateEntityException ex) {
+		return ResponseEntity.badRequest().body(ex.getErrors());
+	}
 }

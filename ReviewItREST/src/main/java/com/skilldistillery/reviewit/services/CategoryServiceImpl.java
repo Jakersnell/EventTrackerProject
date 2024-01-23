@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.skilldistillery.reviewit.dtos.CategoryDTO;
 import com.skilldistillery.reviewit.entities.Category;
+import com.skilldistillery.reviewit.exceptions.DuplicateEntityException;
 import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
 import com.skilldistillery.reviewit.repositories.CategoryRepository;
 
@@ -15,7 +16,7 @@ public class CategoryServiceImpl implements CategoryService {
 	private CategoryRepository catRepo;
 
 	@Override
-	public Category createCategory(CategoryDTO categoryDto) {
+	public Category createCategory(CategoryDTO categoryDto) throws DuplicateEntityException {
 		Category category = categoryDto.intoEntity();
 		category.setId(0);
 		return catRepo.saveAndFlush(category);

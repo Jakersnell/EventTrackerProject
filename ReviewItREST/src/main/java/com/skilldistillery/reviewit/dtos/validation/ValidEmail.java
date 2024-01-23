@@ -13,8 +13,8 @@ import jakarta.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PasswordValidator.class)
 @Documented
-public @interface ValidPassword {
-	String message() default "Password must be at least eight characters long, less than 120 characters long, and contain at least one letter and one number.";
+public @interface ValidEmail {
+	String message() default "Email must be a valid email and less than 350 characters long.";
 
 	Class<?>[] groups() default {};
 

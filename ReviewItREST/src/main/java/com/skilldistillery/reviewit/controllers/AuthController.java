@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skilldistillery.reviewit.dtos.UserDTO;
+import com.skilldistillery.reviewit.exceptions.DuplicateEntityException;
 import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
 import com.skilldistillery.reviewit.services.AuthenticationService;
 
@@ -27,7 +28,7 @@ public class AuthController {
 
 	/// POST /auth/register, Body: User{**}, Response: User, Errors: 400
 	@PostMapping("register")
-	public ResponseEntity<UserDTO> signup(@Valid @RequestBody UserDTO userDto) {
+	public ResponseEntity<UserDTO> signup(@Valid @RequestBody UserDTO userDto) throws DuplicateEntityException {
 		userDto = authService.register(userDto);
 		return ResponseEntity.ok(userDto);
 	}

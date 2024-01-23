@@ -5,19 +5,22 @@ import com.skilldistillery.reviewit.dtos.validation.ValidPassword;
 import com.skilldistillery.reviewit.entities.User;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class UserDTO {
 
 	private int id;
 
 	@NotBlank
+	@Size(max=120, message="Username must be less than or equal to 120 characters.")
 	private String username;
 
+	@NotBlank
+	@Size(max=350, message="Email must be less than or equal to 350 characters.")
 	private String email;
 
 	private String role;
 
-	@NotBlank
 	@ValidPassword
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private String password;
