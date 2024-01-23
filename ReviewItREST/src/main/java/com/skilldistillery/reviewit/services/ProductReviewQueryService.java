@@ -11,4 +11,6 @@ public interface ProductReviewQueryService {
 	List<ProductReviewDTO> getAllForProduct(int productId) throws EntityDoesNotExistException;
 
 	boolean userIsOwner(int productId, int reviewId, String username) throws EntityDoesNotExistException;
+	
+	boolean reviewIsEnabled(int productId, int reviewId) throws EntityDoesNotExistException;
 }

@@ -42,7 +42,6 @@ public class PublicProductController {
 		PageDTO<ProductDTO> page = pqs.getPageOfProducts(pageNum, pageSize, searchQuery, groupBy, orderBy, discontinued,
 				minRating, categories, true);
 		return ResponseEntity.ok(page);
-
 	}
 
 	@GetMapping({ "{productId}" })

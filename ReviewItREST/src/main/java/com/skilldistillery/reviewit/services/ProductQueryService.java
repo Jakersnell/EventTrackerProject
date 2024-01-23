@@ -16,5 +16,6 @@ public interface ProductQueryService {
 	ProductDTO getProductById(int id) throws EntityDoesNotExistException;
 
 	List<CategoryDTO> getCategoriesForProduct(int productId) throws EntityDoesNotExistException;
+	
 }
 

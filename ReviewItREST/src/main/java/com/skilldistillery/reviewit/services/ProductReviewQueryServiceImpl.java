@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skilldistillery.reviewit.dtos.ProductReviewDTO;
+import com.skilldistillery.reviewit.entities.Product;
 import com.skilldistillery.reviewit.entities.ProductReview;
 import com.skilldistillery.reviewit.entities.User;
 import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
@@ -27,11 +28,13 @@ public class ProductReviewQueryServiceImpl implements ProductReviewQueryService 
 
 	@Override
 	public ProductReviewDTO getReview(int productId, int reviewId) throws EntityDoesNotExistException {
-		if (!productRepo.existsById(productId)) {
+		Product product = productRepo.findById(productId).orElseThrow(EntityDoesNotExistException::new);
+		ProductReview review = reviewRepo.findById(reviewId).filter(ProductReview::isEnabled)
+				.orElseThrow(EntityDoesNotExistException::new);
+		if (!product.getReviews().contains(review)) {
 			throw new EntityDoesNotExistException();
 		}
-		return reviewRepo.findById(reviewId).filter(ProductReview::isEnabled).map(ProductReviewDTO::new)
-				.orElseThrow(EntityDoesNotExistException::new);
+		return new ProductReviewDTO(review);
 	}
 
 	@Override
@@ -47,5 +50,15 @@ public class ProductReviewQueryServiceImpl implements ProductReviewQueryService 
 		User user = userRepo.findByUsername(username).orElseThrow(EntityDoesNotExistException::new);
 		ProductReview review = reviewRepo.findById(reviewId).orElseThrow(EntityDoesNotExistException::new);
 		return review.getUser().equals(user);
+	}
+
+	@Override
+	public boolean reviewIsEnabled(int productId, int reviewId) throws EntityDoesNotExistException {
+		Product product = productRepo.findById(productId).filter(Product::isEnabled).orElseThrow(EntityDoesNotExistException::new);
+		ProductReview review = reviewRepo.findById(reviewId).orElseThrow(EntityDoesNotExistException::new);
+		if (!product.getReviews().contains(review) ) {
+			throw new EntityDoesNotExistException();
+		}
+		return review.isEnabled();
 	}
 }
