@@ -8,7 +8,7 @@ public interface ProductService {
 
 	Product createProduct(ProductDTO productDto);
 
-	Product updateProduct(ProductDTO productDto) throws EntityDoesNotExistException;
+	Product updateProduct(ProductDTO productDto, int productId) throws EntityDoesNotExistException;
 
 	void setStatus(int productId, boolean status) throws EntityDoesNotExistException;
 

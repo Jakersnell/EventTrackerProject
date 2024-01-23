@@ -32,8 +32,7 @@ public class AdminProductController {
 	@PutMapping({ "{productId}" })
 	private ResponseEntity<ProductDTO> updateProduct(@PathVariable("productId") int productId,
 			@RequestBody ProductDTO productDto) throws EntityDoesNotExistException {
-		productDto.setId(productId);
-		Product product = productService.updateProduct(productDto);
+		Product product = productService.updateProduct(productDto, productId);
 		return ResponseEntity.ok(new ProductDTO(product));
 
 	}

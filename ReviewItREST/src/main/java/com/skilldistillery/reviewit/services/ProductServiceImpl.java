@@ -21,9 +21,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product updateProduct(ProductDTO productDto) throws EntityDoesNotExistException {
+	public Product updateProduct(ProductDTO productDto, int productId) throws EntityDoesNotExistException {
 		Product product = productRepo
-				.findById(productDto.getId())
+				.findById(productId)
 				.orElseThrow(EntityDoesNotExistException::new);
 		product.setName(product.getName());
 		product.setDescription(product.getDescription());

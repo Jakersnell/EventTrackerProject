@@ -3,9 +3,10 @@ package com.skilldistillery.reviewit.dtos;
 import com.skilldistillery.reviewit.entities.User;
 
 public class UserDTO {
-	private String username;
 
-	private String password;
+	private int id;
+
+	private String username;
 
 	private String email;
 
@@ -15,14 +16,8 @@ public class UserDTO {
 		super();
 	}
 
-	public UserDTO(String username, String password, String password2, String email) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.email = email;
-	}
-
 	public UserDTO(User user) {
+		this.id = user.getId();
 		this.username = user.getUsername();
 		this.email = user.getEmail();
 		this.role = user.getRole();
@@ -32,11 +27,26 @@ public class UserDTO {
 		User user = new User();
 
 		user.setUsername(username);
-		user.setPassword(password);
 		user.setEmail(email);
 		user.setRole(role);
 
 		return user;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public String getUsername() {
@@ -45,14 +55,6 @@ public class UserDTO {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getEmail() {
@@ -65,7 +67,7 @@ public class UserDTO {
 
 	@Override
 	public String toString() {
-		return "UserDTO [username=" + username + ", password=" + password + "]";
+		return "UserDTO [id=" + id + ", username=" + username + ", email=" + email + ", role=" + role + "]";
 	}
 
 }

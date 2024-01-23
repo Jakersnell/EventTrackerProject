@@ -37,8 +37,16 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 	}
 
 	@Override
-	public ProductReview updateReview(ProductReviewDTO data, int productId) throws EntityDoesNotExistException {
-		ProductReview review = reviewRepo.findById(productId).orElseThrow(EntityDoesNotExistException::new);
+	public ProductReview updateReview(ProductReviewDTO data, int productId, int reviewId) throws EntityDoesNotExistException {
+		Product product = productRepo
+				.findById(productId)
+				.orElseThrow(EntityDoesNotExistException::new);
+		ProductReview review = reviewRepo
+				.findById(reviewId)
+				.orElseThrow(EntityDoesNotExistException::new);
+		if (!product.getReviews().contains(review)) {
+			throw new EntityDoesNotExistException();
+		}
 		review.setTitle(data.getTitle());
 		review.setContent(data.getContent());
 		review.setRating(data.getRating());
@@ -46,8 +54,16 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 	}
 
 	@Override
-	public void setStatus(int reviewId, boolean status) throws EntityDoesNotExistException {
-		ProductReview review = reviewRepo.findById(reviewId).orElseThrow(EntityDoesNotExistException::new);
+	public void setStatus(int productId, int reviewId, boolean status) throws EntityDoesNotExistException {
+		Product product = productRepo
+				.findById(productId)
+				.orElseThrow(EntityDoesNotExistException::new);
+		ProductReview review = reviewRepo
+				.findById(reviewId)
+				.orElseThrow(EntityDoesNotExistException::new);
+		if (!product.getReviews().contains(review)) {
+			throw new EntityDoesNotExistException();
+		}
 		review.setEnabled(status);
 		reviewRepo.saveAndFlush(review);
 	}

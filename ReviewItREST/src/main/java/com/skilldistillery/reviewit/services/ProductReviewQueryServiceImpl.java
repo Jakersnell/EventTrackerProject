@@ -18,7 +18,10 @@ public class ProductReviewQueryServiceImpl implements ProductReviewQueryService 
 	private ProductRepository productRepo;
 
 	@Override
-	public ProductReview getReview(int reviewId) throws EntityDoesNotExistException {
+	public ProductReview getReview(int productId, int reviewId) throws EntityDoesNotExistException {
+		if (!productRepo.existsById(productId)) {
+			throw new EntityDoesNotExistException();
+		}
 		return reviewRepo.findById(reviewId).filter(ProductReview::isEnabled)
 				.orElseThrow(EntityDoesNotExistException::new);
 	}
