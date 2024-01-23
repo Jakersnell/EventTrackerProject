@@ -9,4 +9,5 @@ import com.skilldistillery.reviewit.entities.ProductReview;
 public interface ProductReviewRepository extends JpaRepository<ProductReview, Integer> {
 	List<ProductReview> findAllByProductId(int productId);
 
+	boolean existsByTitle(String title);
 }

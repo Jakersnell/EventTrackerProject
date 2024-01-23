@@ -28,6 +28,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 	}
 
+	boolean existsByName(String name);
+
 	List<Product> findByCategoriesId(int catId);
 
 	@Query("SELECT p FROM Product p WHERE p.enabled = true")
@@ -70,7 +72,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 			    :minRating IS NULL
 			    OR AVG(pr.rating) >= :minRating
 			""") // make the db pull its weight lol
-	Page<Product> getPage(@Param("enabled") Boolean enabled, @Param("searchQuery") String searchQuery, @Param("discontinued") Boolean discontinued,
-			@Param("minRating") Double minRating, @Param("categories") Set<Category> categories, Pageable pageable);
+	Page<Product> getPage(@Param("enabled") Boolean enabled, @Param("searchQuery") String searchQuery,
+			@Param("discontinued") Boolean discontinued, @Param("minRating") Double minRating,
+			@Param("categories") Set<Category> categories, Pageable pageable);
 
 }

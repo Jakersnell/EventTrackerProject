@@ -12,6 +12,9 @@ import org.springframework.data.repository.query.Param;
 import com.skilldistillery.reviewit.entities.Category;
 
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
+
+	boolean existsByName(String name);
+
 	List<Category> getByProductsId(int productId);
 
 	@Query("""
@@ -37,8 +40,8 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 			GROUP BY
 				c
 			ORDER BY
-				COUNT(p) DESC 
-			
+				COUNT(p) DESC
+
 			""")
 	Page<Category> getPage(@Param("searchQuery") String searchQuery, @Param("enabled") Boolean enabled,
 			@Param("excludedCategories") Set<Category> excludedCategories, Pageable pageable);

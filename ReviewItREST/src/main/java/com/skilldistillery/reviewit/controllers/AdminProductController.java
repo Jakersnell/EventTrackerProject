@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.skilldistillery.reviewit.dtos.ProductDTO;
 import com.skilldistillery.reviewit.entities.Product;
+import com.skilldistillery.reviewit.exceptions.DuplicateEntityException;
 import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
 import com.skilldistillery.reviewit.services.ProductService;
 
@@ -25,7 +26,7 @@ public class AdminProductController {
 	private ProductService productService;
 
 	@PostMapping
-	private ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDto) {
+	private ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDto) throws DuplicateEntityException {
 		return ResponseEntity.ok(productService.createProduct(productDto));
 	}
 
