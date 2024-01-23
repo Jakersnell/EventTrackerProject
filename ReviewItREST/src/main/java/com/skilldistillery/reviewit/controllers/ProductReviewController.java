@@ -30,7 +30,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping({ "api/products" })
 public class ProductReviewController {
-	
+
 	@Autowired
 	private ProductReviewQueryService pqrs;
 
@@ -45,6 +45,7 @@ public class ProductReviewController {
 	@GetMapping({ "{productId}/reviews" })
 	private ResponseEntity<List<ProductReview>> getAllForProduct(@PathVariable("productId") int productId)
 			throws EntityDoesNotExistException {
+		
 		return ResponseEntity.ok(pqrs.getAllForProduct(productId));
 	}
 
@@ -53,15 +54,17 @@ public class ProductReviewController {
 	@GetMapping({ "{productId}/reviews/{reviewId}" })
 	private ResponseEntity<ProductReview> getReviewForProductById(@PathVariable("productId") int productId,
 			@PathVariable("reviewId") int reviewId) throws EntityDoesNotExistException {
+		
 		return ResponseEntity.ok(pqrs.getReview(productId, reviewId));
 	}
 
 	// POST /api/products/{productId}/reviews; Body: ProductReview; Returns:
 	// ProductReview Errors 404, 400
 	@PostMapping({ "{productId}/reviews" })
-	private ResponseEntity<ProductReview> createReview(@Valid @RequestBody ProductReviewDTO reviewDto,
+	private ResponseEntity<ProductReviewDTO> createReview(@Valid @RequestBody ProductReviewDTO reviewDto,
 			@PathVariable("productId") int productId, Principal principal)
 			throws EntityDoesNotExistException, AuthException {
+		
 		UserDTO user = authService.getUserByUsername(principal.getName());
 		return ResponseEntity.ok(prs.createReview(reviewDto, productId, user.getId()));
 	}
@@ -70,15 +73,22 @@ public class ProductReviewController {
 	private ResponseEntity<Void> disableReview(@PathVariable("productId") int productId,
 			@PathVariable("reviewId") int reviewId, Principal principal)
 			throws EntityDoesNotExistException, AuthException {
-		prs.setStatus(productId, reviewId, false, principal.getName());
+
+		if (!pqrs.userIsOwner(productId, reviewId, principal.getName()))
+			throw new AuthException();
+
+		prs.setStatus(productId, reviewId, false);
 		return ResponseEntity.noContent().build();
 	}
 
 	@PutMapping({ "{productId}/reviews/{reviewId}" })
-	private ResponseEntity<ProductReview> updateReview(@PathVariable("productId") int productId,
+	private ResponseEntity<ProductReviewDTO> updateReview(@PathVariable("productId") int productId,
 			@PathVariable("reviewId") int reviewId, @Valid @RequestBody ProductReviewDTO reviewDTO, Principal principal)
 			throws AuthException, EntityDoesNotExistException {
-		return ResponseEntity.ok(prs.updateReview(reviewDTO, productId, reviewId, principal.getName()));
+		
+		if (!pqrs.userIsOwner(productId, reviewId, principal.getName()))
+			throw new AuthException();
+		return ResponseEntity.ok(prs.updateReview(reviewDTO, productId, reviewId));
 	}
 
 }

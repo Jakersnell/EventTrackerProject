@@ -18,7 +18,7 @@ public class ProductServiceImpl implements ProductService {
 	private ProductRepository productRepo;
 
 	@Override
-	public Product createProduct(ProductDTO productDto) throws DuplicateEntityException {
+	public ProductDTO createProduct(ProductDTO productDto) throws DuplicateEntityException {
 		if (productRepo.existsByName(productDto.getName())) {
 			Map<String, String> errors = new HashMap<>();
 			errors.put("Name", "A product with that name already exists.");
@@ -26,17 +26,19 @@ public class ProductServiceImpl implements ProductService {
 		}
 		Product product = productDto.intoEntity();
 		product.setId(0);
-		return productRepo.save(product);
+		product = productRepo.save(product);
+		return new ProductDTO(product);
 	}
 
 	@Override
-	public Product updateProduct(ProductDTO productDto, int productId) throws EntityDoesNotExistException {
+	public ProductDTO updateProduct(ProductDTO productDto, int productId) throws EntityDoesNotExistException {
 		Product product = productRepo.findById(productId).orElseThrow(EntityDoesNotExistException::new);
 		product.setName(product.getName());
 		product.setDescription(product.getDescription());
 		product.setImageUrl(productDto.getImageUrl());
 		product.setUsMsrp(productDto.getUsMsrp());
-		return productRepo.saveAndFlush(product);
+		product = productRepo.saveAndFlush(product);
+		return new ProductDTO(product);
 	}
 
 	@Override

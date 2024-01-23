@@ -7,7 +7,6 @@ import com.skilldistillery.reviewit.dtos.ProductReviewDTO;
 import com.skilldistillery.reviewit.entities.Product;
 import com.skilldistillery.reviewit.entities.ProductReview;
 import com.skilldistillery.reviewit.entities.User;
-import com.skilldistillery.reviewit.exceptions.AuthException;
 import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
 import com.skilldistillery.reviewit.repositories.ProductRepository;
 import com.skilldistillery.reviewit.repositories.ProductReviewRepository;
@@ -26,25 +25,22 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 	private UserRepository userRepo;
 
 	@Override
-	public ProductReview createReview(ProductReviewDTO reviewData, int productId, int userId)
-			throws EntityDoesNotExistException, AuthException {
-		User user = userRepo.findById(userId).orElseThrow(AuthException::new);
+	public ProductReviewDTO createReview(ProductReviewDTO reviewData, int productId, int userId)
+			throws EntityDoesNotExistException {
+		User user = userRepo.findById(userId).orElseThrow(EntityDoesNotExistException::new);
 		Product product = productRepo.findById(productId).orElseThrow(EntityDoesNotExistException::new);
 		ProductReview review = reviewData.intoEntity();
 		review.setProduct(product);
 		review.setUser(user);
 		review.setId(0);
-		return reviewRepo.saveAndFlush(review);
+		review = reviewRepo.saveAndFlush(review);
+		return new ProductReviewDTO(review);
 	}
 
 	@Override
-	public ProductReview updateReview(ProductReviewDTO data, int productId, int reviewId, String username)
-			throws EntityDoesNotExistException, AuthException {
-		User user = userRepo.findByUsername(username).orElseThrow(AuthException::new);
+	public ProductReviewDTO updateReview(ProductReviewDTO data, int productId, int reviewId)
+			throws EntityDoesNotExistException {
 		ProductReview review = reviewRepo.findById(reviewId).orElseThrow(EntityDoesNotExistException::new);
-		if (!review.getUser().equals(user)) {
-			throw new AuthException();
-		}
 		Product product = productRepo.findById(productId).orElseThrow(EntityDoesNotExistException::new);
 		if (!product.getReviews().contains(review)) {
 			throw new EntityDoesNotExistException();
@@ -52,23 +48,19 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 		review.setTitle(data.getTitle());
 		review.setContent(data.getContent());
 		review.setRating(data.getRating());
-		return reviewRepo.saveAndFlush(review);
+		review = reviewRepo.saveAndFlush(review);
+		return new ProductReviewDTO(review);
 	}
 
 	@Override
-	public void setStatus(int productId, int reviewId, boolean status, String username)
-			throws EntityDoesNotExistException, AuthException {
-		User user = userRepo.findByUsername(username).orElseThrow(AuthException::new);
+	public ProductReviewDTO setStatus(int productId, int reviewId, boolean status) throws EntityDoesNotExistException {
 		ProductReview review = reviewRepo.findById(reviewId).orElseThrow(EntityDoesNotExistException::new);
-		if (!review.getUser().equals(user)) {
-			throw new AuthException();
-		}
 		Product product = productRepo.findById(productId).orElseThrow(EntityDoesNotExistException::new);
 		if (!product.getReviews().contains(review)) {
 			throw new EntityDoesNotExistException();
 		}
 		review.setEnabled(status);
-		reviewRepo.saveAndFlush(review);
+		return new ProductReviewDTO(reviewRepo.saveAndFlush(review));
 	}
 
 }

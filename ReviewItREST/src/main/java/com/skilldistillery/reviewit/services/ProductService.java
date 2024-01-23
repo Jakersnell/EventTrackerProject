@@ -7,9 +7,9 @@ import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
 
 public interface ProductService {
 
-	Product createProduct(ProductDTO productDto) throws DuplicateEntityException;
+	ProductDTO createProduct(ProductDTO productDto) throws DuplicateEntityException;
 
-	Product updateProduct(ProductDTO productDto, int productId) throws EntityDoesNotExistException;
+	ProductDTO updateProduct(ProductDTO productDto, int productId) throws EntityDoesNotExistException;
 
 	void setStatus(int productId, boolean status) throws EntityDoesNotExistException;
 

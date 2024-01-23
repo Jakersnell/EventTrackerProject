@@ -19,7 +19,7 @@ public class CategoryServiceImpl implements CategoryService {
 	private CategoryRepository catRepo;
 
 	@Override
-	public Category createCategory(CategoryDTO categoryDto) throws DuplicateEntityException {
+	public CategoryDTO createCategory(CategoryDTO categoryDto) throws DuplicateEntityException {
 		if (catRepo.existsByName(categoryDto.getName())) {
 			Map<String, String> errors = new HashMap<>();
 			errors.put("Name", "A category with that name already exists.");
@@ -27,23 +27,24 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		Category category = categoryDto.intoEntity();
 		category.setId(0);
-		return catRepo.saveAndFlush(category);
+		category = catRepo.saveAndFlush(category);
+		return new CategoryDTO(category);
 	}
 
 	@Override
-	public void disableCategory(int categoryId) throws EntityDoesNotExistException {
-
+	public CategoryDTO setStatus(int categoryId) throws EntityDoesNotExistException {
 		Category cat = catRepo.findById(categoryId).orElseThrow(EntityDoesNotExistException::new);
-
 		cat.setEnabled(false);
-		catRepo.saveAndFlush(cat);
+		cat = catRepo.saveAndFlush(cat);
+		return new CategoryDTO(cat);
 	}
 
 	@Override
-	public Category updateCategory(CategoryDTO category) throws EntityDoesNotExistException {
+	public CategoryDTO updateCategory(CategoryDTO category) throws EntityDoesNotExistException {
 		Category managed = catRepo.findById(category.getId()).orElseThrow(EntityDoesNotExistException::new);
 		managed.setName(category.getName());
-		return catRepo.saveAndFlush(managed);
+		managed = catRepo.saveAndFlush(managed);
+		return new CategoryDTO(managed);
 	}
 
 }

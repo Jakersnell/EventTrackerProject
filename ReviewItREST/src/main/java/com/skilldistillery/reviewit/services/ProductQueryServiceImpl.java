@@ -10,6 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.skilldistillery.reviewit.dtos.CategoryDTO;
+import com.skilldistillery.reviewit.dtos.PageDTO;
+import com.skilldistillery.reviewit.dtos.ProductDTO;
 import com.skilldistillery.reviewit.entities.Category;
 import com.skilldistillery.reviewit.entities.Product;
 import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
@@ -27,27 +30,29 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 	private CategoryRepository catRepo;
 
 	@Override
-	public List<Category> getCategoriesForProduct(int productId) throws EntityDoesNotExistException {
+	public List<CategoryDTO> getCategoriesForProduct(int productId) throws EntityDoesNotExistException {
 		if (!productRepo.existsById(productId)) {
 			throw new EntityDoesNotExistException();
 		}
-		return catRepo.getByProductsId(productId).stream().filter(Category::isEnabled).toList();
+		return catRepo.getByProductsId(productId).stream().filter(Category::isEnabled).map(CategoryDTO::new).toList();
 
 	}
 
 	@Override
-	public Product getProductById(int id) throws EntityDoesNotExistException {
-		return productRepo.findById(id).filter(Product::isEnabled).orElseThrow(EntityDoesNotExistException::new);
+	public ProductDTO getProductById(int id) throws EntityDoesNotExistException {
+		return productRepo.findById(id).filter(Product::isEnabled).map(ProductDTO::new)
+				.orElseThrow(EntityDoesNotExistException::new);
 	}
 
 	@Override
-	public Page<Product> getPageOfProducts(int pageNum, int pageSize, String searchQuery, String groupBy,
+	public PageDTO<ProductDTO> getPageOfProducts(int pageNum, int pageSize, String searchQuery, String groupBy,
 			String orderBy, Boolean discontinued, Double minRating, Set<Category> categories, Boolean enabled) {
 		Sort sort = getSort(groupBy, orderBy);
 		Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
-		Page<Product> products = productRepo.getPage(enabled, searchQuery, discontinued, minRating, categories,
+		Page<Product> page = productRepo.getPage(enabled, searchQuery, discontinued, minRating, categories,
 				pageable);
-		return products;
+		List<ProductDTO> products = page.getContent().stream().map(ProductDTO::new).toList();
+		return new PageDTO<>(page, products, searchQuery);
 	}
 
 	// santa's little helper method

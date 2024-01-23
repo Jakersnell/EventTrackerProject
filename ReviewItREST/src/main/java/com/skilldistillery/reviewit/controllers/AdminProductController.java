@@ -17,6 +17,8 @@ import com.skilldistillery.reviewit.exceptions.DuplicateEntityException;
 import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
 import com.skilldistillery.reviewit.services.ProductService;
 
+import jakarta.validation.Valid;
+
 @CrossOrigin({ "*", "http://localhost/" })
 @RestController
 @RequestMapping({ "api/admin/products" })
@@ -26,16 +28,16 @@ public class AdminProductController {
 	private ProductService productService;
 
 	@PostMapping
-	private ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDto) throws DuplicateEntityException {
+	private ResponseEntity<Product> createProduct(@Valid @RequestBody ProductDTO productDto)
+			throws DuplicateEntityException {
 		return ResponseEntity.ok(productService.createProduct(productDto));
 	}
 
 	@PutMapping({ "{productId}" })
-	private ResponseEntity<ProductDTO> updateProduct(@PathVariable("productId") int productId,
-			@RequestBody ProductDTO productDto) throws EntityDoesNotExistException {
+	private ResponseEntity<ProductDTO> updateProduct(@Valid @RequestBody ProductDTO productDto,
+			@PathVariable("productId") int productId) throws EntityDoesNotExistException {
 		Product product = productService.updateProduct(productDto, productId);
 		return ResponseEntity.ok(new ProductDTO(product));
-
 	}
 
 	@DeleteMapping({ "{productId}" })
@@ -43,7 +45,6 @@ public class AdminProductController {
 			throws EntityDoesNotExistException {
 		productService.setStatus(productId, false);
 		return ResponseEntity.noContent().build();
-
 	}
 
 }

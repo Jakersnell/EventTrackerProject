@@ -1,10 +1,8 @@
 package com.skilldistillery.reviewit.controllers;
 
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,9 +31,8 @@ public class PublicCategoryController {
 			@RequestParam(name = "searchQuery", required = false) String searchQuery,
 			@RequestParam(name = "excludedCategories", required = false) Set<Category> excludedCategories,
 			HttpServletResponse res) {
-		Page<Category> page = cqs.getPageOfCategories(pageNum, pageSize, searchQuery, excludedCategories, true);
-		List<CategoryDTO> categories = page.getContent().stream().map(CategoryDTO::new).toList();
-		return ResponseEntity.ok(new PageDTO<>(page, categories, searchQuery));
+		PageDTO<CategoryDTO> pageDto = cqs.getPageOfCategories(pageNum, pageSize, searchQuery, excludedCategories, true);
+		return ResponseEntity.ok(pageDto);
 	}
 
 }

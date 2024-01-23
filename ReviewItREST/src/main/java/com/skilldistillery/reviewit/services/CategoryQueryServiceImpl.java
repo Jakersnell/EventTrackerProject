@@ -9,6 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.skilldistillery.reviewit.dtos.CategoryDTO;
+import com.skilldistillery.reviewit.dtos.PageDTO;
+import com.skilldistillery.reviewit.dtos.ProductDTO;
 import com.skilldistillery.reviewit.entities.Category;
 import com.skilldistillery.reviewit.entities.Product;
 import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
@@ -25,35 +28,28 @@ public class CategoryQueryServiceImpl implements CategoryQueryService {
 	private ProductRepository productRepo;
 
 	@Override
-	public Page<Category> getPageOfCategories(int pageNum, int pageSize, String searchQuery,
+	public PageDTO<CategoryDTO> getPageOfCategories(int pageNum, int pageSize, String searchQuery,
 			Set<Category> excludedCategories, Boolean enabled) {
 		Pageable pageable = PageRequest.of(pageNum, pageSize);
-		return catRepo.getPage(searchQuery, enabled, excludedCategories, pageable);
+		Page<Category> page = catRepo.getPage(searchQuery, enabled, excludedCategories, pageable);
+		List<CategoryDTO> categories = page.getContent().stream().map(CategoryDTO::new).toList();
+		return new PageDTO<>(page, categories, searchQuery);
 	}
 
 	@Override
-	public Category getCategoryById(int categoryId) throws EntityDoesNotExistException {
-		Category category = catRepo
-				.findById(categoryId)
+	public CategoryDTO getCategoryById(int categoryId) throws EntityDoesNotExistException {
+		Category category = catRepo.findById(categoryId).filter(Category::isEnabled)
 				.orElseThrow(EntityDoesNotExistException::new);
-		if (!category.isEnabled()) {
-			throw new EntityDoesNotExistException();
-		}
-		return category;
+		return new CategoryDTO(category);
 	}
 
 	@Override
-	public List<Product> getProductsByCategoryId(int categoryId) throws EntityDoesNotExistException {
+	public List<ProductDTO> getProductsByCategoryId(int categoryId) throws EntityDoesNotExistException {
 		if (!catRepo.existsById(categoryId)) {
 			throw new EntityDoesNotExistException();
 		}
-		List<Product> products = productRepo
-				.findByCategoriesId(categoryId)
-				.stream()
-				.filter(Product::isEnabled)
+		return productRepo.findByCategoriesId(categoryId).stream().filter(Product::isEnabled).map(ProductDTO::new)
 				.toList();
-		
-		return products;
 	}
 
 }
