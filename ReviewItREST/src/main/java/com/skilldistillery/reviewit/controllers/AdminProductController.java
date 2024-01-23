@@ -1,6 +1,7 @@
 package com.skilldistillery.reviewit.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,42 +11,38 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skilldistillery.reviewit.dtos.ProductDTO;
 import com.skilldistillery.reviewit.entities.Product;
+import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
 import com.skilldistillery.reviewit.services.ProductService;
-
-import jakarta.servlet.http.HttpServletResponse;
 
 @CrossOrigin({ "*", "http://localhost/" })
 @RestController
 @RequestMapping({ "api/admin/products" })
-public class AdminProductController extends BaseController {
+public class AdminProductController {
 
 	@Autowired
 	private ProductService productService;
 
 	@PostMapping
-	private Product createProduct(@RequestBody Product product, HttpServletResponse res) {
-		return tryFailableAction(() -> {
-			return productService.createProduct(product);
-		}, res);
+	private ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDto) {
+		return ResponseEntity.ok(productService.createProduct(productDto));
 	}
 
 	@PutMapping({ "{productId}" })
-	private Product updateProduct(@PathVariable("productId") int productId, @RequestBody Product product,
-			HttpServletResponse res) {
-
-		return tryFailableAction(() -> {
-			return productService.updateProduct(productId, product);
-		}, res);
+	private ResponseEntity<ProductDTO> updateProduct(@PathVariable("productId") int productId,
+			@RequestBody ProductDTO productDto) throws EntityDoesNotExistException {
+		productDto.setId(productId);
+		Product product = productService.updateProduct(productDto);
+		return ResponseEntity.ok(new ProductDTO(product));
 
 	}
 
 	@DeleteMapping({ "{productId}" })
-	private void deleteProduct(@PathVariable("productId") int productId, HttpServletResponse res) {
-		tryFailableAction(() -> {
-			productService.disableProduct(productId);
-			res.setStatus(204);
-		}, res);
+	private ResponseEntity<Void> deleteProduct(@PathVariable("productId") int productId)
+			throws EntityDoesNotExistException {
+		productService.setStatus(productId, false);
+		return ResponseEntity.noContent().build();
 
 	}
 
