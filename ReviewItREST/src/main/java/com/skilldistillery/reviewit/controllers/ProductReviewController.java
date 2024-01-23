@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skilldistillery.reviewit.entities.ProductReview;
+import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
 import com.skilldistillery.reviewit.services.ProductReviewService;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,10 +29,8 @@ public class ProductReviewController {
 
 	@GetMapping({ "products/{productId}/reviews/{reviewId}" })
 	private ProductReview getReviewForProductById(@PathVariable("productId") int productId,
-			@PathVariable("reviewId") int reviewId, HttpServletResponse res) {
-
-		return reviewService.getReviewByProductIdAndId(productId, reviewId);
-
+			@PathVariable("reviewId") int reviewId) throws EntityDoesNotExistException {
+		return reviewService.getReview(productId, reviewId);
 	}
 
 	@GetMapping({ "products/{productId}/reviews" })
