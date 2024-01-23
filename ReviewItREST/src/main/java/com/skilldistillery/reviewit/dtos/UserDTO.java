@@ -1,5 +1,6 @@
 package com.skilldistillery.reviewit.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.skilldistillery.reviewit.entities.User;
 
 public class UserDTO {
@@ -11,6 +12,9 @@ public class UserDTO {
 	private String email;
 
 	private String role;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String password;
 
 	public UserDTO() {
 		super();
@@ -25,7 +29,7 @@ public class UserDTO {
 
 	public User intoUser() {
 		User user = new User();
-
+		user.setPassword(password);
 		user.setUsername(username);
 		user.setEmail(email);
 		user.setRole(role);
@@ -63,6 +67,14 @@ public class UserDTO {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@Override

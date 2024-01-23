@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -30,11 +31,13 @@ public class SecurityConfig {
     	http.httpBasic(withDefaults());                           // Use HTTP Basic Authentication
         http.authorizeHttpRequests(
           authorize -> authorize
-//            .requestMatchers(HttpMethod.OPTIONS, "/api/**").permitAll() // For CORS, the preflight request
-//            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()     // will hit the OPTIONS on the route
-//            .requestMatchers("/api/**").authenticated() // Requests for our REST API must be authorized.
-            .anyRequest().permitAll());               // All other requests are allowed without authentication.
-
+            .requestMatchers(HttpMethod.OPTIONS, "/api/**").permitAll() // For CORS, the preflight request
+            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()     // will hit the OPTIONS on the route
+            .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+            .requestMatchers("/auth/authorize").authenticated()
+            .requestMatchers("/api/**").authenticated()
+            .requestMatchers("/api/admin/**").hasRole("admin") // Requests for our REST API must be authorized.
+            .anyRequest().permitAll());
         http.sessionManagement(management -> management
                               .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();

@@ -6,18 +6,18 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.skilldistillery.reviewit.exceptions.BadRequestException;
 import com.skilldistillery.reviewit.exceptions.EntityDoesNotExistException;
 import com.skilldistillery.reviewit.exceptions.UserDoesNotExistException;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler({ EntityDoesNotExistException.class, UserDoesNotExistException.class })
-	public ResponseEntity<Object> handle404Exception(RuntimeException ex) {
+	public ResponseEntity<Object> handle404Exception(Exception ex) {
 		return ResponseEntity.notFound().build();
 	}
 
