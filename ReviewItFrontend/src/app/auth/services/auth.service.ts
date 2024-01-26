@@ -1,32 +1,31 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, of, tap, throwError } from 'rxjs';
-import { AuthToken } from '../models/auth-token';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private key: string = 'loggedUser';
   public userIsLoggedIn;
   public userIsLoggedInEvent = new EventEmitter<boolean>();
-  urlRoot = `${environment.API_URL}/api/auth`;
+  urlRoot = `${environment.API_URL}/auth`;
 
   constructor(private http: HttpClient) {
-    this.userIsLoggedIn = sessionStorage.getItem('auth') !== null;
+    this.userIsLoggedIn = sessionStorage.getItem(this.key) !== null;
   }
 
-  public authorizeUser(
-    username: string,
-    password: string
-  ): Observable<AuthToken> {
-    const endpoint = `${this.urlRoot}/login`;
-    const params = {
-      username: username,
-      password: password,
-    };
+  public authorizeUser(username: string, password: string): Observable<void> {
+    const endpoint = `${this.urlRoot}/authorize`;
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json', // You can add more headers as needed
+      Authorization: `Basic ${this.encodeAuthDetails(username, password)}`, // Example of an Authorization header
+    });
     return this.http
-      .post<AuthToken>(endpoint, params)
+      .get<User>(endpoint, { headers: headers })
       .pipe(
         catchError((err: any) => {
           console.log(err);
@@ -34,26 +33,28 @@ export class AuthService {
             () =>
               new Error(
                 `
-              AuthService.authorizeUser(username: string, password: string): Observable<AuthToken>;
+              AuthService.authorizeUser(username: string, password: string): Observable<User>;
               Error while attempting POST to endpoint '${endpoint}'.
               With body:
-                ${JSON.stringify(params)}
+                ${JSON.stringify(headers)}
               `
               )
           );
         })
       )
       .pipe(
-        tap((token: AuthToken) => {
-          this.setAuthToken(token);
+        tap((user: User) => {
+          user.password = password;
+          this.setLoggedUser(user);
         })
-      );
+      )
+      .pipe(map(() => {}));
   }
 
-  public createUser(userData: any): Observable<AuthToken> {
-    const endpoint = `${this.urlRoot}/signup`;
+  public createUser(userData: any): Observable<User> {
+    const endpoint = `${this.urlRoot}/register`;
     return this.http
-      .post<AuthToken>(endpoint, userData)
+      .post<User>(endpoint, userData)
       .pipe(
         catchError((err: any) => {
           console.log(err);
@@ -61,7 +62,7 @@ export class AuthService {
             () =>
               new Error(
                 `
-              AuthService.createUser(userData: any): Observable<AuthToken>;
+              AuthService.createUser(userData: any): Observable<User>;
               Error while attempting POST to endpoint ${endpoint}.
               With body:
                 ${JSON.stringify(userData)}
@@ -71,8 +72,8 @@ export class AuthService {
         })
       )
       .pipe(
-        tap((token: AuthToken) => {
-          this.setAuthToken(token);
+        tap((user: User) => {
+          this.setLoggedUser(user);
         })
       );
   }
@@ -89,22 +90,37 @@ export class AuthService {
   }
 
   private clearAuthToken(): void {
-    sessionStorage.removeItem('auth');
+    sessionStorage.removeItem(this.key);
     this.emitAuthChange(false);
   }
 
-  private setAuthToken(auth: AuthToken): void {
-    const stringified = JSON.stringify(auth);
-    sessionStorage.setItem('auth', stringified);
+  private setLoggedUser(user: User): void {
+    const stringified = JSON.stringify(user);
+    sessionStorage.setItem(this.key, stringified);
     this.emitAuthChange(true);
   }
 
-  public getAuthToken(): AuthToken | null {
-    const auth = sessionStorage.getItem('auth');
-    let token = null;
-    if (auth !== null) {
-      token = JSON.parse(auth);
+  public getUserEncodedAuth(): string | null {
+    let details = null;
+    const user = sessionStorage.getItem(this.key);
+    if (user !== null) {
+      const parsed = JSON.parse(user) as User;
+      details = this.encodeAuthDetails(parsed.username, parsed.password);
     }
-    return null;
+    return details;
+  }
+
+  public getUserRole(): string | null {
+    let details = null;
+    const user = sessionStorage.getItem(this.key);
+    if (user !== null) {
+      details = (JSON.parse(user) as User).role;
+    }
+    return details;
+  }
+
+  public encodeAuthDetails(username: string, password: string): string {
+    const usernameAndPassword = `${username}:${password}`;
+    return btoa(usernameAndPassword);
   }
 }

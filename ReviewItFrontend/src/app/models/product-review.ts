@@ -5,7 +5,9 @@ export class ProductReview {
   rating: number;
   createdOn: string;
   lastUpdated: string;
-  username: string;
+  authorUsername: string;
+  productId: number;
+  authorId: number;
 
   constructor(
     id: number = 0,
@@ -14,7 +16,9 @@ export class ProductReview {
     rating: number = 0,
     createdOn: string = '',
     lastUpdated: string = '',
-    username: string = ''
+    authorUsername: string = '',
+    productId: number = 0,
+    authorId: number = 0
   ) {
     this.id = id;
     this.title = title;
@@ -22,6 +26,8 @@ export class ProductReview {
     this.rating = rating;
     this.createdOn = createdOn;
     this.lastUpdated = lastUpdated;
-    this.username = username;
+    this.authorUsername = authorUsername;
+    this.productId = productId;
+    this.authorId = authorId;
   }
 }
