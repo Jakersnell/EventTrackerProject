@@ -4,9 +4,6 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-/// Not a necessary class but a quality of life thing nevertheless
-/// this mainly exists to limit unnecessary serialization of excess data
-/// from the Page entity
 public class PageDTO<T> {
 
 	private int pageNum;

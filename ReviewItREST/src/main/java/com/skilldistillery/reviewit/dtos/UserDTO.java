@@ -42,7 +42,6 @@ public class UserDTO {
 		user.setUsername(username);
 		user.setEmail(email);
 		user.setRole(role);
-
 		return user;
 	}
 

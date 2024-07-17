@@ -45,6 +45,7 @@ export class AuthService {
       .pipe(
         tap((user: User) => {
           user.password = password;
+          console.log(`\n------------\nUSER \n${JSON.stringify(user)}\n-------------\n`);
           this.setLoggedUser(user);
         })
       )
@@ -69,11 +70,6 @@ export class AuthService {
               `
               )
           );
-        })
-      )
-      .pipe(
-        tap((user: User) => {
-          this.setLoggedUser(user);
         })
       );
   }

@@ -146,7 +146,7 @@ export class SignupComponent {
       };
       this.authService.createUser(user).subscribe({
         next: (_) => {
-          this.router.navigateByUrl('home');
+          this.router.navigateByUrl('login');
         },
         error: (_) => {
           this.formError.nativeElement.innerHTML = 'Something went wrong...';
