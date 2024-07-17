@@ -1,10 +1,13 @@
 package com.skilldistillery.reviewit.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.skilldistillery.reviewit.entities.ProductReview;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
 
 public class ProductReviewDTO implements IntoEntity<ProductReview> {
 	private int id;
@@ -21,9 +24,9 @@ public class ProductReviewDTO implements IntoEntity<ProductReview> {
 	@NotNull
 	private Integer rating;
 	
-	private Integer productId;
+	private Integer productId = 0;
 	
-	private Integer authorId;
+	private Integer authorId = 0;
 
 	public ProductReviewDTO() {
 	}
