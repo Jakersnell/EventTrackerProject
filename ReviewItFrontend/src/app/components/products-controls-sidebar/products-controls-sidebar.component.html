@@ -39,7 +39,7 @@
         </div>
 
         <div id="categories" class="p-sm-3 p-2">
-          <div *ngIf="!selectedIsEmpty()">
+          <div *ngIf="selectedIsEmpty()">
             <div *ngIf="categoryIsClean(categoryParams.excludedCategories[0])">
               <h2>Selected Categories</h2>
               <hr>

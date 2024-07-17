@@ -43,6 +43,7 @@ export class SignupComponent {
     }
     return isValid;
   }
+
   validateLastName(): boolean {
     const isValid =
       this.lastName.replace(/\s/g, '') != '' && this.firstName.length < 50;
@@ -55,6 +56,7 @@ export class SignupComponent {
     }
     return isValid;
   }
+
   validateUsername(): boolean {
     let strippedUsername = this.username.replace(/\s/g, '');
     let isValid =
@@ -69,6 +71,7 @@ export class SignupComponent {
     }
     return isValid;
   }
+
   validateEmail(): boolean {
     let isValid =
       String(this.email)
@@ -85,14 +88,15 @@ export class SignupComponent {
     }
     return isValid;
   }
+
   validatePassword1(): boolean {
     let isValid =
       String(this.passwordOne).match(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\W]{8,}$/
       ) !== null;
     if (!isValid) {
       this.passwordOneError.nativeElement.innerHTML = `
-      Password must have no spaces, a minimum of eight characters, at least one uppercase letter, one lowercase letter and one number.
+      Password must have no spaces, a minimum of eight characters, at least one letter and one number.
       `;
     } else {
       this.passwordOneError.nativeElement.innerHTML = ``;
