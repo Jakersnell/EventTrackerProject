@@ -42,7 +42,7 @@ public class ProductReviewQueryServiceImpl implements ProductReviewQueryService 
 		if (!productRepo.existsById(productId)) {
 			throw new EntityDoesNotExistException();
 		}
-		return reviewRepo.findAll().stream().filter(ProductReview::isEnabled).map(ProductReviewDTO::new).toList();
+		return reviewRepo.findAllByProductId(productId).stream().filter(ProductReview::isEnabled).map(ProductReviewDTO::new).toList();
 	}
 
 	@Override
