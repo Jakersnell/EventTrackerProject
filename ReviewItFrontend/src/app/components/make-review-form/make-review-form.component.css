@@ -1,10 +1,21 @@
 .cta-button {
-  font-weight: bold;
-  font-size: xx-large;
+  /* button-styles */
+  background-color: red;
   box-shadow: 0 0.1rem 0.5rem 0.2rem rgb(236, 236, 236);
-  transition: 0.1s;
+  transition: 250ms;
+  /* end-button-styles */
+
+  /* text-styles */
+  font-size: xx-large;
+  color: rgb(235, 235, 235);
+  font-weight: bold;
+  /* end-text-styles */
 }
+
+
 .cta-button:hover {
   font-size: 2.2rem;
-  transition: 0.15s;
+  transition: 250ms;
 }
+
+

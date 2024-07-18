@@ -26,12 +26,17 @@ import { ProductReview } from '../../models/product-review';
 export class MakeReviewFormComponent {
   @Input() productId: number = 0;
   @Output() public refreshEvent = new EventEmitter<ProductReview>();
-  private modalService = inject(NgbModal);
-  private prs = inject(ProductReviewService);
+  private modalService;
+  private prs;
   title = '';
   reviewContent = '';
   rating = 5;
   closeResult = '';
+
+  constructor(modalService: NgbModal, prs: ProductReviewService) {
+    this.modalService = modalService;
+    this.prs = prs;
+  }
 
   open(content: TemplateRef<any>) {
     this.modalService
