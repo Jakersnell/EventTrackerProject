@@ -118,4 +118,5 @@ export class AuthService {
     const usernameAndPassword = `${username}:${password}`;
     return btoa(usernameAndPassword);
   }
+
 }

@@ -31,7 +31,7 @@ export class MakeReviewFormComponent {
   title = '';
   reviewContent = '';
   rating = 5;
-  closeResult = '';
+  errorDisplayContent = '';
 
   constructor(modalService: NgbModal, prs: ProductReviewService) {
     this.modalService = modalService;
@@ -42,14 +42,12 @@ export class MakeReviewFormComponent {
     this.modalService
       .open(content, { ariaLabelledBy: 'modal-basic-title' })
       .result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
+        _ => {
           this.title = '';
           this.reviewContent = '';
           this.rating = 5;
         },
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        _ => {
           this.title = '';
           this.reviewContent = '';
           this.rating = 5;
@@ -79,8 +77,9 @@ export class MakeReviewFormComponent {
     const review = {
       'title': this.title,
       'content': this.reviewContent,
-      rating: this.rating,
+      'rating': this.rating,
     };
+
     this.prs.createReview(this.productId, review).subscribe({
       next: (value: ProductReview) => {
         this.modalService.dismissAll('Submit');
@@ -88,6 +87,8 @@ export class MakeReviewFormComponent {
         console.log('emitting value');
       },
       error: (err) => {
+        this.errorDisplayContent = "Something went wrong...";
+        this.errorDisplayContent = err;
         console.log(err);
       },
     });
