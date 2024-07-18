@@ -5,6 +5,7 @@ import { DecimalRatingStarsComponent } from './components/decimal-rating-stars/d
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from './auth/services/auth.service';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ import { AuthService } from './auth/services/auth.service';
     DecimalRatingStarsComponent,
     NgbCollapseModule,
     FormsModule,
+    SearchBarComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -23,7 +25,6 @@ import { AuthService } from './auth/services/auth.service';
 export class AppComponent {
   title = 'ReviewIt!';
   brandName = this.title;
-  searchQuery = '';
   isMenuCollapsed = true;
   userIsLoggedIn = false;
 

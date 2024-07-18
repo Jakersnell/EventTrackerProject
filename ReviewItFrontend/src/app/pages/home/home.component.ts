@@ -1,5 +1,5 @@
 import { ProductsControlsSidebarComponent } from '../../components/products-controls-sidebar/products-controls-sidebar.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import {
   NgbAccordionModule,
   NgbPaginationModule,
@@ -7,7 +7,7 @@ import {
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DecimalRatingStarsComponent } from '../../components/decimal-rating-stars/decimal-rating-stars.component';
 import { ProductSearchParams } from '../../models/product-search-params';
 import { Page } from '../../models/page';
@@ -32,22 +32,34 @@ export class HomeComponent implements OnInit {
   params: ProductSearchParams = new ProductSearchParams();
   page: Page<Product> = new Page();
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.reload();
+    this.route.queryParams.subscribe((queryParams) => {
+      const query = queryParams['query'];
+      if (query) {
+        this.params.searchQuery = query;
+      } else {
+        this.params.searchQuery = '';
+      }
+      this.reload();
+    });
   }
 
   reload(): void {
     const params = this.params;
     this.productService.makePageRequest(params).subscribe({
       next: (page) => {
-        this.refreshContent(page);
+        this.setPage(page);
       },
     });
   }
 
-  refreshContent(page: Page<Product>): void {
+  setPage(page: Page<Product>): void {
     this.page = page;
   }
 

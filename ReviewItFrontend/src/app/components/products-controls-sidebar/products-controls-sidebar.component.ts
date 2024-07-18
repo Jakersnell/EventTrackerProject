@@ -142,6 +142,7 @@ export class ProductsControlsSidebarComponent implements OnInit {
     return this.categoryParams.excludedCategories.length === 0;
   }
 
+  // Was having a weird issue with null and undefined being added to the array
   categoryIsClean(category: Category) {
     return category !== null && category !== undefined;
   }
