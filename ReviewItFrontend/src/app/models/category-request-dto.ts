@@ -4,7 +4,7 @@ export class CategoryRequestDTO {
   public pageNum: number;
   public pageSize: number;
   public searchQuery: string;
-  public excludedCategories: Category[];
+  public selectedCategories: Category[];
 
   constructor(
     pageNum: number = 0,
@@ -15,7 +15,7 @@ export class CategoryRequestDTO {
     this.pageNum = pageNum;
     this.pageSize = pageSize;
     this.searchQuery = searchQuery;
-    this.excludedCategories = excludedCategories;
+    this.selectedCategories = excludedCategories;
   }
 
   toUrlParams(): any {
@@ -25,8 +25,8 @@ export class CategoryRequestDTO {
     if (this.searchQuery.replace(/\s/g, '') != '') {
       params.searchQuery = this.searchQuery;
     }
-    if (this.excludedCategories.length != 0) {
-      let ids = this.excludedCategories.map((cat: Category)=>cat.id);
+    if (this.selectedCategories.length != 0) {
+      let ids = this.selectedCategories.map((cat: Category)=>cat.id);
       params.excludedCategories = ids.toString();
     }
     return params;

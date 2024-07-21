@@ -9,7 +9,7 @@
           <form name="displayFilters">
             <div class="selector">
               <label for="formControlRange"><small>Display Per Page</small></label><br>
-              <select name="displayAmount" class="custom-select form-control" [(ngModel)]="params.pageSize"
+              <select name="displayAmount" class="custom-select form-control" [(ngModel)]="searchParams.pageSize"
                 (ngModelChange)="emitEvent()">
                 <option [ngValue]="6">6</option>
                 <option [ngValue]="9">9</option>
@@ -31,9 +31,9 @@
             </div>
             <br>
             <div>
-              <label for="customRange3" class="form-label">Min Rating:&nbsp;{{params.minRating}} Stars</label>
+              <label for="customRange3" class="form-label">Min Rating:&nbsp;{{searchParams.minRating}} Stars</label>
               <input type="range" class="form-range" min="0" max="5" step="0.5" name="customRange3"
-                [(ngModel)]="params.minRating" (ngModelChange)="emitEvent()">
+                [(ngModel)]="searchParams.minRating" (ngModelChange)="emitEvent()">
             </div>
           </form>
         </div>
@@ -45,11 +45,11 @@
           -->
 
           <div id="selectedCategories" *ngIf="selectedIsEmpty()">
-            <div *ngIf="categoryIsClean(categoryParams.excludedCategories[0])">
+            <div *ngIf="categoryIsClean(categoryParams.selectedCategories[0])">
               <h2 class="mt-3">Selected Categories</h2>
               <hr>
             </div>
-            <div *ngFor="let category of categoryParams.excludedCategories">
+            <div *ngFor="let category of categoryParams.selectedCategories">
               <div *ngIf="categoryIsClean(category)" class="category">
                 <button class="category-selector selected-category"
                   (click)="unselectCategory(category)">{{category.name}}</button>

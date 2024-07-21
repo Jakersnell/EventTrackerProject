@@ -51,6 +51,7 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     this.reloadProduct();
   }
+
   refresh(event: ProductReview) {
     console.log('refresh event triggered');
     this.reloadProduct();

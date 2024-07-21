@@ -51,8 +51,7 @@ export class HomeComponent implements OnInit {
   }
 
   reload(): void {
-    const params = this.params;
-    this.productService.makePageRequest(params).subscribe({
+    this.productService.makePageRequest(this.params).subscribe({
       next: (page) => {
         this.setPage(page);
       },

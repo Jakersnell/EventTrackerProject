@@ -53,7 +53,7 @@ export class ProductsControlsSidebarComponent implements OnInit {
   @ViewChild('accordion') accordion!: NgbAccordionDirective;
   @ViewChild('first') first!: NgbAccordionItem;
 
-  params: ProductSearchParams = new ProductSearchParams(0, 6);
+  searchParams: ProductSearchParams = new ProductSearchParams(0, 6);
   categoryParams: CategoryRequestDTO = new CategoryRequestDTO(0, 6);
   sortOrder: string = this.ordering.default;
   categoryPage: Page<Category> = new Page<Category>();
@@ -64,33 +64,34 @@ export class ProductsControlsSidebarComponent implements OnInit {
     this.reloadAll();
   }
 
-  setProductCategories(): void {
-    this.params.categories = [...this.categoryParams.excludedCategories];
-  }
-
-  unselectCategory(category: Category): void {
-    const filteredElements = this.categoryParams.excludedCategories.filter(
-      (item: Category) =>
-        item.id !== category.id && item !== null && item !== undefined
-    );
-    this.categoryParams.excludedCategories = filteredElements;
-    this.reloadAll();
-  }
-
-  selectCategory(category: Category): void {
-    this.categoryParams.excludedCategories.push(category);
-    this.reloadAll();
-  }
-
   reloadAll(): void {
     this.reloadCategories();
     this.updateOrdering();
+    this.setProductCategories();
     this.emitEvent();
+  }
+
+  setProductCategories(): void {
+    this.searchParams.categories = [...this.categoryParams.selectedCategories];
+  }
+
+  unselectCategory(category: Category): void {
+    const filteredElements = this.categoryParams.selectedCategories.filter(
+      (item: Category) =>
+        item.id !== category.id && item !== null && item !== undefined
+    );
+    this.categoryParams.selectedCategories = filteredElements;
+    this.reloadCategories();
+  }
+
+  selectCategory(category: Category): void {
+    this.categoryParams.selectedCategories.push(category);
+    this.reloadCategories();
   }
 
   emitEvent(): void {
     this.setProductCategories();
-    this.controlSubmitEvent.emit(this.params);
+    this.controlSubmitEvent.emit(this.searchParams);
   }
 
   reloadCategories(): void {
@@ -133,13 +134,12 @@ export class ProductsControlsSidebarComponent implements OnInit {
         grouping = null;
         ordering = null;
     }
-    this.params.groupBy = grouping;
-    this.params.orderBy = ordering;
-    this.emitEvent();
+    this.searchParams.groupBy = grouping;
+    this.searchParams.orderBy = ordering;
   }
 
   selectedIsEmpty(): boolean {
-    return this.categoryParams.excludedCategories.length === 0;
+    return this.categoryParams.selectedCategories.length === 0;
   }
 
   // Was having a weird issue with null and undefined being added to the array
@@ -154,6 +154,8 @@ export class ProductsControlsSidebarComponent implements OnInit {
     );
   }
 
+
+  // Make controls panel open on desktop constantly, and closable on mobile
   isMobile(): boolean {
     /// matches the bootstrap breakpoints
     /// https://getbootstrap.com/docs/5.0/layout/breakpoints/
