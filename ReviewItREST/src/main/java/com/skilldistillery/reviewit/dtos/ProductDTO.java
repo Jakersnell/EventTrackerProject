@@ -1,10 +1,10 @@
 package com.skilldistillery.reviewit.dtos;
 
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 
 import com.skilldistillery.reviewit.entities.Product;
 
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
 
 public class ProductDTO {
 	private int id;

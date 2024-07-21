@@ -1,8 +1,9 @@
 package com.skilldistillery.reviewit.dtos;
 
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 
 import com.skilldistillery.reviewit.entities.Category;
+
+import jakarta.validation.constraints.NotBlank;
 
 public class CategoryDTO implements IntoEntity<Category> {
 	private int id;

@@ -1,7 +1,5 @@
 package com.skilldistillery.reviewit.dtos;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.skilldistillery.reviewit.entities.ProductReview;
 
 import jakarta.validation.constraints.NotBlank;
