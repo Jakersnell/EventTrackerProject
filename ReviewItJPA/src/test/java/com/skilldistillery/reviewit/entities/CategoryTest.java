@@ -12,7 +12,7 @@ class CategoryTest extends EntityTest {
 	void test_category_name_mapping() throws Exception {
 		Category category = em.find(Category.class, 1);
 		assertNotNull(category);
-		assertEquals("Food", category.getName());
+		assertEquals("Food And Beverage", category.getName());
 	}
 
 	@Test

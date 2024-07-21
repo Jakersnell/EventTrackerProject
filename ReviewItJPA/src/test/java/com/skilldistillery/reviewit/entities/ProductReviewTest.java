@@ -9,7 +9,7 @@ public class ProductReviewTest extends EntityTest {
 	void test_rating_mapping_for_id_of_1() throws Exception {
 		ProductReview review = em.find(ProductReview.class, 1);
 		assertNotNull(review);
-		assertEquals(0, review.getRating());
+		assertEquals(5, review.getRating());
 	}
 
 	@Test
