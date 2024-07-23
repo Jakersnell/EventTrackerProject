@@ -46,12 +46,13 @@ CREATE TABLE IF NOT EXISTS `user` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(120) NOT NULL,
   `email` VARCHAR(500) NOT NULL,
-  `password` VARCHAR(100) NULL,
+  `password` VARCHAR(100) NOT NULL,
   `verified` TINYINT NOT NULL DEFAULT 0,
   `enabled` TINYINT NOT NULL DEFAULT 1,
   `created_on` DATETIME NULL,
   `last_updated` VARCHAR(45) NULL,
   `role` VARCHAR(60) NOT NULL,
+  `points` INT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC))
@@ -155,29 +156,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `auth_token`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `auth_token` ;
-
-CREATE TABLE IF NOT EXISTS `auth_token` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `token` VARCHAR(512) NOT NULL,
-  `user_id` INT NOT NULL,
-  `created_on` DATETIME NULL,
-  `expires_on` DATETIME NULL,
-  `enabled` TINYINT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_auth_token_user1_idx` (`user_id` ASC),
-  UNIQUE INDEX `token_UNIQUE` (`token` ASC),
-  CONSTRAINT `fk_auth_token_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `company`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `company` ;
@@ -218,6 +196,24 @@ CREATE TABLE IF NOT EXISTS `product_link` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `admin`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `admin` ;
+
+CREATE TABLE IF NOT EXISTS `admin` (
+  `id` INT NOT NULL,
+  `username` VARCHAR(120) NOT NULL,
+  `password` VARCHAR(100) NOT NULL,
+  `enabled` TINYINT NULL,
+  `created_on` DATETIME NULL,
+  `last_updated` DATETIME NULL,
+  `role` VARCHAR(60) NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC))
+ENGINE = InnoDB;
+
 SET SQL_MODE = '';
 DROP USER IF EXISTS reviewitdev@localhost;
 SET SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
@@ -255,12 +251,12 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `reviewitdb`;
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`) VALUES (1, 'joeschmoe11', 'jsmoe69@gmail.com', '$2a$10$YIVc0suGYF7SlCurrPbkjOvrULm35jlDAZ0bb8UlBReumopVMxtEq', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user');
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`) VALUES (2, 'b0bbySchmurda39', 'bigbobby@aol.com', '$2a$10$YIVc0suGYF7SlCurrPbkjOvrULm35jlDAZ0bb8UlBReumopVMxtEq', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user');
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`) VALUES (3, 'bigMacMcGee120', 'mackin@x.com', '$2a$10$YIVc0suGYF7SlCurrPbkjOvrULm35jlDAZ0bb8UlBReumopVMxtEq', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user');
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`) VALUES (4, 'moePoppa1234', 'mo@gmail.com', '$2a$10$YIVc0suGYF7SlCurrPbkjOvrULm35jlDAZ0bb8UlBReumopVMxtEq', 1, 0, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user');
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`) VALUES (5, 'admin', 'admin@reviewit.com', '$2a$10$YIVc0suGYF7SlCurrPbkjOvrULm35jlDAZ0bb8UlBReumopVMxtEq', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'admin');
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`) VALUES (6, 'bigboytommy334', 'biggi@example.com', '$2a$10$YIVc0suGYF7SlCurrPbkjOvrULm35jlDAZ0bb8UlBReumopVMxtEq', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user');
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`, `points`) VALUES (1, 'joeschmoe11', 'jsmoe69@gmail.com', '$2a$10$YIVc0suGYF7SlCurrPbkjOvrULm35jlDAZ0bb8UlBReumopVMxtEq', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user', 0);
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`, `points`) VALUES (2, 'b0bbySchmurda39', 'bigbobby@aol.com', '$2a$10$YIVc0suGYF7SlCurrPbkjOvrULm35jlDAZ0bb8UlBReumopVMxtEq', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user', 0);
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`, `points`) VALUES (3, 'bigMacMcGee120', 'mackin@x.com', '$2a$10$YIVc0suGYF7SlCurrPbkjOvrULm35jlDAZ0bb8UlBReumopVMxtEq', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user', 0);
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`, `points`) VALUES (4, 'moePoppa1234', 'mo@gmail.com', '$2a$10$YIVc0suGYF7SlCurrPbkjOvrULm35jlDAZ0bb8UlBReumopVMxtEq', 1, 0, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user', 0);
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`, `points`) VALUES (5, 'admin', 'admin@reviewit.com', '$2a$10$YIVc0suGYF7SlCurrPbkjOvrULm35jlDAZ0bb8UlBReumopVMxtEq', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'admin', 0);
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `verified`, `enabled`, `created_on`, `last_updated`, `role`, `points`) VALUES (6, 'bigboytommy334', 'biggi@example.com', '$2a$10$YIVc0suGYF7SlCurrPbkjOvrULm35jlDAZ0bb8UlBReumopVMxtEq', 1, 1, '2024-01-05 17:16:44', '2024-01-05 17:16:44', 'user', 0);
 
 COMMIT;
 
@@ -448,17 +444,6 @@ INSERT INTO `product_category` (`category_id`, `product_id`) VALUES (11, 5);
 INSERT INTO `product_category` (`category_id`, `product_id`) VALUES (11, 8);
 INSERT INTO `product_category` (`category_id`, `product_id`) VALUES (11, 9);
 INSERT INTO `product_category` (`category_id`, `product_id`) VALUES (8, 3);
-
-COMMIT;
-
-
--- -----------------------------------------------------
--- Data for table `auth_token`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `reviewitdb`;
-INSERT INTO `auth_token` (`id`, `token`, `user_id`, `created_on`, `expires_on`, `enabled`) VALUES (1, 'a', 1, '2024-01-05 17:16:44', '2026-01-05 17:16:44', 1);
-INSERT INTO `auth_token` (`id`, `token`, `user_id`, `created_on`, `expires_on`, `enabled`) VALUES (2, 'admin-auth-token', 5, '2024-01-05 17:16:44', '2026-01-05 17:16:44', 1);
 
 COMMIT;
 
