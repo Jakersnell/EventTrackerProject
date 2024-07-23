@@ -7,14 +7,18 @@
 Now Encrypted With BCrypt!          (v1.0.1)
 </pre>
 
+
 # About
 Welcome to ReviewItAPI, a REST api and Frontend for everyday people to make real reviews for real products, intended to be a user driven way for users to track products and get authentic ratings and reviews. The api includes a variety of functionality to provide operations, and ergonomic RESTful endpoints for any sort of front-end, be it mobile, desktop, or web.
 
 # Frontend
-The frontend was created using JavaScript, AJAX, HTML, and CSS. By far my favorite piece of the code was how I designed routing between different views with the route method in routing.js, I also really enjoyed the flexibility of the module system the is newer to JavaScript. 
+The frontend was created using Angular, with bootstrap CSS for styling. My favorite component to implement is the display filtering component as it adds a lot of dimensionality to the user experience. I did this by using tools with Angular like @Input and @Output decorators to keep the component seperate for organizational purposes, while still maintaining excellent communication between components.
+
+# Backend
+The backend is supported by an SQL database, and a Spring Boot server infrastructure using Java. The backend features controller, service, and data layers. To communicate data between the controller and service layers data transfer objects (DTOs) are used, this also further increases modularity of the system. The API endpoints are designed to be ergonomic and dynamic to support a fluid and engaging user experience. 
 
 # How to use
-The front end can be used to enact CRUD operations on the product type with the admin login listed below.
+You can create an account and create reviews [on the website](http://198.58.124.18:8080/ReviewIt).
 
 # Technology Used
 * Java 17
@@ -36,32 +40,4 @@ The front end can be used to enact CRUD operations on the product type with the 
 * CSS
 
 # Lessons learned
-I learned a lot about reducing boilerplate and thinking creatively to do so. I love solving problems, and I really dont like boilerplate, so its a win-win! I also learned a lot about the importance of clean consistent patterns and naming, that is an art, and really keeps a project together.
-
-# Docs
-<pre>
-     _                                       _        _   _
-  __| | ___   ___ _   _ _ __ ___   ___ _ __ | |_ __ _| |_(_) ___  _ __
- / _` |/ _ \ / __| | | | '_ ` _ \ / _ \ '_ \| __/ _` | __| |/ _ \| '_ \
-| (_| | (_) | (__| |_| | | | | | |  __/ | | | || (_| | |_| | (_) | | | |
- \__,_|\___/ \___|\__,_|_| |_| |_|\___|_| |_|\__\__,_|\__|_|\___/|_| |_|
-</pre>
-<pre>
-BASE-URL: http://107.21.192.111:8080/ReviewItREST
- 
-admin auth token: 'admin-auth-token'
-non-admin auth token: 'generic-auth-token'
-
-admin details:
- username: admin
- password: password123
-
-non-admin user details:
- username: joeschmoe11
- password: password123
- 
-** note **
- All passwords in the database are encrypted with BCrypt encryption, 
- so the entries in the database will look like gibberish,
- but the password for every mock user is 'password123'.
-</pre>
+I learned a lot about Angular and how to leverage its many excellent tools during this project. It was a great opportunity to dive deep into architecting an Angular app and modularizing with components, services, interceptors, and more. During this project I also learned a lot about creating a clean and responsive UI that enhances the user experience. 

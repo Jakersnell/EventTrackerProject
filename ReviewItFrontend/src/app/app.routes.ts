@@ -6,7 +6,7 @@ import { ProductComponent } from './pages/product/product.component';
 import { productExistsGuard } from './guards/product-exists.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', title: 'Home Page', component: HomeComponent },
   { path: 'login', title: 'Login Page', component: LoginComponent },
   { path: 'signup', title: 'Signup Page', component: SignupComponent },
