@@ -6,24 +6,23 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-
 public class ProductReviewDTO implements IntoEntity<ProductReview> {
 	private int id;
-	
-	@Size(max=120, message="Title must be less than 120 characters.")
+
+	@Size(max = 120, message = "Title must be less than 120 characters.")
 	@NotBlank
 	private String title;
-	
+
 	@NotBlank
 	private String content;
-	
+
 	private String authorUsername;
-	
+
 	@NotNull
 	private Integer rating;
-	
+
 	private Integer productId = 0;
-	
+
 	private Integer authorId = 0;
 
 	public ProductReviewDTO() {
